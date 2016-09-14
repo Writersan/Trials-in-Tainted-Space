@@ -121,6 +121,26 @@ public function configureMails():void
 	
 	MailManager.addMailEntry("saendrathanks", "You’re a lifesaver, captain. Just got patched up by the docs back on Tavros. Said I wouldn’t have lasted much longer, even if I didn’t get killed in the fight. Blood loss. Speaking of loss, old lefty was mangled pretty bad by that shotgun blast. Had to lose it. Good news is I’ve got myself some new chrome to replace it. Could have been a lot worse. I lived through it thanks to you. You’re my new hero, cap.\n\nI’m going to be grounded at Tavros for a bit. If you get the chance, look me up. I owe you a drink (and maybe a little more~).\n\nYour new friend,\nSaendra <3", "Thanks again, hero!", "Saendra en Illya", "FlyGirl@PhoenixCargo.net", quickPCTo, quickPCToAddress);
 	
+	MailManager.addMailEntry("KashimaMail", 
+	function():String {
+		var msg:String = "";
+		
+		msg += "Dear " + pc.mf("Mr.", "Ms") + " Steele,";
+		msg += "\n\nAfter some discussion among the executive board, we have decided to inform you of an opportunity for work in the Myrellion system, which";
+		if (reclaimedProbeMyrellion() == false) msg += " we have on good authority that";
+		msg += " you have recently visited. One of the company's asteroid mining vessels, the <i>U.G.C.S. Kashima</i>, recently went dark in the orbit of Myrellion's second moon. The assignment should have been relatively safe, and due to the Confederate presence in the sector, we do not believe it to have fallen victim to piracy. Whether the <i>Kashima</i>’s failure to report is due to technical difficulties or some other problem is unknown, though its transponder appears to be active." 
+		msg += "\n\nSteele Tech has taken the precaution of contracting a Nova Securities support-rescue vessel to investigate and either recover the crew or assist in repairs as needed. However, due to your proximity to the <i>Kashima</i> and the value of its cargo, it may prove prudent to have a representative of the company such as yourself present as well. And, of course, will necessitate a contractor's fee for yourself.";
+		msg += "\n\nThe <i>Kashima</i>'s last known location has been included with this message. Act accordingly.";
+		msg += "\n\nKindest regards,\n\nWilliam B. Brannagan, Director\n\nSteele Tech Job Services Department";
+		
+		return msg;
+	},
+	"Myrellion Resources",
+	"William B. Brannagan",
+	"jobservices@steeletech.corp",
+	quickPCTo,
+	quickPCToAddress);
+	
 	MailManager.addMailEntry("danemyrellioncoords", 
 	function():String {
 		var msg:String = "";
@@ -159,11 +179,15 @@ public function configureMails():void
 	MailManager.addMailEntry("emmy_gift_starter", emmyGiftStarterEmail,"Thinking of You!","Emmy Astarte","emmy_astarte@cmail.com",quickPCTo,quickPCToAddress);
 	MailManager.addMailEntry("emmy_implant_explain_email", emmyImplantExplainEmail,"Something off my chest...","Emmy Astarte","emmy_astarte@cmail.com",quickPCTo,quickPCToAddress);
 	MailManager.addMailEntry("emmy_harness_here", harnessDeliveryMessageFromEmmy,"IT'S HERE!?!","Emmy Astarte","emmy_astarte@cmail.com",quickPCTo,quickPCToAddress);
+	
+	MailManager.addMailEntry("letter_from_shade", createLetterFromShade, createSubjectFromShade, "Shade Irons", "Shade@Stormguard.net", quickPCTo, quickPCToAddress);
 
 	MailManager.addMailEntry("the_masque", "Hey, where are you? I thought we agreed to meet up for The Masque? I keep trying to call you, but you’re not answering, so this is my last try. Dude, this shit is wicked. I’m gonna be on the west side of Craven city, but you’ve only got a few days left, so get your ass over here!\n\nWet & Waiting", "The Masque", "Wet & Waiting", "Wet.N.Waiting@GalLink.org", quickPCTo, quickPCToAddress);
 	MailManager.addMailEntry("syribooks", "Hey, Steele\n\nHere are some books to jump start your reading adventure:\n\n<i>Below is a link to a download archive with numerous books by various authors, most notably: Rondell Ramus, Capser van Beck and Imono Flaest.</i>\n\nEnjoy!\n-Syri", "Read More.", "Syri Dorna", "BlastMaster@GalLink.org", quickPCTo, quickPCToAddress);
 	MailManager.addMailEntry("lets_fap_unlock",futaLetsPlayerIntroEmail,"You’re in to stuff like this, right?",letsFapUnlockFromName,letsFapUnlockFromEmail,quickPCTo,quickPCToAddress);
-	MailManager.addMailEntry("champeon_comfirmation",athaChampeonConfirmationEmail,"Thank You For Your Support!","Atha Peters","CockAddict001@CumStreamer.com",quickPCTo,quickPCToAddress);
+	MailManager.addMailEntry("champeon_comfirmation", athaChampeonConfirmationEmail, "Thank You For Your Support!", "Atha Peters", "CockAddict001@CumStreamer.com", quickPCTo, quickPCToAddress);
+	
+	MailManager.addMailEntry("steph_on_demand", stephOnDemandMail, "Galactic Huntress: Now on Demand!", "GalacNet VOD", "noreply@galacnet.corp", quickPCTo, quickPCToAddress);
 }
 
 public function cuzName():String
@@ -313,7 +337,7 @@ public function harnessDeliveryMessageFromEmmy():String
 {
 	var ret:String = pc.short + "!";
 	ret += "\n\nGuess what came in the freighter today? It wasn’t me (this time)! Did you know they actually have pretty roomy bathrooms in those heaps? Not very well insulated, though. Shitty way to travel all told, but it’s the only way to fly if you’re wanting to save credits for a full-auto plasma-cycler.";
-	ret += "\n\nANYWAY, it finally came! I got my herm harness in the mail, and oh my stars, is it ever amazing. It doesn’t look like much when it’s just laying there in the box, but the moment I slipped that big, fake cock inside, my opinion changed up real fast. It feels like I’m being knotted ALL THE TIME, even when there’s not cum squirting out of it. Speaking of that, the sheath. Wow. Just... wow. The texture is out of this world - even better than my mouth and tits. And when I turn it on, my body feels like a fireworks show.";
+	ret += "\n\nANYWAY, it finally came! I got my herm harness in the mail, and oh my stars, is it ever amazing. It doesn’t look like much when it’s just laying there in the box, but the moment I slipped that big, fake cock inside, my opinion changed up real fast. It feels like I’m being knotted ALL THE TIME, even when there’s no cum squirting out of it. Speaking of that, the sheath. Wow. Just... wow. The texture is out of this world - even better than my mouth and tits. And when I turn it on, my body feels like a fireworks show.";
 	ret += "\n\nI can’t thank you enough. It’s literally impossible. Not only have you been there for me, but you’ve helped me come to terms with my needs in a relatively healthy way. And then on top of that, you fronted 15,000 credits just so that your fuck-hungry girlfriend could feel a little more like your devoted maiden. What if you walked into the shop and found me bent over the countertop, my pussy, balls, dick... even my ass, all on display for you? That’d be a start.";
 	ret += "\n\nI can’t actually do that, though. Someone might walk in, and I’m going to be your sex addict, not the Myrellion village bicycle. I’m going to fuck you so much, " + pc.short + ". Whenever you look my way, my pussy will soak for you. My cock will be hard at the whisper of your name. My balls will ache at night, filling up with seed when I dream of your face.";
 	ret += "\n\nI’m getting a little carried away, but fuck it. I think we both know that this is what you wanted: a chance at my dripping snatch and aching bone. Come visit, " + pc.short + ". I’m going to screw you so hard you’ll ";
@@ -334,7 +358,7 @@ public function initialMailConfiguration():void
 
 	output2("\n\nConfirmed.");
 
-	output2("\n\nYou have been granted Executive Trainee access. You may now enter a custom email address below. Please note that the company standard is Firstname_Lastname@SteelTech.corp. Your access mask grants you the ability to deviate from this standard for personal use. Please refrain from egregious sexual or profane phrases in your custom corporate email address. Remember: your conduct reflects on the company as a whole.");
+	output2("\n\nYou have been granted Executive Trainee access. You may now enter a custom email address below. Please note that the company standard is Firstname_Lastname@SteeleTech.corp. Your access mask grants you the ability to deviate from this standard for personal use. Please refrain from egregious sexual or profane phrases in your custom corporate email address. Remember: your conduct reflects on the company as a whole.");
 	
 	output2("\n\nPlease enter your desired address prefix now:\n");
 	

@@ -92,7 +92,10 @@ public function lirielIntroOptions(response:int = 0):void
 	{
 		// First Time: {no chance of the myr women being present during ambush}
 		output("You give this Liriel person a smile since you’re down for a little subbing. Before you can actually say anything though, she releases a soul piercing scream of pure, unadulterated joy. She grabs you by the wrist and practically drags you over to a mushroom that is just at waist height. From the loving way she rubs its hard, sturdy cap you don’t believe you’re going to be the first person she has had bent over this particular mushroom.");
-		output("\n\nYou figure to hell with it and strip off your [pc.gear] without delay before allowing the jolly green lady to bend your naked body over her favorite mushroom.");
+		output("\n\nYou figure to hell with it and");
+		if (pc.isAssExposed()) output(" strip off your [pc.gear]");
+		else output(" drop your excess gear");
+		output(" without delay before allowing the jolly green lady to bend your naked body over her favorite mushroom.");
 		// if (pcAssIsSmall):
 		if (pc.buttRating() < 4)
 		{
@@ -247,7 +250,7 @@ public function lirielTalkResponse(arg:Array):void
 		output("\n\nRephrasing the question, you ask her what kind of person she is.");
 		output("\n\n<i>“The HAPPY kind of course!”</i> she practically shouts with a big smile. <i>“It’s very hard to get a gal like me down. I’m just a peppy ball of dominant dick lady fun! I’m also the type of girl that likes long walks in the vacuum of space - while tethered to a ship -”</i> she gives a high pitched peal of laughter that causes her exposed tits to jiggle, <i>“...don’t want my eyeballs sucked out of my head or anything like that. I don’t really know... I’m a fun person, I guess. I like the color green almost as much as I like the color purple. Um... My favorite hobbies are anal and retro sci-fi... Does that answer your question?”</i> she says, giving you a look like she hopes she doesn’t have to answer anything else so open-endedly.");
 		output("\n\nYou decide to spare her and continue the conversation by asking how she ended up on Myrellion.");
-		output("\n\nThis makes her jump up and down on the spot, her bare breasts bouncing in the process, <i>“Because it’s just the cutest little planet!”</i> You look around at the mostly barren red earth of the planet and figure that beauty must really be in the eye of the beholder, <i>“And with the planet rush going on, what better way to try and revive an awesome retro fashion craze than to come to a new planet and tap a fresh market?”</i>");
+		output("\n\nThis makes her jump up and down on the spot, her bare breasts bouncing in the process, <i>“Because it’s just the cutest little planet!”</i> You recall the mostly barren red earth of the planet that greeted you when you landed and figure that beauty must really be in the eye of the beholder, <i>“And with the planet rush going on, what better way to try and revive an awesome retro fashion craze than to come to a new planet and tap a fresh market?”</i>");
 		output("\n\nYou shrug. In truth the myr and terrans have vastly different anatomies so you don’t know how they’d like earth fashion, especially old earth fashion. As if reading your thoughts, she follows with, <i>“Modifying the outfits for the myr and letting them know it’s space age fashion helps a lot.”</i>");
 		
 		processTime(10);
@@ -411,9 +414,11 @@ public function lirielButtSex(myrWomen:Boolean = false):void
 		}
 		output("\n\n");
 		if (firstTime || flags["LIRIEL_BUTTSEXED"] == 1) output("This time, ");
-		output("Liriel helps you remove your [pc.gear] and allows you to climb");
+		output("Liriel helps you remove your " + (pc.isAssExposed() ? "excess gear" : "[pc.gear]") + " and allows you to climb");
 		if (firstTime || flags["LIRIEL_BUTTSEXED"] == 1) output(", unmolested,");
-		output(" onto her favorite mushroom. As you lean your bare body against the mushroom, you notice several wet spots on the mushroom - as if it has recently been in use. You lay down anyway since there is no pretense here. You’re both here for the same thing, a good, long, hard fuck.");
+		output(" onto her favorite mushroom. As you lean your");
+		if (!pc.isAssExposed()) output(" bare");
+		output(" body against the mushroom, you notice several wet spots on the mushroom - as if it has recently been in use. You lay down anyway since there is no pretense here. You’re both here for the same thing, a good, long, hard fuck.");
 		output("\n\nThe eager emarald-skinned vendor greets your [pc.ass] like an old friend");
 		if (myrWomen) output(" and you hear a few cat calls and encouraging whistles from the witnessing crowd of customers");
 		output(".");
@@ -571,12 +576,14 @@ public function lirielTitFuck(myrWomen:Boolean = false):void
 	//First Time
 	if (flags["LIRIEL_TITFUCKED"] == undefined)
 	{
-		if (pc.isNude())
+		if (pc.isCrotchExposed() && pc.isAssExposed())
 		{
 			output("You can’t stop staring at Liriel’s massive purple nipples. They’re so luscious, so big and soft that you find yourself absent mindedly rubbing your already exposed groin. [pc.EachCock] begin");
 			if (pc.cockTotal() == 1) output("s");
 			output(" to drip with need and you look up to see Liriel smiling confidently at you.");
-			output("\n\n<i>“Well I guess you can play with the girls.”</i> she says, rubbing circles onto her big green tits. When you make a motion to take things to somewhere more private, she simply leans forward and drops her big tits on the counter before saying, <i>“Look hun, you’re already bare assed and your cock");
+			output("\n\n<i>“Well I guess you can play with the girls.”</i> she says, rubbing circles onto her big green tits. When you make a motion to take things to somewhere more private, she simply leans forward and drops her big tits on the counter before saying, <i>“Look hun, you");
+			if (pc.isNude()) output("’re already bare assed and you");
+			output("r cock");
 			if (pc.cockTotal() != 1) output("s");
 			output(" are hard enough to break rocks. We can do this riiight here.”</i>");
 		}
@@ -605,7 +612,9 @@ public function lirielTitFuck(myrWomen:Boolean = false):void
 	//Repeatable
 	else
 	{
-		output("\n\nYou already know Liriel is determined to get down so you make no introductions or even ask. You strip your [pc.gear] off, whip your [pc.cockNoun " + x + "] out and wag it at her. She swoons in response.");
+		output("You already know Liriel is determined to get down so you make no introductions or even ask. You");
+		if (!pc.isCrotchExposed() || !pc.isAssExposed()) output(" strip your [pc.gear] off,");
+		output(" whip your [pc.cockNoun " + x + "] out and wag it at her. She swoons in response.");
 		
 		if (myrWomen)
 		{

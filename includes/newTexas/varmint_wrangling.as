@@ -217,7 +217,7 @@ public function fuckCameronsButt():void
 	output("\n\nYou take your time working back up to Cam's ");
 	if(!panties) output("boxers");
 	else output("panties");
-	output(", using your teeth grab them and peel them down. With an almost audible pop, Cam's flared little horsecock and balls flop free, the two heavy black orbs settling over his crotch and obscuring your view of the real prize. You lock eyes with him, and see that he's chewing on his lower lip, nervously watching you, completely tame in your grasp. Perfect. You slip up from between his legs and strip your [pc.gear] off, letting your own [pc.cock " + x + "] flip onto his lap, resting against the faux-cow's own half-hard member. His eyes go wide when he sees you -- feels you against him, but you can see the look of hunger in his eyes. The wanton, cock-craving glaze of a whore comes over the boy as one of his little hands reaches up and caresses your prick, giving it an experimental stroke.");
+	output(", using your teeth to grab them and peel them down. With an almost audible pop, Cam's flared little horsecock and balls flop free, the two heavy black orbs settling over his crotch and obscuring your view of the real prize. You lock eyes with him, and see that he's chewing on his lower lip, nervously watching you, completely tame in your grasp. Perfect. You slip up from between his legs and strip your [pc.gear] off, letting your own [pc.cock " + x + "] flip onto his lap, resting against the faux-cow's own half-hard member. His eyes go wide when he sees you -- feels you against him, but you can see the look of hunger in his eyes. The wanton, cock-craving glaze of a whore comes over the boy as one of his little hands reaches up and caresses your prick, giving it an experimental stroke.");
 
 	if(pc.cockVolume(x) >= 500) 
 	{
@@ -593,8 +593,7 @@ public function getAPetVarmint():void
 	if(pc.hasEquippedWeapon()) addButton(0, "Kill It", getAPetVarmintResponse, "kill", "Kill It", "Well, you can’t just let it sit there. It could attack at any moment!");
 	else addDisabledButton(0, "Kill It", "Kill It", "You need to equip a weapon to do that!");
 	addButton(1, "Leave It", getAPetVarmintResponse, "leave", "Leave It", "Well, it doesn’t look like it wants to fight. You suppose you could just leave it...");
-	if(pc.isBimbo()) addButton(2, "Try to Tame", getAPetVarmintResponse, "tame", "Try to Tame", "You’re like, just as good as sleeping beauty or whatever. It’ll totally be your friend!");
-	else addButton(2, "Try to Tame", getAPetVarmintResponse, "tame", "Try to Tame", "Maybe you could try to tame it?");
+	addButton(2, "Try to Tame", getAPetVarmintResponse, "tame", "Try to Tame", (pc.isBimbo() ? "You’re like, just as good as sleeping beauty or whatever. It’ll totally be your friend!" : "Try to Tame", "Maybe you could try to tame it?"));
 }
 
 public function getAPetVarmintResponse(response:String = "none"):void
@@ -684,7 +683,7 @@ public function getAPetVarmintResponse(response:String = "none"):void
 			output("\n\nUh, shit. You back up, right to the edge of the hatch, and the creature slowly sits back down. Doesn’t look like it wants any of what you’re selling right now.");
 			output("\n\n<b>Maybe you should find a professional...</b>");
 			
-			// 9999 And now you have a varmint on your ship until Natalie Irson gets added :VVV
+			// And now you have a varmint on your ship until Natalie Irson gets added :VVV
 			flags["VARMINT_IS_CREW"] = 1;
 			processTime(2);
 		}
@@ -836,7 +835,7 @@ public function doVarmintPlayTime(response:String = "none"):void
 // 10% chance per day when landed on a planet with an untamed varmint.
 public function varmintDisappearChance():void
 {
-	if(!InShipInterior() || !varmintIsCrew() || pc.hasStatusEffect("Varmint Buddy") || pc.hasStatusEffect("Varmint Leashed") || pc.hasStatusEffect("Varmint Unleashed Cooldown")) return;
+	if(!InShipInterior() || !varmintIsCrew() || pc.hasStatusEffect("Varmint Buddy") || pc.hasStatusEffect("Varmint Leashed") || pc.hasStatusEffect("Varmint Unleashed Cooldown") || flags["NATALIE_TAMES_VARMINT"] != undefined) return;
 	
 	var runawayChance:int = (10 * 2 * 60);
 	if(varmintIsTame()) runawayChance *= 2;
@@ -850,7 +849,7 @@ public function varmintDisappears():void
 {
 	clearOutput();
 	author("Savin");
-	showBust("VARMINT");
+	//showBust("VARMINT");
 	showName("MISSING\nVARMINT");
 	clearMenu();
 	

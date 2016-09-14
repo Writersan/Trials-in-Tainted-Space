@@ -4,6 +4,7 @@
 	
 	prepChar(justUpdate, "CELISE", Celise);
 	prepChar(justUpdate, "RIVAL", Rival);
+	prepChar(justUpdate, "PC_BABY", PlayerOffspring);
 	prepChar(justUpdate, "GEOFF", Geoff);
 	prepChar(justUpdate, "FLAHNE", Flahne);
 	prepChar(justUpdate, "ZILPACK", ZilPack);
@@ -102,6 +103,8 @@
 	prepChar(justUpdate, "LERRIS", Lerris);
 	prepChar(justUpdate, "NERRASA", Nerrasa);
 	//prepChar(justUpdate, "DRYAD", Dryad);
+	prepChar(justUpdate, "JEROME", Jerome);
+	prepChar(justUpdate, "KIRILA", Kirila);
 	
 	// Check all characters have version information set
 	for (var prop:String in chars)

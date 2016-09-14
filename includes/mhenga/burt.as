@@ -45,7 +45,7 @@ public function burtsBarFunc():void {
 	if(flags["MET_BURT"] == undefined) this.addButton(0,"Bar",burtapproach);
 	else this.addButton(0,"Burt",burtapproach);
 	roamingBarEncounter(3);
-	this.addButton(1,"Watch Screen",stephIrsonBountHunterEpisodeOne);
+	this.addButton(1,"Watch Screen",stephIrsonBountHunterEpisodeOne,undefined,"Watch Screen","Watch an episode of Steph Irson: Galactic Hunter.");
 }
 
 public function burtapproach():void {
@@ -518,7 +518,7 @@ public function talkToBurtAboutMeadHall():void {
 		flags["BURT_MEAD_HALL_DISCUSSIONS"] = 1;
 		output("Burt chuckles and tucks his bar rag into a pocket on his apron, <i>“You want to know about Burt’s Badass Mead Hall, huh? Can’t say that I blame ya. Sadly, there isn’t a lot to say about it. I won it in a card game, and the previous owner didn’t really give a lick about it. Had Three-Dee running it, and she’s glitchy as hell.”</i> He shakes his head, <i>“Frankly, I’m surprised I can even keep the place going.”</i>");
 		output("\n\nYou inquire about who Three-Dee is.");
-		output("\n\nBurt grins, <i>“Three-Dee is a virtual bartender made by Kiha Corp. Stands for Digital Drink Dispenser. Basically she’s a series of robotic limbs worked into the underside of the bar, and a cheap holoprojector with a VI just smart enough to make drinks to order and take credits. But when I got here, she had been hacked so many times that she is pretty unpredictable now. I try to only use her when I need a break.”</i>");
+		output("\n\nBurt grins, <i>“Three-Dee is a virtual bartender made by KihaCorp. Stands for Digital Drink Dispenser. Basically she’s a series of robotic limbs worked into the underside of the bar, and a cheap holoprojector with a VI just smart enough to make drinks to order and take credits. But when I got here, she had been hacked so many times that she is pretty unpredictable now. I try to only use her when I need a break.”</i>");
 	}
 	//Scene2
 	else if(flags["BURT_MEAD_HALL_DISCUSSIONS"] == 1) {
@@ -1272,9 +1272,7 @@ public function threeDSurprise():void {
 public function stephIrsonBountHunterEpisodeOne():void {
 	//[Watch Viewscreen]
 	clearOutput();
-	author("Savin");
-	showName("STEPH\nIRSON");
-	showBust("STEPH");
+	stephHeader(1);
 	
 	flags["STEPH_WATCHED"] = 1;
 	
@@ -1335,9 +1333,8 @@ public function stephIrsonBountHunterEpisodeOne():void {
 public function stephIrsonEpisodeOnePartTwo():void
 {
 	clearOutput();
-	author("Savin");
-	showName("STEPH\nIRSON");
-	showBust("STEPH_NUDE");
+	stephHeader(1, true);
+	
 	output("<i>“Ugh, mah head!”</i> Steph drawls, rubbing her temples as the naleen plants her at the edge of the pit. <i>“Crickey! Looks like she's dragged me back to her nest! Oh, but look here! Before she eats me, I'm getting to witness the ultimate alien curiosity: the naleen mating ball!”</i> The camera cranes down to the pit, highlighting dozens - hundreds, even - of writhing bodies intertwined, cocks and breasts bouncing everywhere, no hole left unfucked as kitty-nagas bend and twist to accommodate several mates of either sex at once.");
 
 	output("\n\nWith a chuckle, the naleen gives Steph a little push, sending the New Brisbaner tumbling down the slope and into the heart of the pit... and right into the waiting arms of a particularly well-endowed male naleen whose two cocks are still dripping with juices from his last partner. Steph gives a shrill scream as her clothes are torn away, revealing the clean snatch between her long legs and her bouncing breasts, both quickly gripped by the male as she's bent over the backs of an entwined couple, ass raised in the air for his inspection. He doesn't waste a moment before lunging in, cocks ramming into her defenseless pussy and ass - and in glorious HD, all over galactic television.");
@@ -1363,6 +1360,9 @@ public function stephIrsonEpisodeOnePartTwo():void
 	output("\n\nSteph's head lolls haplessly, her voice breaking as she orgasms for the... hell, you lost count twenty males ago. Blowing his wad, the male pushes her off his rods, letting Steph flop down atop the coils of slumbering naleen. The camera flies down for a final closeup, showing her spunk-slathered body in its full high-definition beauty; where she should be delivering a final monologue about her exploits, Steph only manages to gurgle weakly, cum drooling down her cheeks.");
 	
 	output("\n\n<i>“This show brought to you by the Xenogen Biotech firm. Xenogen reminds you that galactic exploration is dangerous, and that natural wildlife is not to be approached without assistance from your friendly local rangers. Xenogen is not responsible for any graphic content witnessed on live galactic broadcasts or the safety of its personnel.”</i>");
+	
+	watchStephEpisodeBroadcast("STEPH_NYAN");
+	
 	processTime(30);
 	if(flags["SYRI_TALKS"] != undefined) pc.orgasm();
 	else pc.lust(33);

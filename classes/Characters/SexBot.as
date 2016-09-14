@@ -3,8 +3,6 @@
 	import classes.Creature;
 	import classes.Engine.Combat.DamageTypes.TypeCollection;
 	import classes.GLOBAL;
-	import classes.Items.Accessories.TamWolf;
-	import classes.Items.Accessories.TamWolfDamaged;
 	import classes.Items.Guns.*
 	import classes.Items.Melee.Rock;
 	import classes.Items.Protection.ImprovisedShield;
@@ -50,7 +48,7 @@
 			rangedWeapon.baseDamage.addFlag(DamageFlag.BULLET);
 			this.rangedWeapon.attack = 10;
 			this.rangedWeapon.longName = "shotgun";
-			this.rangedWeapon.attackVerb = "shot";
+			this.rangedWeapon.attackVerb = "shoot";
 			this.rangedWeapon.attackNoun = "buckshot";
 			this.rangedWeapon.hasRandomProperties = true;
 			
@@ -282,7 +280,7 @@
 			if(shields() <= 0) choices[choices.length] = shieldRegeneration;
 			//Hack drone
 			//(Procs if PC has a drone)
-			if(target.hasPerk("Attack Drone") && target.shields() > 0 && !target.hasStatusEffect("Porno Hacked Drone") && !target.accessory is TamWolf && !target.accessory is TamWolfDamaged) choices[choices.length] = getDroneHacked;
+			if(target.hasPerk("Attack Drone") && target.shields() > 0 && !target.hasStatusEffect("Porno Hacked Drone") && !target.hasTamWolf()) choices[choices.length] = getDroneHacked;
 			//Standard attack
 			choices[choices.length] = standardRobosexualAttack;
 			choices[choices.length] = standardRobosexualAttack;
@@ -349,7 +347,7 @@
 		private function getDroneHacked(target:Creature):void
 		{
 			author("Nonesuch");
-			output("<i>“Empatrons are always pleased to see a friend you have brought along to share in the fun,”</i> the sexbot sighs, its flickering green gaze turning to your floating drone. “Stand by while I reconfigure it for optimum enjoyment.” Your robot buddy shudders and rolls in the air as the rogue droid attempts to take control of it.");
+			output("<i>“Empatrons are always pleased to see that you have brought along a friend to share in the fun,”</i> the sexbot sighs, its flickering green gaze turning to your floating drone. “Stand by while I reconfigure it for optimum enjoyment.” Your robot buddy shudders and rolls in the air as the rogue droid attempts to take control of it.");
 			//Fail: 
 			if(rand(20) + 1 + target.intelligence()/2 < 12)
 			{

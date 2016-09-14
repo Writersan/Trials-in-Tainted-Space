@@ -360,7 +360,7 @@ package classes.Items.Transformatives
 		//#5b Goblin face: Stage two happens 30 minutes after stage 1 ends, and the face type only changes when stage 2 triggers.
 		public function itemGoblinFaceTFGo(target:Creature):void
 		{
-			kGAMECLASS.eventBuffer += "\n\n<u>The goblinola bar has an effect....</u>";
+			kGAMECLASS.eventBuffer += "\n\n" + kGAMECLASS.logTimeStamp("passive") + " <u>The goblinola bar has an effect....</u>";
 			// Transformation text (stage 2):
 			kGAMECLASS.eventBuffer += "\n\nFinally the pain in your face subsides, and you take a deep breath. You check to see what the damage is and find that your face has restructured itself. Your nose has grown longer and pointier, while your jaw has narrowed a fair bit giving your face a more angular appearance not unlike that of an upside down triangle. <b>You now have a gabilani face!</b>";
 			// Actual face type change
@@ -593,7 +593,7 @@ package classes.Items.Transformatives
 				else if(select == 9)
 				{
 					msg += ParseText("Hm, you feel a little more bottom heavy than usual. You squeeze your [pc.hip] only to find it getting taut between your fingers. Giving your [pc.butt] a slap, it rebounds back with an odd sensation. Your body seems to have changed to adapt to its fertile nature, flaring out and becoming womanly, at least for your lower body anyway...");
-					msg += "\n\n<b>Perk Gained: Fecund Figure</b> - Gradually, your hips and ass will permanently increase in size during pregnancy.";
+					msg += "\n\n(<b>Perk Gained: Fecund Figure</b> - Gradually, your hips and ass will permanently increase in size during pregnancy.)";
 					
 					// Perk: "Fecund Figure"
 					// v1: hip size bonus
@@ -606,7 +606,7 @@ package classes.Items.Transformatives
 				else if(select == 10)
 				{
 					msg += "Your mind frees up all of a sudden, as if any intrusive or distracting thoughts have been neatly organized and packed away. Your bond with robotics must have advanced and adapted on a deeper biological level. You feel that the more you interact with technology, the more you will be able to learn and retain. You have definitely become one with the machine.";
-					msg += "\n\n<b>Perk Gained: Cybernetic Synchronization</b> - Being naturally inclined to technology, your body and mind become one with machine, augmenting your intelligence with each cybernetic enhancement.";
+					msg += "\n\n(<b>Perk Gained: Cybernetic Synchronization</b> - Being naturally inclined to technology, your body and mind become one with machine, augmenting your intelligence with each cybernetic enhancement.)";
 					
 					// Perk: "Cybernetic Synchronization"
 					// v1: max intelligence bonus for each enhancement
@@ -617,14 +617,14 @@ package classes.Items.Transformatives
 				}
 				totalTFs--;
 			}
-			if(msg.length > 0) kGAMECLASS.eventBuffer += ParseText(msg);
+			if(msg.length > 0) kGAMECLASS.eventBuffer += msg;
 			return;
 		}
 		
 		// Potentials for TFs
 		public function itemGoblinTF(done:Boolean = false):void
 		{
-			kGAMECLASS.eventBuffer += "\n\n<u>The goblinola bar has an effect....</u>";
+			kGAMECLASS.eventBuffer += "\n\n" + kGAMECLASS.logTimeStamp("passive") + " <u>The goblinola bar has an effect....</u>";
 			
 			var target:Creature = kGAMECLASS.chars["PC"];
 			var oddsOfMajorTF:int = target.statusEffectv2("Goblinola Bar") * 20;

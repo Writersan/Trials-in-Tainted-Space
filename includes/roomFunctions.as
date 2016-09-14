@@ -12,6 +12,7 @@ import classes.Engine.Combat.DamageTypes.DamageResult;
 import classes.Items.Accessories.LightningDuster;
 import classes.Items.Apparel.AtmaArmor;
 import classes.Items.Apparel.NaleenArmor;
+import classes.Items.Apparel.Smartclothes;
 import classes.Items.Apparel.TSTArmorMkII;
 import classes.Items.Apparel.UGCUniform;
 import classes.Items.Armor.GooArmor;
@@ -140,27 +141,24 @@ public function debugMenusTwo():void
 		quickLoot(sil);
 	});
 	
-	addItemButton(5, new EMPGrenade, function():void {
-		var oa:EMPGrenade = new EMPGrenade();
-		oa.quantity = 5;
-		
-		quickLoot(oa);
+	addItemButton(5, new SalamanderRifle(), function():void {
+		quickLoot(new SalamanderRifle());
 	});
 	
-	addButton(7, "Creds", function():void {
-		pc.credits += 100000;
+	addItemButton(7, new VampBlade(), function():void {
+		quickLoot(new VampBlade());
 	});
 	
-	addButton(8, "Time", function():void {
-		processTime(24 * 60);
+	addButton(8, "Exhit", function():void {
+		(pc as PlayerCharacter).exhibitionismRaw = 100;
 	});
 	
-	addItemButton(9, new GooArmor(), function():void {
-		quickLoot(new GooArmor());
+	addItemButton(9, new Smartclothes(), function():void {
+		quickLoot(new Smartclothes());
 	});
 	
-	addItemButton(10, new DBGShield(), function():void {
-		quickLoot(new DBGShield());
+	addItemButton(10, new ReaperArmamentsMarkIIShield(), function():void {
+		quickLoot(new ReaperArmamentsMarkIIShield());
 	});
 	
 	addButton(13, "Test Effect", function():void {
@@ -182,9 +180,18 @@ public function debugMenusThree():void
 	clearOutput();
 	output("Debug combat room.");
 	
-	addButton(0, "Busts", testBusts);
-	addButton(1, "NoBusts", testNoBusts);
-	addButton(2, "Others", testOtherBusts);
+	addButton(0, "N.Alpha", testNyreaAlpha);
+	addButton(1, "H.State", function():void {
+		flags["ANNO_CREWMEMBER"] = 1;
+		flags["ANNO_MISSION_OFFER"] = 3;
+	});
+}
+
+public function testNyreaAlpha():void
+{
+	clearOutput();
+	output("\n\nTesting Nyrea Alpha fight.");
+	addButton(0, "Fight", nyreaFight, [NYREA_ALPHA, true]); 
 }
 
 public function testOtherBusts():void

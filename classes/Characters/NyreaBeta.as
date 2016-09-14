@@ -42,7 +42,7 @@
 			this.capitalA = "The ";
 			this.tallness = 72;
 			this.scaleColor = "green";
-			this.long = "This insectile woman looks like a black-armored amazon, tall and exceptionally buxom, with dark chitin plates covering her arms and legs, combining into an underbust corset of armor to protect her torso -- though conveniently leaving her big tits and groin exposed -- a groin which is sporting an impressive cock. Easily a foot long, her shaft is barely restrained by a padded chainmail bikini, though even partially covered you can see how thick and heavy it is. Even as one weapon draws your attention, the huntress moves with preternatural grace, circling you, probing at your defenses with her long, steel-tipped spear. Any hesitation, and weakness, and she'll be on you!";
+			this.long = "This insectile woman looks like a black-armored amazon, tall and exceptionally buxom, with dark chitin plates covering her arms and legs, combining into an underbust corset of armor to protect her torso -- though conveniently leaving her big tits and groin exposed -- a groin which is sporting an impressive cock. Easily a foot long, her shaft is barely restrained by a padded chainmail bikini, though even partially covered you can see how thick and heavy it is. Even as one weapon draws your attention, the huntress moves with preternatural grace, circling you, probing at your defenses with her long, steel-tipped spear. Any hesitation, any weakness, and she'll be on you!";
 			
 			this.isPlural = false;
 			
@@ -242,7 +242,7 @@
 			var damage:TypeCollection = new TypeCollection( { tease: 15 } );
 			;
 
-			if (rand(10) <= 3 && !(target.hasArmor() && target.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT)))
+			if (rand(10) <= 3 && !target.hasAirtightSuit())
 			{
 				output("\nGod, that smells delicious...");
 			}
@@ -312,7 +312,16 @@
 		private function nyreaMeatSpin(target:Creature):void
 		{
 			//Basic lust attack. She'll use this especially against females.
-			output("With a lusty grin, the nyrean woman pulls up her chainmail bikini, letting her massive pseudo-cock flop out. Her hands rub across the long length, emphasizing its huge, blunted head and the fearsomely thick knot at its base, clearly ready to tie you like a bitch. She thrusts her hips, making the semi-turgid member bounce. A dribble of lubricant is flicked out, splattering across your [pc.face].\n");
+			output("With a lusty grin, the nyrean woman pulls up her chainmail bikini, letting her massive pseudo-cock flop out. Her hands rub across the long length, emphasizing its huge, blunted head and the fearsomely thick knot at its base, clearly ready to tie you like a bitch. She thrusts her hips, making the semi-turgid member bounce. A dribble of lubricant is flicked out, splattering across your");
+			
+			if(target.hasAirtightSuit())
+			{
+				output(" face.");
+				output("\n\nLuckily, your head is protected and you quickly wipe the cock-drool off.");
+				return;
+			}
+			
+			output(" [pc.face].\n");
 
 			// 9999
 			if (rand(10) == 0)

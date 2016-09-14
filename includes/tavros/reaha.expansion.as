@@ -205,7 +205,7 @@ public function showReahaTalkMenu(func:Function = null):void
 	if (func != reahaTalkGeneMods) addButton(3, "GeneMods", reahaTalkGeneMods, undefined, "Her Gene Mods", "Ask Reaha about her bovine gene-mods.");
 	else addDisabledButton(3, "GeneMods");
 
-	if (func != reahaTalkHerLife) addButton(4, "Her Life", reahaTalkHerLife, undefined, "Her Life", "Ask Reaha to tell you a little bit about her life before she became a slave");
+	if (func != reahaTalkHerLife) addButton(4, "Her Life", reahaTalkHerLife, undefined, "Her Life", "Ask Reaha to tell you a little bit about her life before she became a slave.");
 	else addDisabledButton(4, "Her Life");
 	
 	if (func == reahaMilkTalk) addDisabledButton(5, "Milk Mods");
@@ -894,7 +894,7 @@ public function reahaTalkHerLife():void
 	
 	output("\n\nReaha grins, rubbing her tattoo. <i>“Right before I turned eighteen, I hopped ship off of New Texas. Well, stowed away might be a better term for it. I sort of put myself in a box and hoped for the best. Lucky me, when the captain found me, he wasn’t too upset. I guess he understood why I’d want to get out of there. He took me all the way to Earth, no charge. Not like I could have paid him anyway -- I didn’t really have any money. Which was... sort of a problem when I got to Earth. I didn’t have any skills, and I didn’t know anything about anything other than milk and boobies, so I didn’t really know what I was going to do, until the captain said I ought to think about joining the army. He’d been in the navy, he said, and learned to pilot a ship there.”</i>");
 	
-	output("\n\n<i>“Plus they’d feed, house, and pay me for a couple of years, too. That wasn’t a bad deal, either,”</i> Reaha says with a wry little chuckle. <i>“So yeah, I signed up not long after I hit Terra on a two-year contract. They put me in the infantry, seeing as I didn’t have any particular aptitudes or skills -- but I’m pretty strong and tough, or I was anyway. I didn’t really do anything special while I was in, just another grunt, you know? I was berthed on the </i>Odyssey<i> while she did a tour of the core, brand new flagship straight out of the docks. Made it up to lance corporal after a litte more more than a year. Honestly, I liked being in the army. I don’t know that I’d call it fun, but it was... it was good,”</i> Reaha says, giving you a little shrug. ");
+	output("\n\n<i>“Plus they’d feed, house, and pay me for a couple of years, too. That wasn’t a bad deal, either,”</i> Reaha says with a wry little chuckle. <i>“So yeah, I signed up not long after I hit Terra on a two-year contract. They put me in the infantry, seeing as I didn’t have any particular aptitudes or skills -- but I’m pretty strong and tough, or I was anyway. I didn’t really do anything special while I was in, just another grunt, you know? I was berthed on the </i>Odyssey<i> while she did a tour of the core, brand new flagship straight out of the docks. Made it up to lance corporal after a little more more than a year. Honestly, I liked being in the army. I don’t know that I’d call it fun, but it was... it was good,”</i> Reaha says, giving you a little shrug. ");
 	
 	output("\n\n<i>“Why’d you leave, then?”</i>");
 	
@@ -941,7 +941,7 @@ public function reahaAddictionTherapy():void
 		output(" spreads her legs, showing off the");
 		if (reahaAddiction() > REAHA_ADDICTION_LOW) output(" handful of patches");
 		else output(" lonely patch");
-		output(" still sticking to her, as well as her much more... normal looking cunt. Though to your delight, it’s still nice and aroused... though not, you think, from any chemical interference.");
+		output(" still sticking to her, as well as her much more... normal looking cunt. To your delight, it’s still nice and aroused... though not, you think, from any chemical interference.");
 	}
 	output(" Reaha blushes a little");
 	if (reahaConfidence() >= REAHA_CONFIDENCE_HIGH) output(" and grins down at you");
@@ -1352,7 +1352,7 @@ public function reahaDommyFuxTimeWait():void
 	
 	output("\n\n<i>“I </i>need<i> you,”</i> she whimpers, pumping your shaft as she shifts forward, angling her pussy to hang over your crown, ready to drop down on your rod. You answer her by switching to the other teat, tapping a fresh source of sweet [reaha.milkNoun] even as your hands, still slathered with her cum, pull her down onto your cock. Reaha gives a delighted squeal as your cock plunges into her wide, ready hole, spearing her to the hilt in one easy motion. A second passes, both your bodies frozen in bliss as you revel in the sensation of penetration, feeling the cow’s vaginal muscles react to your sudden intrusion, squirming and squeezing along every inch of your [pc.cock]. The moment passes as you find Reaha’s arms wrapping around your neck, squeezing your head into her prodigious bust as she starts to move her hips, riding the [pc.cock] buried deep inside her. ");
 	
-	output("\n\nShe moans loudly, voice breaking into a bovine moo as her over-sensitive body quakes with pleasure, her flesh jiggling obscenely with her every moment as she crests up, and falls back on your rod. Your fingers play up across her tender skin, teasing the base of her tail or the insides of her sodden thighs until she’s bucking and crying out, cumming already! Your breath catches in your throat as her cunny clamps down hard on your [pc.cock], her juices spurting out around the deep-buried member as she rides out her second orgasm, [reaha.hips] only moving faster as her cries of pleasure reach a crescendo. You hold the quivering cow tight as she cums, drenching your [pc.groin] in a sudden flood of juicy excitement. ");
+	output("\n\nShe moans loudly, voice breaking into a bovine moo as her over-sensitive body quakes with pleasure, her flesh jiggling obscenely with her every " + (silly ? "<i>moo</i>-" : "mo") + "vement as she crests up, and falls back on your rod. Your fingers play up across her tender skin, teasing the base of her tail or the insides of her sodden thighs until she’s bucking and crying out, cumming already! Your breath catches in your throat as her cunny clamps down hard on your [pc.cock], her juices spurting out around the deep-buried member as she rides out her second orgasm, [reaha.hips] only moving faster as her cries of pleasure reach a crescendo. You hold the quivering cow tight as she cums, drenching your [pc.groin] in a sudden flood of juicy excitement. ");
 	
 	output("\n\nPanting, chest heaving against your face, Reaha only has a few moments to recover before a whine of need escapes her lips as the lust-drug surging through her body reasserts itself. Moaning, Reaha starts shifting her hips, but only slowly, as though she’s too exhausted from her orgasmic exertions to continue fucking you. You grin up at the tuckered-out, needy cow, and gently lower her onto her back, spreading her thick thighs around your [pc.hips]. Reaha moos, biting her lip with anticipation, arms locked around her massive milkers as you adjust yourself onto your [pc.knees], spreading the cow nice and wide before you finally give it to her. Now it’s your turn!");
 	

@@ -7,11 +7,47 @@ import classes.GameData.Pregnancy.Handlers.VenusPitcherFertilizedSeedCarrierHand
 import classes.Items.Accessories.LeithaCharm;
 import classes.RoomClass;
 
+public function TundraEncounterBonus():Boolean
+{
+	if(flags["ENCOUNTERS_DISABLED"] != undefined) return false;
+	//Just reuse Uveto's shit. It doesnt matter much really.
+	IncrementFlag("TUNDRA_STEP");
+
+	var choices:Array = new Array();
+	//If walked far enough w/o an encounter
+	if(flags["TUNDRA_STEP"] >= 5 && rand(4) == 0) {
+		//Reset step counter
+		flags["TUNDRA_STEP"] = 0;
+		
+		//POSSIBLE ENCOUNTERS! KORGI!
+		choices[choices.length] = encounterAKorgonneFemaleHostile;
+		choices[choices.length] = encounterAKorgonneFemaleHostile;
+		
+		//Run the event
+		choices[rand(choices.length)]();
+		return true;
+	}
+	return false;
+}
+
 public function uvetoShipDock():Boolean
 {
-	removeUvetoCold();
+	removeUvetoCold(true);
+	
+	//Shade Uveto welcome message.
+	getLetterFromShade();
+	
 	if (tryProcKaedeUvetoEncounter()) return true;
 	return false;
+}
+
+// Save failsafe (due to huskar puppysloots!)
+public function uvetoSpaceElevatorInBonus():Boolean
+{
+	output("\n\nWhere do you want to get off at?");
+	addButton(5,"Up",rideSpaceElevatorUp,undefined,"Space Elevator: Up","Ride the space elevator up to the station.");
+	addButton(7,"Down",rideSpaceElevatorDown,undefined,"Space Elevator: Down","Ride the space elevator down to the ice moon's surface.");
+	return true;
 }
 
 public function uvetoSpaceElevatorBaseBonus():Boolean
@@ -60,7 +96,10 @@ public function uvetoGreetingParty():void
 	
 	output("\n\n<i>“[pc.HeShe] would have a hard time finding one anywhere else,”</i> the fourth and final member of the group adds, stepping up and giving you a curt nod. You blink back a hint of surprise as the final voice draws your attention to a tall, sleek feminine form, much less curvaceous than the others - almost athletic, even, though not without a distinctly feminine figure. One that is very, very obviously synthetic. Silver-grey skin is shaped in roughly ausar form, packed into an Akkadi jumpsuit you’re not entirely convinced isn’t integrated with her body, the way it seamlessly fits her supple hourglass curves.");
 	
-	output("\n\n<i>“We’re not the </i>only<i> ice colony in the Federation, Senrah,”</i> the male of the group grunts, leaning against the side of the elevator tube. <i>“Anyway, we didn’t stop you to show off. Well, not just,”</i> he chuckles, making a very obvious flexing gesture. His coat finally gives way enough to let you see the dark blue and purple of the Xenogen Biotech uniform underneath.");
+	output("\n\n<i>“We’re not the </i>only<i> ice colony in the Federation, Senrah,”</i> the male of the group grunts, leaning against the side of the elevator tube. <i>“Anyway, we didn’t stop you to show off. Well, not just,”</i> he chuckles, making a very obvious flexing gesture. His coat finally gives way enough to let you see the");
+	//output(" dark blue and purple of the Xenogen Biotech");
+	output(" green and brown of the RhenWorld");
+	output(" uniform underneath.");
 	
 	output("\n\nThe Akkadi-dressed girl sticks her tongue out at him. <i>“Who </i>wouldn’t<i> want to show off for a rich, hot play"+ pc.mf("boy", "girl") +"?”</i>");
 	
@@ -72,7 +111,10 @@ public function uvetoGreetingParty():void
 	
 	output("\n\nHandy. You take the chip and plug it into one of your Codex’s dataports. It updates in the blink of an eye, registering new software.");
 	
-	output("\n\n<i>“Still,”</i> the Xenogen man adds, patting the Steele-girl’s head between the ears. <i>“Most of the moon’s surface is feral. Poorly mapped, full of milodan and korgonne raiders who haven’t gotten civilized yet. Worse things, if you go too far out. <b>Stay away from the Rift - that’s way east of the town - unless you’re looking for trouble.</b>”</i>");
+	output("\n\n<i>“Still,”</i> the");
+	//output(" Xenogen");
+	output(" RhenWorld");
+	output(" man adds, patting the Steele-girl’s head between the ears. <i>“Most of the moon’s surface is feral. Poorly mapped, full of milodan and korgonne raiders who haven’t gotten civilized yet. Worse things, if you go too far out. <b>Stay away from the Rift - that’s way east of the town - unless you’re looking for trouble.</b>”</i>");
 	
 	output("\n\nYou nod your understanding and pocket the Codex again. Anything else?");
 	
@@ -100,9 +142,13 @@ public function rideSpaceElevatorUp():void
 {
 	clearOutput();
 	author("Savin");
-	currentLocation = "GAME OVER";
+	
+	rooms["UVS LIFT"].outExit = null;
+	currentLocation = "UVS LIFT";
 	generateMap();
-	showName("SPACE\nELEVATOR");
+	showLocationName();
+	rooms[currentLocation].outExit = "UVS D7";
+	
 	output("Once again, you board the Irestead space elevator - this time, going up. Unlike your trip down, the elevator’s barely occupied: only a couple of other spacers join you aboard, though the ever-present cargo remains aboard. Raw minerals from the Uvetan mines, you’d guess. A few moments after you embark, the station controller seals the doors, and you feel a sudden heft of gravity under your [pc.feet].");
 
 	output("\n\nIt isn’t long before you’re racing upwards, hurtling through the atmosphere and into the heavens. The swirling colors of the Uvetan gas giant rise over the curves of the moon as you leave, bathing you in radiance for the brief trip back into orbit. The temperature drops rapidly as you ascend, at least in comparison to the control station, settling into a comfortable chill when the elevator locks into place at the space station’s center.");
@@ -112,8 +158,17 @@ public function rideSpaceElevatorUp():void
 	output("\n\n<i>“Welcome back to Uveto Station,”</i> an artificial voice intones as you disembark. <i>“Please enjoy your stay.”</i>");
 
 	processTime(45);
-	clearMenu();
-	addButton(7,"Exit",move,"UVS D7");
+	
+	if (flags["UVETO_HUSKAR_FOURSOME"] == undefined && annoIsCrew() && flags["ANNO_MISSION_OFFER"] == 3)
+	{
+		rooms["UVS LIFT"].outExit = null;
+		annoUvetoHuskarFoursome();
+	}
+	else
+	{
+		clearMenu();
+		addButton(7, "Exit", move, rooms[currentLocation].outExit);
+	}
 }
 
 public function uvetoSpaceElevatorBonus():Boolean
@@ -124,10 +179,14 @@ public function uvetoSpaceElevatorBonus():Boolean
 public function rideSpaceElevatorDown():void
 {
 	clearOutput();
-	currentLocation = "GAME OVER";
-	generateMap();
-	showName("SPACE\nELEVATOR");
 	author("Savin");
+	
+	rooms["UVS LIFT"].outExit = null;
+	currentLocation = "UVS LIFT";
+	generateMap();
+	showLocationName();
+	rooms[currentLocation].outExit = "UVI F34";
+	
 	//First Time
 	if(flags["UVETO_ELEVATORED"] == undefined) 
 	{
@@ -138,7 +197,7 @@ public function rideSpaceElevatorDown():void
 		output("\n\nThe elevator’s speed picks up until it seems like you could fly off the deck at any moment, thundering down the metallic shaft towards the planet’s surface. You feel like a bullet through a gun’s barrel, waiting to erupt into the endless black of space.");
 		output("\n\nThen, suddenly, you’re overwhelmed with light. You’re forced to shield your eyes against the unexpected glare, recoiling for a moment before opening your eyes and taking in the grandeur of space itself. The metallic coating of the elevator has given way to a translucent material, revealing the titanic gas giant Uveto in the distance, cresting the curving surface of the icy moon below. A planet rise, not a sunrise, but still just as radiant as anything you’ve seen before.");
 		output("\n\nThe roiling gasses of the Uvetan giant cast brilliant colors across the surface of the tether’s shaft, not unlike a dark rainbow. Below you, the icy seventh moon rises towards you rapidly, reaching up to embrace you. The elevator begins to slow, machinery whirring underneath you to control the car’s descent as you begin to pass through the moon’s upper atmosphere. A moment later and you’re passing through the clouds, vision becoming obscured by ice and mist.");
-		output("\n\nThe elevator screeches loudly, making your stomach lurch as it slows to a crawl at the top of a large, domed complex in the middle of a sprawling, snow-covered city. When the car finally comes to a halt, the door slide open with a hiss and a rush of air, depositing you in the middle of a metal-walled, heated complex.");
+		output("\n\nThe elevator screeches loudly, making your stomach lurch as it slows to a crawl at the top of a large, domed complex in the middle of a sprawling, snow-covered city. When the car finally comes to a halt, the door slides open with a hiss and a rush of air, depositing you in the middle of a metal-walled, heated complex.");
 		output("\n\nA sign nearby simply states, <i>“<b>Welcome to Irestead.</b>”</i>");
 	}
 	//Repeat
@@ -151,7 +210,7 @@ public function rideSpaceElevatorDown():void
 	IncrementFlag("UVETO_ELEVATORED");
 	processTime(45);
 	clearMenu();
-	addButton(7,"Exit",move,"UVI F34");
+	addButton(7,"Exit",move,rooms[currentLocation].outExit);
 }
 
 
@@ -173,7 +232,7 @@ public function flyToUveto():void
 		if (flags["MET_ORRYX"] != undefined) output(" You recognize the creature as a tove, the tiny, stuffed-animal-like race.");
 		else output(" You’re not sure what this plush-furred, squat creature is, but its beak clacks open and shut comically as it speaks.");
 		
-		output("\n\n<i>“You’ve entered into privately-owned orbital space. If you would like to dock with Camarilla station number six-three-two-oh-one, a wabeshift will intercept your path in approximately 1 hour.  Please use the time to fill out all waivers and declarations for quick and easy processing.”</i>");
+		output("\n\n<i>“You’ve entered into privately-owned orbital space. If you would like to dock with Camarilla station number six-three-two-oh-one, a wabeshift will intercept your path in approximately 1 hour. Please use the time to fill out all waivers and declarations for quick and easy processing.”</i>");
 		
 		output("\n\nYou hear multiple bings as a side monitor opens a cascade of pure-text forms and contracts. <i>“If you do not have business with the Camarilla at this time, I encourage you to adjust your orbit elsewhere, as any undocumented entry onto this planet will be construed as a breach of corporate treaty and we will be forced to sue with extreme prejudice.”</i>");
 
@@ -185,7 +244,7 @@ public function flyToUveto():void
 		
 		output("\n\nFrom what you’ve seen of the monetary penalties mentioned on every line of these documents, you’re pretty sure that means a lot coming from him.");
 		
-		output("\n\n<i>“Nono, no Tove sets down on there for more than a day or so.  However, we are the official representatives of the multi-corporate trade conglomerate that owns Uveto, pursuant to Confederate Mega-Corporate bylaws. The Camarilla is also of course responsible for the safety and security of a nativized race of ausar, who we care for greatly.”</i>");
+		output("\n\n<i>“Nono, no Tove sets down on there for more than a day or so. However, we are the official representatives of the multi-corporate trade conglomerate that owns Uveto, pursuant to Confederate Mega-Corporate bylaws. The Camarilla is also of course responsible for the safety and security of a nativized race of ausar, who we care for greatly.”</i>");
 		
 		output("\n\nHis beaked, four-eyed face is very hard to read, but you have your suspicions about that last part.");
 		
@@ -226,11 +285,11 @@ public function actuallyArriveAtUvetoStation():void
 	
 	processTime(50 + rand(16));
 	
-	output("\n\nJust as you’re getting through with the mountain of legal gobbledygook the tove sent you, your proximity sensors alert you to the approach of a large ship bearing the trade IDs of the Camarilla. You respond to a message blip ordering you to power down weapons and shields and follow the <i>“wabeshift”</i> to Uveto Station’s docking terminal. You do as you’re ordered and switch the autopilot on, letting it dog the Camarilla ship in towards the station.");
+	output("\n\nJust as you’re getting through with the mountain of legal gobbledygook the tove sent you, your proximity sensors alert you to the approach of a large ship bearing the trade IDs of the Camarilla. You respond to a message blip ordering you to power down weapons and shields and follow the “wabeshift” to Uveto Station’s docking terminal. You do as you’re ordered and switch the autopilot on, letting it dog the Camarilla ship in towards the station.");
 	
 	output("\n\nUveto Station is a small affair, one of the pre-fab low-orbit control stations common on frontier worlds too inhospitable to support a full colony. Why it’s in what has been a core world for centuries, you have no idea. A thick tether connects it to the planet below - a space elevator, you imagine - and several long, curving arms extend from the central unit of the station, providing a great deal of docking space. You suppose there must not be a spaceport on the surface of the planet.");
 	
-	output("\n\nThe wabeshift guides you to one of the docking arms, and shunts you into one of the many empty berths. Most of the other ships you can see look like heavy freighters, the kind used to haul thousands of tonnes of cargo across Confederate space - usually raw materials or industrial equipment. You allow the station to extend a docking clamp and access tunnel to your airlock, sealing with an audible <i>thump</i> that shudders through your ship.");
+	output("\n\nThe " + (CodexManager.entryUnlocked("Toves") ? "wabeship" : "wabeshift") + " guides you to one of the docking arms, and shunts you into one of the many empty berths. Most of the other ships you can see look like heavy freighters, the kind used to haul thousands of tonnes of cargo across Confederate space - usually raw materials or industrial equipment. You allow the station to extend a docking clamp and access tunnel to your airlock, sealing with an audible <i>thump</i> that shudders through your ship.");
 	
 	output("\n\nYou grab your gear");
 	if(leaveShipOK()) output(" and head onto the station.");
@@ -295,40 +354,39 @@ public function tryApplyUvetoColdDamage(timeExposed:Number):Boolean
 		var actualDamage:TypeCollection = new TypeCollection( { freezing: coldDamage }, DamageFlag.BYPASS_SHIELD);
 		var damageResult:DamageResult = applyDamage(actualDamage, null, tPC, "suppress");
 		
-		if (damageResult.totalDamage > 0)
+		if (tPC.HP() > 0)
 		{
-			if (tPC.HP() > 0)
+			if (InRoomWithFlag(GLOBAL.ICYTUNDRA) || InRoomWithFlag(GLOBAL.OUTDOOR))
 			{
-				if (InRoomWithFlag(GLOBAL.ICYTUNDRA) || InRoomWithFlag(GLOBAL.OUTDOOR))
-				{
-					output("\n\nYou wrap your arms around yourself, desperately trying to fend off the overwhelming cold. The planet's freezing you to your bones");
-					if (!tPC.isNude()) output(", no matter how much clothing you wear");
-					else output(" -- and being naked, you've got next to no defense against the chill");
-					output(". You feel like you might collapse if you don't take shelter soon!");
-					outputDamage(damageResult);
-				}
-				else
-				{
-					output("\n\nThe cold on Uveto is absolutely piercing out here, with no walls or fluffy ausar to block the howling winds and free-flying shards of ice tearing across the rolling plains of ice and alien obsidian. You clutch your arms around yourself, trying to shield your body from the frigid cold, but to no avail. Shivering madly, you glance around in desperation: <b>you need to find shelter fast, or you're going to freeze!</b>");
-					outputDamage(damageResult);
-				}
+				output("\n\nYou wrap your arms around yourself, desperately trying to fend off the overwhelming cold. The planet's freezing you to your bones");
+				if (!tPC.isNude()) output(", no matter how much clothing you wear");
+				else output(" -- and being naked, you've got next to no defense against the chill");
+				output(". You feel like you might collapse if you don't take shelter soon!");
+				if (damageResult.totalDamage > 0) outputDamage(damageResult);
 			}
 			else
 			{
-				output("\n\nThe Uvetan cold chills you to your");
-				if (!tPC.isGoo()) output(" bones");
-				else output(" gooey core");
-				output(", making you shiver uncontrollably. No matter where you go, there's no stopping the incessant, numbing cold. It physically <i>hurts</i> to be out here, and the longer you stay, the more your vision blurs and blurs... ");
-
-				output("\n\nSuddenly, your [pc.foot] catches, and before you can realize what's happening you pitch forward, planting your face in the thick snow. You gasp, flailing your arms for a moment, but... you can't seem to find the energy -- the vital strength -- to pick yourself up again. Snow settles onto your back, still blowing over you with heartless, frigid force. Try as you might, you find yourself fading, eyes starting to close. So sleepy...");
-
-				output("\n\nBlackness takes you.");
-				outputDamage(damageResult);
-				
-				clearMenu();
-				addButton(0, "Next", uvetoFallToColdDamage);
-				return true;
+				output("\n\nThe cold on Uveto is absolutely piercing out here, with no walls or fluffy ausar to block the howling winds and free-flying shards of ice tearing across the rolling plains of ice and alien obsidian. You clutch your arms around yourself, trying to shield your body from the frigid cold, but to no avail. Shivering madly, you glance around in desperation: <b>you need to find shelter fast, or you're going to freeze!</b>");
+				if (damageResult.totalDamage > 0) outputDamage(damageResult);
 			}
+		}
+		else
+		{
+			output("\n\nThe Uvetan cold chills you to your");
+			if (!tPC.isGoo()) output(" bones");
+			else output(" gooey core");
+			output(", making you shiver uncontrollably. No matter where you go, there's no stopping the incessant, numbing cold. It physically <i>hurts</i> to be out here, and the longer you stay, the more your vision blurs and blurs... ");
+
+			output("\n\nSuddenly, your [pc.foot] catches, and before you can realize what's happening you pitch forward, planting your face in the thick snow. You gasp, flailing your arms for a moment, but... you can't seem to find the energy -- the vital strength -- to pick yourself up again. Snow settles onto your back, still blowing over you with heartless, frigid force. Try as you might, you find yourself fading, eyes starting to close. So sleepy...");
+
+			output("\n\nBlackness takes you.");
+			if (damageResult.totalDamage > 0) outputDamage(damageResult);
+			
+			generateMapForLocation("GAME OVER");
+			
+			clearMenu();
+			addButton(0, "Next", uvetoFallToColdDamage);
+			return true;
 		}
 	}
 	
@@ -341,11 +399,17 @@ public function hookUvetoRoomRemoveCold(direction:String):void
 	move(rooms[currentLocation][direction]);
 }
 
-public function removeUvetoCold():void
+public function removeUvetoCold(notice:Boolean = false):void
 {
 	if (pc.hasStatusEffect("Bitterly Cold"))
 	{
 		pc.removeStatusEffect("Bitterly Cold");
+		
+		if(notice)
+		{
+			output("\n\nThe tempurature gradually changes around you.");
+			if (pc.willTakeColdDamage()) output(" With relief, you can finally take some time to defrost and enjoy the warmth!");
+		}
 	}
 }
 
@@ -355,11 +419,18 @@ public function hookUvetoRoomAddCold(direction:String):void
 	move(rooms[currentLocation][direction]);
 }
 
-public function addUvetoCold():void
+public function addUvetoCold(notice:Boolean = false):void
 {
 	if (!pc.hasStatusEffect("Bitterly Cold"))
 	{
 		(pc as PlayerCharacter).createStatusEffect("Bitterly Cold", 0, 0, 0, 0, false, "Icon_Snowflake", "The bitter, piercing cold of Uveto's icy tundra threatens to chill you to the bone. Better wrap up nice and tight, maybe even find something to heat you up to better stave off the freezing winds.", false, 0, UIStyleSettings.gColdStatusColour);
+		
+		if(notice)
+		{
+			output("\n\nA burst of cold air reminds you of the surface’s natural weather conditions.");
+			if (pc.willTakeColdDamage()) output(" It’s cold out here! You’ve got to find shelter or some way to warm yourself up as soon as you can.");
+			else if (pc.hasHeatBelt()) output(" Even with the warmth provided by your heat belt, it’s still freezing cold out here.");
+		}
 	}
 }
 
@@ -515,7 +586,14 @@ public function uvetoFallToColdDamage():void
 
 	//[Next] // Awaken in the medical center
 	clearMenu();
-	addButton(0, "Next", uvetoAwakenInMedCenter, rescuer);
+	if (pc.isBiped())
+	{
+		addButton(0, "Next", hanaFiresideRecovery);
+	}
+	else
+	{
+		addButton(0, "Next", uvetoAwakenInMedCenter, rescuer);
+	}
 }
 
 public function uvetoAwakenInMedCenter(rescuer:String):void
@@ -574,10 +652,48 @@ public function uvetoAwakenInMedCenter(rescuer:String):void
 	addButton(0, "Next", mainGameMenu);
 }
 
+public function meadStreetBonus():Boolean
+{
+	addUvetoCold(true);
+	return false;
+}
+public function templeStreetBonus():Boolean
+{
+	addUvetoCold(true);
+	// Buzzer for Shade's house.
+	meetingShadeAtHouse(0);
+	return false;
+}
+
 public function uvetoBarBonus():Boolean
 {
-	output("\n\nAn old-style videoscreen is on in the corner, displaying a perverted-looking documentary about the infamous male ultraporn-star, Tank Kannon.");
-	addButton(0, "Watch", tankKannonBiopic, undefined, "Watch", "It looks like there's a biopic about the incredibly endowed ultraporn-star, Tank Kannon, on if you want to watch it.");
+	removeUvetoCold();
+	
+	addButton(0, flags["MET_HANA"] == undefined ? "Bartender" : "Hana", approachHana);
+
+	//STEPH IRSON!
+	if(hours % 2 == 0) 
+	{
+		output("\n\nAn old-style videoscreen is on in the corner, displaying a perverted-looking show - Steph Irson, Galactic Huntress by the looks of it.");
+		addButton(1,"Watch",watchUvetoStephIrson,undefined,"Watch","It looks like the TV is currently running the latest episode of <i>Steph Irson: Galactic Huntress</i> if you'd care to watch.");
+	}
+	else
+	{
+		output("\n\nAn old-style videoscreen is on in the corner, displaying a perverted-looking documentary about the infamous male ultraporn-star, Tank Kannon.");
+		addButton(1, "Watch", tankKannonBiopic, undefined, "Watch", "It looks like there's a biopic about the incredibly endowed ultraporn-star, Tank Kannon, on if you want to watch it.");
+	}
+	
+	// Shade events.
+	meetingShadeAtUvetoBar(2);
+
+	var jeromePresent:Boolean = jeromeAtBar(3);
+	// jerynnAtBar(jeromePresent);
+	
+	// Natalie Irson
+	natalieFreezerAddendum(4);
+	// Randoms
+	roamingBarEncounter(5);
+
 	return false;
 }
 
@@ -587,6 +703,7 @@ public function uvetoBarBonus():Boolean
 public function tankKannonBiopic():void
 {
 	clearOutput();
+	showBust("TANK_KANNON");
 	showName("TANK\nKANNON");
 	output("You swivel to watch, your attention caught by the sight of the fox/horse hybrid struggling to drag his twelve foot dick behind him. It doesn’t work of course, the poor guy’s erection invariably stiffens, thickening, and in the span of a few seconds, he starts pumping his hips, grinding his dick an inch across the floor at a time in an effort to attain great stimulation.");
 	output("\n\nThe announcer’s voice cuts in, <i>“Tank’s life was at an all time low. After years of struggling with throbb addiction, he had finally hit rock bottom.”</i> The camera cuts to a grainy security feed of Tank’s bedroom. There, the hyper-endowed vulquine appears to be struggling to stay above a flood of white. <i>“Wet dreams were no longer a pleasant treat - they were a life or death struggle, one that soon saw the struggling stud evicted from his residence, destitute and alone.”</i>");
@@ -606,6 +723,7 @@ public function tankKannonBiopic():void
 public function watchTankBlowFirstPornLoad():void
 {
 	clearOutput();
+	showBust("TANK_KANNON");
 	showName("TANK\nKANNON");
 	output("After a brief commercial intermission for Intimints, the mints that get the hint, the show returns, cutting to a feed of a younger, nervous-looking Tank.");
 	output("\n\nStanding a little too close to the camera, the young hybrid scratches the back of his neck nervously. <i>“H-hey ‘net! My name’s... Tank. Yeah. Tank Kannon...”</i> He grins to himself, apparently pleased with his own trite cleverness. <i>“...and I’m got something to show you.”</i> He hops down from his perch, allowing the wide-angle lens to capture every inch of sizable body - and more sizable endowments. His cock, half-hard but rapidly thickening, is laid out across an expanse of slick-looking plastic, ending in a ramp leading up to an expansive bathtub. It’s obvious from the size of the room and the niceties on display that Tank's station has already started to improve at the time of this recording.");
@@ -642,9 +760,141 @@ public function watchTankBlowFirstLoadEpilogue():void
 	output("\n\nOther voices take up the call. <i>“Yeah, Steph Irson’s better than this shit!”</i>");
 	output("\n\nThe first hollers back, <i>“Hey, Tank’s a national treasure, fuck-face!”</i>");
 	output("\n\n<i>“If you like uselessly huge dicks instead of a fine, female form!”</i>");
-	output("\n\nJust when you think there’s going to be a fight, someone changes the channel and offers the two would-be-combatants new drinks. Crises averted!");
+	output("\n\nJust when you think there’s going to be a fight, someone changes the channel and offers the two would-be-combatants new drinks. Crisis averted!");
 	processTime(1);
 	IncrementFlag("TANK_EP1_WATCHED");
 	clearMenu();
 	addButton(0,"Next",mainGameMenu);
+}
+
+//STEPH IRSON!
+//[Watch Screen]
+//It looks like the TV is currently running the latest episode of <i>Steph Irson: Galactic Huntress</i> if you'd care to watch. 
+public function watchUvetoStephIrson():void
+{
+	clearOutput();
+	stephHeader(5);
+	
+	output("You slide into one of the booths tucked against the Freezer’s walls and relax, letting your attention drift to the small holoscreen bolted over the bar. You’re just in time to catch the title card of the program about to start: a large pair of fleshtone twin planets with the words <b>Steph Irson: Galactic Huntress</b> superimposed over them. Beneath the title script, a warning appears in large red letters: “<i>This Show Rated X, Adults Only, by the Galactic Entertainment Ratings Board for Graphic, Sexual, and Disturbing Imagery. You Have Been Warned.</i>”");
+	output("\n\nA smaller notice underneath announces <i>“This show brought to you by the Council for Interspecies Understanding on Myrellion,”</i> printed over the image of both a red and a gold-colored ant-person holding hands.");
+	output("\n\nAfter a moment, the introduction fades out, replaced by a crackling white of static. You briefly think that something’s gone futzy with the quantum connection, but before someone can go up and give the screen a good bonking, the fuzzy white resolves into a more recognizable shape: a torrent of snow, blasting past a shaky camera at breakneck speeds. After a few seconds of staring at vague shapes obscured by a thick glaze of ice and snow, something off-screen grabs the camera drone and wipes away at the caked-on ice, clearing it off enough for you to see what’s going on.");
+	output("\n\nA woman is crouching on the top of a snowbank when the camera refocuses, bundled up in a heavy fur-lined coat with the show’s logo on one huge, jutting boob and that of the Confederate Scout Authority on the other. Though the figure is so heavily clothed that you can’t see an inch of flesh, the outrageously curvaceous figure, swivelling cat-ears, and wriggling vine-like tail poking out the back of her pants leave little room for doubt that you’re looking at Steph Irson, the much-mutated host of the show.");
+	output("\n\nSatisfied with her work on the drone, Steph releases it and pulls up a pair of goggles from her grey eyes. <i>“Welcome to Uveto Seven, everyone!”</i> she shouts over the howl of the blizzard, barely audible without a hell of a lot of boosting from the drone that leaves her sounding husky and strained. <i>“Thanks to our friends at RhenWorld Stellar Excavations, we’re taking a break from the dangerous and untamed frontier to look coreward at some of the galaxy’s least understood sapients. As you can probably see, Uveto is a totally hostile world. I can barely, like, feel any of my limbs and I’m wearing three heat belts! Because it’s so cold and stormy, and the natives remain resistant to uplifting, there’s been very little proper study done here on the frozen moon. But we’re here to change that!”</i>");
+	output("\n\nShe gives a big thumbs up to the camera drone and twists around, gazing out over the seemingly endless plains of snow stretching out in every direction. Under the light of the massive gas giant in the heavens, the whole moonscape seems to take on a reddish-white hue. Pretty, in its way, but also as foreboding as a blood moon. Steph wraps her arms around herself and starts creeping forward. <i>“So today, we’re on the hunt for a Korgonne! They’re a cute little race of caniforms, fluffy and pudgy as they come, but super fierce when provoked. I’ve gotta be slow and careful if I don’t wanna end up bushwhacked and dragged off to who-knows-where. Remember: if you get stuck or lost out here, you’re on your own gettin’ back!”</i>");
+	output("\n\nWhile she’s talking, Steph slinks forward, bent just enough that the camera drone gets confused and zooms in on her big, jiggly behind as she moves. Her butt strains the fabric of even her heavy winter gear, swaying hypnotically with every motion. The green, plant-like tail poking out of the back of her pants wiggles at the drone, idly pawing at it with a big, bulbous purple crown shaped suspiciously like a fat dick.");
+	output("\n\nThe drone wobbles and zips back out of reach before the willful tail can interfere with it too much, panning out to reveal a ridge of icy outcroppings that form a valley just ahead of where Steph’s going. She waves for the drone to follow her, pausing at a small crevasse a few yards later. <i>“Oh, here we go!”</i> she cheers, wiping away some crusted ice near the entrance. <i>“Tribal drawings! Aww, they’re so cute! We must be gettin’ close to korgonne territory now, see?”</i>");
+	output("\n\nShe grabs the drone and uses it like a hand-held, showing you a pair of charcoal drawings on the rock. Two tiny, crude dog-people are shown with immaculately drawn phalluses ganging up on some kind of cat-woman, drilling her from either end while making what looks like a high-five over her arched back. Tribal unity at its best, you guess.");
+	processTime(7);
+	//[Next]
+	clearMenu();
+	//+Korgonne busts in background
+	addButton(0,"Next",uvetoIrson2);
+}
+
+public function uvetoIrson2():void
+{
+	clearOutput();
+	showBust(stephBustDisplay(5, true),"KORGONNE_MALE_NUDE","KORGONNE_MALE_NUDE");
+	author("Savin");
+	
+	output("Steph giggles and turns towards the crevasse, which is only a hair more than a foot wide you notice. She starts trying to squeeze, but predictably her over-sized tits catch on the rock, making her squirm and strain to pull herself into the tight passage. Though the wind’s still howling, you’re half-sure you hear a <i>“Moo!”</i> under her breath before, with a grunt of effort, she pulls herself through. A pair of buttons go flying, beaning the camera drone; when it catches back up to her, Steph’s coat is open-fronted enough to show off a healthy dose of milky cleavage heaving under her khaki top.");
+	output("\n\nPoking out of the crevasse’s far end, Steph glances around what seems to be a deep caldera - a basin below the ice around the plains, shielded from the storm. Pillars of dark obsidian lance up from the ground all around her, and smoke is rising from somewhere nearby. A village, maybe? <i>“Tight squeeze! Meant to keep biggies like me out. I bet we’re-”</i>");
+	output("\n\n<i>“YOU!”</i> a sharp, high-pitched voice shrieks from somewhere off camera. Steph spins around, taking the drone with her to look up at the top of a nearby snowbank. A half-dozen small, squat, fur-covered creatures are standing atop it with spears and axes in their hands. <i>“");
+	if(silly) output("MUCH TRESPASS. VERY INTRUDE!");
+	else output("UNWELCOME ALIEN. AVALANCHE OF MISTAKE!");
+	output("”</i>");
+	output("\n\n<i>“What.”</i> Steph blinks at them. <i>“Oh! They’re korgonne! Ohmygod they’re even cuter in person. Don’tcha just wanna run up and hug them!?”</i>");
+	output("\n\nOne of the creatures barks <i>“");
+	if(silly) output("NO HUG. VERY FIERCE. SO INTIMIDATE!");
+	else output("NO NO! STUPID ALIEN. MISTAKE!");
+	output("”</i> and waves her spear threateningly at Steph. Several of the others step forward, growling at her through blue-hued lips. <i>“");
+	if(silly) output("YOU GO NOW. FLEE! KORGONNE STRONKEST!");
+	else output("FADE OR CONSEQUENCE. FURY OF BLIZZARD!");
+	output("”</i>");
+
+	output("\n\nRather than being intimidated, Steph squeals and claps her hands, bouncing on the spot. The sheer weight of her huge, milky tits thrusting around pops another button off her coat, letting her expansive rack spill forward until the top ends of her silver nipples are showing. She barely notices, though her tail throbs and starts rubbing at her thighs eagerly. Guess she’s been exposed on camera so much by now that she barely notices anymore.");
+	output("\n\nThe korgonne, however, do. Very much so, if the sudden tents forming in the males’ heavy hide pants are anything to go on. The one female at the head of the pack takes one look over her shoulder and howls, <i>“NO! NO, PERVERTS! FIGHT, NO FUCK.”</i>");
+	output("\n\nThey yip at her and start waving their spears around - until she reaches over and smacks one of them on the head with some kind of leather strap off her belt. The struck korgonne whines and recoils, and the others surge towards their female leader, shoving her out of the way and rushing towards Steph with savage smiles and shameless boners peeking out as they start to unbuckle their belts.");
+	output("\n\n<i>“Ahh! They <b>do</b> want hugs!”</i> Steph squeals delightedly, sprawling onto her knees with her arms wide open to accept all the fluffy puppy hugs she can get.");
+	output("\n\nIn the blink of an eye the five horny dog-boys have barreled her into the ground and ripped her bodice, letting Steph’s huge breasts spill free into their fuzzy embraces. She’s so stacked that one korgonne is able to all but body-hug each tit, covering it in soft fluff and stiff red canine cock, rubbing against her bared flesh with bestial abandon. The three not able to get a hold of her tits go for the holes: one grabs her pants and starts ripping; another plugs his red rocket between Steph’s lips with a howl of ecstasy. Steph herself yelps, flailing haplessly; she’s completely overwhelmed.");
+	output("\n\nThe fifth and final korgonne, seemingly left high and dry, grabs Steph’s tail and drops trou between her legs, laughing to himself before plugging the cock-tipped end into the naked ass of the one drilling Steph’s silver cunny. He yelps and yips, snarling at his friend, but a sudden wild-eyes look of pleasure as the cock-tail starts wriggling shuts him up right quick. With that done, the aggressor laughs and flops onto his ass, grabbing Steph’s feet and locking them around his own dick and starting to jack off with them. Consolation prize.");
+	output("\n\nThe camera drone buzzes around, sweeping from one side of the vigorous gang-bang to the other. Several bare furry asses are pounding away at Steph, making her ample curves jiggle obscenely. She moans and gasps, bucking against the many bodies writhing overtop her. Her tail, at least, seems quite happy with its predicament, thrusting deep into the unlucky dog-boy’s ass to the same rhythm that he’s pounding his knot over and over into Steph’s pussy with. He can’t find purchase in her gaping, sodden fuck-hole - even a turgid canid bitch-breaker can’t plug her plump grey pussy.");
+	output("\n\nYou’re treated to long, lusty minutes of furry bodies humping away at the show’s host, fucking her into the dusty snow. Eventually, Steph stops struggling and starts moaning lustily, gripping at the fluffy bodies on top of her and slurping her way up and down the shaft in her mouth. Her hips wiggle and thrust back against the dick trying and failing to knot her, right up until the poor pup grunts and shudders, and the camera drone dutifully zooms in to watch a waterfall of creamy white spurt out around his knot. Steph gasps and giggles, reaching down to pet the korgonne between his low-tucked ears... until she gets distracted by a sudden eruption of puppy-cream between her soles, and then another into the pillowy depths of her cleavage. A little geyser of milk squirts out of her silvered nipples as the two top-mounted korgonne work themselves over the edge, leaving Steph an insensate, moaning mess. She’s not far behind them now!");
+	processTime(8);
+	pc.lust(33);
+	clearMenu();
+	addButton(0,"Next",uvetoIrson3);
+}
+
+public function uvetoIrson3():void
+{
+	clearOutput();
+	showBust(stephBustDisplay(5, true),"FROSTWYRM");
+	author("Savin");
+
+	//Display Frostwyrm and Steph busts; -Korgonne busts
+	output("When the fuck-happy puppy-folk have finished, Steph’s frontside is glazed in white from her lips, through her heaving milky rack, and right down to her pussy and thighs. The five korgonne flop off of her one by one, panting and leaking seed as they go soft in the chill. The drone pans around, looking over the sordid affair, before re-focusing on the last man standing... or rather, woman sitting.");
+	output("\n\nThe female korgonne is sitting on the top of the rise where she’d been pushed aside, legs splayed and fingers greedily pumping into a thick, blue-lipped slit between them. Her hide vest is popped open, letting her other hand grope and squeeze one of her hefty breasts while she diddles herself to the gangbang winding down below her. She’s moaning softly, breath coming in erratic, steamy mists as she brings herself to a shuddering, voyeuristic climax. With a final, gasping yip, she flops onto her back, arches it, and lets loose a misty squirt of fem-cum across her thighs before going still.");
+	output("\n\nAs the action calms down, though, shadow spreads across the caldera. The drone twists around, slowly panning up the rocky side of the basin. The earth shakes, and ice and snow go flying from the cliffs above; when it clears, a titanic shape is perched on the edge, a pair of majestic pale wings spreading behind it across the span of a gravball field. A quartet of glowing red eyes burn like embers over a muzzle of axe-blade teeth paired to claws that look every bit as sharp as monoblades.");
+	output("\n\nThe creature rears up on the hind pair of its six legs and lets out a deafening howl that echoes across the ice plains. The sheer force of its bellowing voice sends the camera drone tumbling back, smacking into the ice and skidding into the snowbank. When its vision refocuses, the pack of korgonne are all on their feet, grabbing their pants and weapons and booking it double-time over the hill. But poor Steph is completely out of it, flopped on her back with her tits out and cum leaking from both ends. All she can do is gasp as the dragon-like alien leaps down into the basin, crashing into the snow with earth-shaking force; its legs crunch the icy surface on either side of Steph, grinding it to powder in the landing.");
+	output("\n\nThe Galactic Huntress shrieks and goes scrambling back, finally snapped out of her fuck-sated reverie. But she’s not going anywhere with the frost drake looming over her; one mighty paw pins her to the earth by the legs, trapping her beneath the beast’s scaly undercarriage. Its embering eyes narrow at her, and its great long neck cranes down until its fanged maw is mere inches from the hostess’s face.");
+	output("\n\nFor a moment, you expect the worst to follow, right on interstellar television! Instead, thankfully, the beast’s nose stops mere inches from Steph’s own, its eyes drilling like lasers into her fearful gaze. The camera attempts to zoom in for a better look, half buried in the snow as it is, focusing in and out until it can see the silver of Steph’s eyes... and something more, a vacuous, inky darkness spreading in them.");
+	output("\n\n<i>“W-what!?”</i> Steph mewls, blinking rapidly. <i>“You can...”</i>");
+	output("\n\nThe creature growls softly, and Steph’s back arches as if she’d been shocked. Her whole body writhes - not in pain, but in pleasure, if the way her nipples stiffening and leaking her milky burden are anything to go by.");
+	output("\n\n<i>“What are you - aahh! I can’t... So good!”</i>");
+	output("\n\nThe way she’s babbling, you feel like somehow you’re only getting half the conversation. Is the microphone busted?");
+	output("\n\n<i>“Okay! Okay!”</i> Steph gasps, flopping back. She gives a nervous look between the feral beast overtop her and the camera drone. Biting her lip, Steph hooks her hands under her legs and curls herself up at the monster, presenting her still-stuffed pussy to it like an eager whore. The drake growls, shifting its massive weight to reveal a dick every bit as massive and reptilian as you’d expect from such a monster, peeking out of a deep-seated slit in its hide quarters. It grows and grows, from a tapered tip already as big as your fist to a tree-trunk shaft that throbs with bestial desire.");
+	output("\n\nThe camera feed crackles, and you hear a pair of disembodied voices:");
+	//First time only!:
+	if(flags["STEPH_DARGONED"] == undefined)
+	{
+		output("\n\n<i>“S-should we cut the feed?”</i> a man asks. <i>“That thing-”</i>");
+		output("\n\nA woman answers coldly, <i>“No! Keep the drone online!”</i>");
+		output("\n\nHuh? Are you getting some sort of interference... or is chatter from the studio bleeding onto the video?");
+		output("\n\n<i>“Don’t you dare touch that button,”</i> the woman growls. <i>“The ratings on this are going to be absolutely <b>killer</b>.”</i>");
+		output("\n\nThere’s sounds of shuffling, and the camera feed pulses again before clearing out. What the hell was that?");
+		output("\n\nEither way, your attention quickly returns to what’s happening on screen...");
+	}
+	output("\n\nThe frosty drake’s front legs slam into the ground on either side of Steph, and its broad flanks rock forward until its titanic cockhead is grinding heavily against her sex. ");
+	//not seen Tarkus ep: 
+	if(flags["STEPH_GOOED"] == undefined) output("By some miracle, ");
+	else output("Thanks to her gray-gooification, ");
+	output("Steph’s silver quim parts for the battering ram of a monster-cock, stretching wide to accommodate its girth. Steph’s breath catches in her throat, lips twisting into a silent gasp of unspeakable pleasure. The wyrm snarls and inches its hips forward, force-feeding more and more cockmeat into the helpless - yet seemingly willing - starlet.");
+	output("\n\nSteph’s belly is bulging before long, struggling to take the sheer size of breeding tool sawing into her slit. The wyrm’s breath comes in foggy huffs over her, billowing around them so hard that the camera has trouble penetrating");
+	if(silly) output(" - unlike the wyrm!");
+	else output(".");
+	output(" What little it does catch, though, shows Steph’s face in a rapture of mind-broken bliss, and the beast huffing and puffing with what could only be described as a fiendish smile across its jowls.");
+
+	output("\n\nEventually the creature’s body moves so close to Steph that her legs are pressed deeper against her breasts, rubbing her bloated belly against the dragon’s armored underside. She squeals and gasps, bent and stuffed and leaking in so many ways that it’s almost comical - yet somehow taking more and more of the beast. Steph’s mouth hangs open, tongue lolling out, and her eyes are completely rolled back; she’s out of it, cumming and gasping and left utterly insensate.");
+
+	output("\n\nSuddenly the wyrm rolls its head back and roars. Its wings unfurl, kicking up a gale of snow that blinds the camera for a long moment. The drone bleeps in panic and goes tumbling, dislodged from the snow and sent flying in the maelstrom. It impacts heavily on the rocks, the view reeling skyward for a moment before the stabilizers managed to right the poor thing and get it back on target.");
+
+	output("\n\nWhen it does, the winged behemoth is nowhere to be seen, leaving only a sea of steaming whiteness pooling around Steph’s ass and filling the deep gashes in the ice where its claws had been moments ago. The hostess’s stomach is still straining against the tatters of her now-ruined coat, stuffed so full of the beast’s seed that her stomach quivers like pure fluid with every little panting breath.");
+
+	output("\n\nThe drone zips over to her like a loyal hound, floating over the cum-slathered hostess to give the audience a long, slow pan of her naked body. She moans weakly and pushes herself up onto her elbows - even that small motion is enough to cause a high-pressure squirt of dragon-cum to spew from her abused cunt, splattering across her thighs and making her shudder with pleasure.");
+
+	output("\n\n<i>“O-oh stars,”</i> she murmurs, eyes blinking rapidly. The dusky color you’d seen before is gone now, resumed by the steel grey she had before. <i>“Thanks for tuning in to another episode of </i>Galactic Huntress<i>. I’m your host, Steph Irson, and... ahh!”</i>");
+
+	output("\n\nThe drone gets thumped away by something, and two pairs of furry arms grab Steph’s shoulders, hauling her away. Off-screen, a yipping voice cries, <i>“Seconds! Much fuck; so breed!”</i>");
+	output("\n\n<i>“BREED!”</i> several other voices echo.");
+	output("\n\n<i>“Tune in next week for - oh no!”</i> Steph yelps as several dark doggy-cocks flop onto her face, even as she’s being hauled off. Before one of them can plug itself in her lips, she manages to shout <i>“Uh, commercials! See ya next time!”</i>");
+	output("\n\n...Somehow she didn’t seem too distressed about her fate, there. Maybe she liked the korgonnes’ <i>“hugs”</i> a little too much...");
+	
+	watchStephEpisodeBroadcast("STEPH_DARGONED");
+	
+	pc.lust(10);
+	processTime(10);
+	clearMenu();
+	addButton(0,"Next",mainGameMenu);
+}
+
+public function uvetoStationLoungeFunc():Boolean
+{
+	if (uvetoStationLoungeHuskarBimboActive())
+	{
+		output("\n\nGalina and Marina are lounging around in the cafe, probably on their lunch break. Though they're happily chattering away over their plates and fooling around with data-pads loaded with more science than you can shake a textbook at, they're perfectly willing to stop and flash you inviting smiles when you pass by.");
+		addButton(0, "Huskars", annoUvetoHuskarFoursomeRepeat, undefined, "Huskar Twins", "Go over and see if you can stir up some sexy trouble with the bimbo-geniuses.");
+	}
+
+	return false;
 }

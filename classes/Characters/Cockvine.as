@@ -245,7 +245,7 @@
 
 				attacks.push(adultCockvineWhips);
 				attacks.push(adultCockvineMouthFuxAttack);
-				if (target.hasCombatDrone()) attacks.push(adultCockvineMowThisAttack);
+				if (target.hasActiveCombatDrone()) attacks.push(adultCockvineMowThisAttack);
 				
 				attacks[rand(attacks.length)](target);
 			}
@@ -259,7 +259,7 @@
 			}
 	
 			// Trigger various effects based on grip-level
-			if (target.statusEffectv1("Cockvine Grip") == 0)
+			if (target.statusEffectv1("Cockvine Grip") <= 0)
 			{
 				if (target.hasStatusEffect("Evasion Reduction")) target.removeStatusEffect("Evasion Reduction");
 				if (target.hasStatusEffect("Grappled")) target.removeStatusEffect("Grappled");
@@ -291,15 +291,23 @@
 		private function adultCockvineMowThisAttack(target:Creature):void
 		{
 			//Activates if attacked by drone. Disables drone for 3-5 turns if successful
-			output("Incensed by your drone’s attack, one of the tentacles reacts by swinging at it hard.");
+			output("Incensed by");
+			if(target.hasStatusEffect("Varmint Buddy")) output(" your varmint’s");
+			else output(" your drone’s");
+			output(" attack, one of the tentacles reacts by swinging at it hard.");
 
 			if (rand(4) == 0)
 			{
-				output(" Your trusty drone darts nimbly out of the way.");
+				if(target.hasStatusEffect("Varmint Buddy")) output(" Your loyal varmint");
+				else output(" Your trusty drone");
+				output(" darts nimbly out of the way.");
 			}
 			else
 			{
-				output(" With a nasty sounding crunch the cockvine connects, sending the light robot flying out of the crevice.");
+				output(" With a nasty sounding crunch the cockvine connects, sending");
+				if(target.hasStatusEffect("Varmint Buddy")) output(" your loyal companion");
+				else output(" the light robot");
+				output(" flying out of the crevice.");
 				target.createStatusEffect("Combat Drone Disabled", rand(5) + 1, 0, 0, 0, true, "", "", true, 0);
 			}
 		}
@@ -309,7 +317,7 @@
 			//Lust rise if success
 			output("One of the tentacles reaches for your face, implacably stretching towards the wet orifice it can sense there.");
 
-			if (target.hasArmor() && target.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT))
+			if (target.hasAirtightSuit())
 			{
 				output(" Luckily, your airtight [pc.armor] protects you from the oral invasion!");
 			}

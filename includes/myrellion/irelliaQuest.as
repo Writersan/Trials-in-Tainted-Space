@@ -427,10 +427,10 @@ public function dontCallInReportsOnAntTerrorists():void
 public function beADumbShitFallGuyForTheRebels():void
 {
 	showName("\nEXPLOSION!");
-	output("\n\nIt’s the appointed time, and you’re in the appointed location, but your red friend from the rally doesn’t show her face. You wait and wait and wait, but noone comes to contact you. You’re just about to leave when a shockwave flattens you into the pavement, chased by a wave of heat that ");
+	output("\n\nIt’s the appointed time, and you’re in the appointed location, but your red friend from the rally doesn’t show her face. You wait and wait and wait, but no one comes to contact you. You’re just about to leave when a shockwave flattens you into the pavement, chased by a wave of heat that ");
 	if(!pc.isNude()) output("raises smoke from your [pc.gear]");
 	else output("threatens to fry your gear");
-	output(".\n\nYou stagger up, ears ringing, as security personal swarm the corner, dragging everyone in the area off for interrogation or medical treatment. They’re none too gentle with you, a fact made worse when you test positive for residues instrumental in the construction of that type of bomb.\n\nYou wind up jailed for crimes you didn’t commit, a patsy for a pitiless rebel movement who thought a naive off-worlder would make the perfect fall [pc.guy]. They were right.");
+	output(".\n\nYou stagger up, ears ringing, as security personnel swarm the corner, dragging everyone in the area off for interrogation or medical treatment. They’re none too gentle with you, a fact made worse when you test positive for residues instrumental in the construction of that type of bomb.\n\nYou wind up jailed for crimes you didn’t commit, a patsy for a pitiless rebel movement who thought a naive off-worlder would make the perfect fall [pc.guy]. They were right.");
 	
 	if(pc.HPRaw > 5)
 	{
@@ -452,6 +452,6 @@ public function beADumbShitFallGuyForTheRebels():void
 //Append to evenBuffer.
 public function missedRebelExplosion():void
 {
-	eventBuffer += "\n\n<b>Newsflash:</b> Reports of a bombing in central Gildenmere are hitting the extranet alongside pictures of dismembered gold limbs and a cloud of smoke floating inside the gigantic cavern. A group calling themselves the <i>“Peace Federation”</i> has claimed responsibility.";
+	eventBuffer += "\n\n" + logTimeStamp("bad") + " <b>Newsflash:</b> Reports of a bombing in central Gildenmere are hitting the extranet alongside pictures of dismembered gold limbs and a cloud of smoke floating inside the gigantic cavern. A group calling themselves the <i>“Peace Federation”</i> has claimed responsibility.";
 	flags["IRELLIA_QUEST_STATUS"] = -1;
 }

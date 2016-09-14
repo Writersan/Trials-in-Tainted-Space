@@ -288,7 +288,7 @@ public function thareManorResponse(response:String = "none"):void
 			output("\n\nThe slim wasp-boy blushes almost orange and looks anywhere but the table. The background scent of sweet pheromones steps up a little.");
 			// Intelligence > 50%:
 			if(pc.IQ() > 50) output(" You debate asking after Kane, but decide that might not be a good idea.");
-			output("\n\n<i>“I would like to chase more rigorous tactics with them, but alas, the current planetary administration has chosen to shackle us with suffocating rule and regulation. Make no mistake though, my young friend,”</i> the professor growls, determination steeling his pale blue eyes, <i>“it is a situation that will change. The zil and their fellows will be brought into the third millennium. Whether it be mercifully through the kind light of the One God, or brutally by uncaring market forces, that is their own choice to make.”</i>");
+			output("\n\n<i>“I would like to chase more rigorous tactics with them, but alas, the current planetary administration has chosen to shackle us with suffocating rule and regulation. Make no mistake though, my young friend,”</i> the professor growls, determination steeling his pale blue eyes, <i>“it is a situation that will change. The zil and their fellows will be brought into the present millennium. Whether it be mercifully through the kind light of the One God, or brutally by uncaring market forces, that is their own choice to make.”</i>");
 			
 			processTime(4);
 			
@@ -791,7 +791,7 @@ public function thareSexResponse(response:String = "none"):void
 				output("\n\n<i>“The wonder of our star knowledge,”</i> you reply dryly. <i>“Do get back to what you were doing, little boy. You can have as much as you like...”</i>");
 			}
 			// If PC girlcum = chocolate OR fruit:
-			else if(InCollection(pc.girlCumType, [GLOBAL.FLUID_TYPE_CHOCOLATE_MILK, GLOBAL.FLUID_TYPE_STRAWBERRY_MILK, GLOBAL.FLUID_TYPE_CHOCOLATE_CUM, GLOBAL.FLUID_TYPE_VANAE_MAIDEN_MILK, GLOBAL.FLUID_TYPE_VANAE_HUNTRESS_MILK, GLOBAL.FLUID_TYPE_VANAE_CUM, GLOBAL.FLUID_TYPE_BLUEBERRY_YOGURT]))
+			else if(InCollection(pc.girlCumType, [GLOBAL.FLUID_TYPE_CHOCOLATE_MILK, GLOBAL.FLUID_TYPE_STRAWBERRY_MILK, GLOBAL.FLUID_TYPE_CHOCOLATE_CUM, GLOBAL.FLUID_TYPE_VANAE_MAIDEN_MILK, GLOBAL.FLUID_TYPE_VANAE_HUNTRESS_MILK, GLOBAL.FLUID_TYPE_VANAE_CUM, GLOBAL.FLUID_TYPE_BLUEBERRY_YOGURT, GLOBAL.FLUID_TYPE_FRUIT_CUM, GLOBAL.FLUID_TYPE_FRUIT_GIRLCUM]))
 			{
 				output("\n\n<i>“Sweet,”</i> he decides a moment later, head rising up as he smacks his lips contemplatively. His lower face is daubed in [pc.girlCumColor] fluid. <i>“Not like our women, but... similar.”</i> He grins suddenly. <i>“Wonderful.”</i>");
 				output("\n\n<i>“Yes, wonderful,”</i> you laugh with a shake of the head. <i>“Do get back to what you were doing, little boy. You can have as much as you like...”</i>");
@@ -990,7 +990,7 @@ public function thareSexResponse(response:String = "none"):void
 			addButton(1, "Deny", thareSexResponse, "deny");
 			break;
 		case "let him":
-			showAble();
+			showAble(true);
 			
 			x = pc.statusEffectv1("Thare Manor Temp Value");
 			if(x == -1) x = pc.biggestVaginaIndex();
@@ -1028,7 +1028,7 @@ public function thareSexResponse(response:String = "none"):void
 			thareAbleMenu("sleep");
 			break;
 		case "deny":
-			showAble();
+			showAble(true);
 			
 			output("You");
 			if(!fromBoth) output(" stroke your cheek as you examine");

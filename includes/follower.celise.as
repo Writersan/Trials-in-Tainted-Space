@@ -440,7 +440,7 @@ public function celiseDoesSomeAnalMilking():void {
 	output("\n\n<i>“Are you sure you sure, Captain [pc.name]?”</i> Celise moans in enjoyment. <i>“I - ohhhh - don’t think I’ll be able to stop once I start.”</i> Her whole form jiggles with quakes of enjoyment.");
 	output("\n\nNodding, you cry, <i>“Yes! I can’t wait any longer!”</i>");
 	
-	output("\n\nStarting at the base of the mound encircling you, vibrations begin ripple up the emerald cock-milker’s body. You can feel it rippling around your [pc.legOrLegs], squeezing and sliding over so fast that it feels like a constant massage. Then, it moves up to your crotch, rubbing every part of you so nicely except for your [pc.cocks], which ");
+	output("\n\nStarting at the base of the mound encircling you, vibrations begin to ripple up the emerald cock-milker’s body. You can feel it rippling around your [pc.legOrLegs], squeezing and sliding over so fast that it feels like a constant massage. Then, it moves up to your crotch, rubbing every part of you so nicely except for your [pc.cocks], which ");
 	if(pc.cockTotal() == 1) output("is hanging exposed in an empty chamber");
 	else output("are hanging exposed in empty chambers");
 	output(", dripping strands of pre-protein to feed Celise. Shaking its way past your [pc.asshole], the thrumming, massaging pressure spreads into the prostate-shrouding goo inside you, battering the sensitive organ with pleasure until your body is spurting tiny ropes of [pc.cum] into the ready goo-tank");
@@ -877,7 +877,8 @@ public function celiseSleezeLactation():void {
 		}
 		output("\n\nAs you watch, she manages to slowly gather herself, her weary eyes widening as she reforms an arm and sees that her green color has not returned. Not only that, but stuffed to the brim with your bounty, she has no choice but to take on the most lewd proportions possible, and she groans as she bends, straightens her back and reforms her round, jiggling backside. She’ll probably be stuck like that, with her thick thighs, heaving breasts and bouncing bubble butt for some time, all the while unable to taste anything but your [pc.milk]");
 		if(pc.hasCock()) output(" and musky [pc.cumNoun]");
-		output(". Absolutely delicious. You sigh in deep satisfaction while you propel yourself to your final peak, dribbling the very last of your [pc.milk] onto her[ as you are clenched by orgasm once again, spattering her with yet more of your ");
+		output(". Absolutely delicious. You sigh in deep satisfaction while you propel yourself to your final peak, dribbling the very last of your [pc.milk] onto her");
+		if(pc.hasGenitals()) output(" as you are clenched by orgasm once again, spattering her with yet more of your ");
 		if(pc.hasCock()) output("[pc.cum]");
 		else if(pc.hasVagina()) output("[pc.girlCum]");
 		output(". She moans softly at the obscene rain, a treat she would have normally reveled in now just a reminder of how you have completely overwhelmed her.");
@@ -1482,8 +1483,8 @@ public function zeiksCeliseSubmersionTechnique():void
 	if(!pc.isSquirter() && pc.cumQ() < 1000) output("partially");
 	//(big cum/squirter)
 	else output("completely");
-	if(pc.hasCock()) output("[pc.cumColor]");
-	else output("[pc.girlCumColor]");
+	if(pc.hasCock()) output(" [pc.cumColor]");
+	else output(" [pc.girlCumColor]");
 	output(". ");
 	if(pc.libido() < 40) 
 	{
@@ -1655,7 +1656,7 @@ public function zDomCeliseGo():void
 		if(pc.hasCock()) cockSum += pc.cockTotal();
 		if(pc.hasTailCock()) cockSum += pc.tailCount;
 		
-		output("\n\nThe ravenous look in Celise’s eye is as good as a guarantee that unless you take control of the fuck, she’ll roll over you like a runaway glazed doughnut, leaving you sticky everywhere but ultimately unfulfilled. ");
+		output("\n\nThe ravenous look in Celise’s eye is as good as a guarantee that unless you take control of the fuck, she’ll roll over you like a runaway glazed donut, leaving you sticky everywhere but ultimately unfulfilled. ");
 		if(pc.biggestCockLength() > 60) output("She practically oozes her way up your [pc.cockBiggest], stretching her body to match your enormous meat and stopping when the tip is just under her breasts. Her stomach ripples and parts around the gargantuan tool, engulfing it in her hot, gooey flesh.");
 		else 
 		{

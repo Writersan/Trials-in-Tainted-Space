@@ -73,8 +73,11 @@ package classes.Items.Transformatives
 			// Requires a wangdoodle
 			if (target.hasCock())
 			{
+				var newFem:Number = target.femininity + 5;
+				if (newFem > 90) newFem = 90;
+				
 				//Reduce masculinity, increase femininity. (High chance when masculine, lower when androgynous/feminine)
-				if (target.femininity < 90 && target.femininityUnlocked(90) && (forceChanges || (rand(100) >= target.femininity && changes < changeLimit)))
+				if (target.femininity < 90 && target.femininityUnlocked(newFem) && (forceChanges || (rand(100) >= target.femininity && changes < changeLimit)))
 				{
 					//If masculine face
 					if (target.hasFaceFlag(GLOBAL.FLAG_ANGULAR) || target.hasBeard() || target.femininity <= 40)
@@ -99,8 +102,7 @@ package classes.Items.Transformatives
 						output("\n\nYour face feels momentarily numb. As you bring a hand up to it, you feel the flesh reshaping, smoothing out and taking on an even more feminine shape.");
 					}
 
-					target.femininity += 5;
-					if (target.femininity > 90) target.femininity = 90;
+					target.femininity = newFem;
 					changes++;
 				}
 
@@ -575,6 +577,19 @@ package classes.Items.Transformatives
 				}
 				output(".");
 
+				changes++;
+			}
+			
+			//Ovir ears tf
+			if(target.earType != GLOBAL.TYPE_OVIR && target.earTypeUnlocked(GLOBAL.TYPE_OVIR) && (forceChanges || (changes < changeLimit && rand(3) == 0)))
+			{
+				output("\n\nYour [pc.ears] begin to itch and burn, and you");
+				if(target.hasAirtightSuit()) output(" check your codex to view the change");
+				else output(" reach up to rub them");
+				output(". You’re surprised to find, however, that your ears have sunk into the sides of your head, leaving shallow divots for your hearing holes. <b>You now have ovir ears!</b>");
+				
+				target.earType = GLOBAL.TYPE_OVIR;
+				target.earLength = 0;
 				changes++;
 			}
 

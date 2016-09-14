@@ -32,6 +32,7 @@
 	import flash.text.TextFormat;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
+	import flash.display.StageQuality;
 	import classes.RoomClass;
 	
 	// Game content managers
@@ -117,6 +118,7 @@
 
 		//Holiday shit
 		include "../includes/holidayEvents/halloweenCostumes.as";
+		include "../includes/holidayEvents/freedomBeef.as";
 		include "../includes/event.puppyslutmas.as";
 
 		//Followers
@@ -130,6 +132,7 @@
 
 		//Misc content
 		include "../includes/masturbation/bubbleBuddy.as";
+		include "../includes/masturbation/sukMastr.as";
 		include "../includes/rivalEncounters.as";
 		include "../includes/saendra.as";
 		include "../includes/travelEvents.as";
@@ -139,9 +142,12 @@
 		
 		// Misc Events
 		include "../includes/events/atha_lets_fapper.as";
+		include "../includes/events/steph_on_demand.as";
 		include "../includes/events/bimboPennyAndBadgerQuest/badgerGifts.as";
 		include "../includes/events/tentacle_psychic_hatchling.as";
 		include "../includes/events/kiroCrewQuest/buttslutinator.as";
+		include "../includes/events/kiroCrewQuest/omnisuitExtras.as";
+		include "../includes/events/kiroCrewQuest/orgasmender.as";
 
 		//Tavros Station
 		include "../includes/tavros/aina.as";
@@ -152,6 +158,7 @@
 		include "../includes/tavros/inessa.as";
 		include "../includes/tavros/jade.as";
 		include "../includes/tavros/oviliumBonus.as";
+		include "../includes/tavros/ramis.as";
 		include "../includes/tavros/reaha.as";
 		include "../includes/tavros/reaha.expansion.as";
 		include "../includes/tavros/rooms.as";
@@ -224,11 +231,13 @@
 		include "../includes/newTexas/bigT.as";
 		include "../includes/newTexas/brynn.as";
 		include "../includes/newTexas/ellie.as";
+		include "../includes/newTexas/haley.as";
 		include "../includes/newTexas/gianna.as";
 		include "../includes/newTexas/gobbles.as";
 		include "../includes/newTexas/millie.as";
 		include "../includes/newTexas/rooms.as";
 		include "../includes/newTexas/roomFunctions.as";
+		include "../includes/newTexas/stocks.as";
 		include "../includes/newTexas/tenTonGym.as";
 		include "../includes/newTexas/treatment.as";
 		include "../includes/newTexas/varmint_wrangling.as";
@@ -287,12 +296,25 @@
 		include "../includes/events/karaquest2/rooms.as";
 		include "../includes/events/karaquest2/roomFunctions.as";
 		
+		// Kashima
+		include "../includes/events/kashimaIncident/kashimaIncident.as";
+		include "../includes/events/kashimaIncident/rooms.as";
+		include "../includes/events/kashimaIncident/roomfunctions.as";
+		
 		// Uveto
+		include "../includes/uveto/freezer.as";
+		include "../includes/uveto/jerome.as";
 		include "../includes/uveto/kaede.as";
+		include "../includes/uveto/kirila.as";
+		include "../includes/uveto/korgonneFemaleHostile.as";
+		include "../includes/uveto/natalie.as";
 		include "../includes/uveto/nayna.as";
 		include "../includes/uveto/nerrasa.as";
+		include "../includes/uveto/rhenworld.as";
 		include "../includes/uveto/rooms.as";
 		include "../includes/uveto/roomFunctions.as";
+		include "../includes/uveto/shade.as";
+		include "../includes/uveto/tlako_and_xotchi.as";
 		include "../includes/events/icequeen/icequeen.as"; // Alt. path to unlocking uveto
 		
 		include "../includes/chargendata.as";
@@ -387,6 +409,8 @@
 		{	
 			loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, uncaughtErrorHandler);
 			
+			stage.quality = StageQuality.BEST;
+			
 			kGAMECLASS = this;
 			dataManager = new DataManager();
 			gameOptions = new GameOptions();
@@ -397,7 +421,7 @@
 
 			trace("TiTS Constructor")
 
-			version = "0.6.55";
+			version = "0.6.79";
 
 			//temporary nonsense variables.
 			temp = 0;
@@ -445,6 +469,7 @@
 			initializeMyrellionRooms();
 			kquest2InitRooms();
 			initUvetoRooms();
+			kiInitRooms();
 			
 			mapper = new Mapper(this.rooms)
 
@@ -453,6 +478,8 @@
 			
 			inputManager = new InputManager(stage, false);
 			setupInputControls();
+			
+			initStephEps();
 			
 			// set up the user interface: ------------------------------------------------------------
 			userInterface = new GUI(this, stage);
@@ -542,8 +569,6 @@
 			
 			toggleWTF();
 			
-			if (!inCombat()) userInterface.showBust("none");
-			
 			if (evt.currentTarget is MainButton)
 			{
 				trace("Button " + (evt.currentTarget as MainButton).buttonName + " clicked");
@@ -563,6 +588,7 @@
 			else
 			{
 				if (evt.currentTarget.func != null) evt.currentTarget.func(evt.currentTarget.arg);
+				else kGAMECLASS.clearBust();
 			}
 			
 			if (!inCombat()) 
@@ -989,6 +1015,10 @@
 		{
 			return chars["PC"];
 		}
+		public function get baby():PlayerOffspring
+		{
+			return chars["PC_BABY"];
+		}
 
 		/* The following three accessors provide indirection during certain scenes, allowing generic, semantically-distict access to different characters.
 		 * 
@@ -1195,6 +1225,14 @@
 		public function get nerrasa():Nerrasa
 		{
 			return chars["NERRASA"];
+		}
+		public function get jerome():Jerome
+		{
+			return chars["JEROME"];
+		}
+		public function get inessa():Inessa
+		{
+			return chars["INESSA"];
 		}
 		
 		private var _dbgtestvar:int = 0;

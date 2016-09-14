@@ -20,98 +20,98 @@
 		"Button 2",
 		"Activate button 2",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(1);; };
+			return function():void { inThis.pressButton(1); };
 		}(this));
 		
 	inputManager.AddBindableControl(
 		"Button 3",
 		"Activate button 3",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(2);; };
+			return function():void { inThis.pressButton(2); };
 		}(this));
 		
 	inputManager.AddBindableControl(
 		"Button 4",
 		"Activate button 4",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(3);; };
+			return function():void { inThis.pressButton(3); };
 		}(this));
 		
 	inputManager.AddBindableControl(
 		"Button 5",
 		"Activate button 5",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(4);; };
+			return function():void { inThis.pressButton(4); };
 		}(this));
 		
 	inputManager.AddBindableControl(
 		"Button 6",
 		"Activate button 6",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(5);; };
+			return function():void { inThis.pressButton(5); };
 		}(this));
 		
 	inputManager.AddBindableControl(
 		"Button 7",
 		"Activate button 7",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(6);; };
+			return function():void { inThis.pressButton(6); };
 		}(this));
 		
 	inputManager.AddBindableControl(
 		"Button 8",
 		"Activate button 8",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(7);; };
+			return function():void { inThis.pressButton(7); };
 		}(this));
 		
 	inputManager.AddBindableControl(
 		"Button 9",
 		"Activate button 9",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(8);; };
+			return function():void { inThis.pressButton(8); };
 		}(this));
 		
 	inputManager.AddBindableControl(
 		"Button 10",
 		"Activate button 10",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(9);; };
+			return function():void { inThis.pressButton(9); };
 		}(this));
 		
 	inputManager.AddBindableControl(
 		"Button 11",
 		"Activate button 11",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(10);; };
+			return function():void { inThis.pressButton(10); };
 		}(this));
 		
 	inputManager.AddBindableControl(
 		"Button 12",
 		"Activate button 12",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(11);; };
+			return function():void { inThis.pressButton(11); };
 		}(this));
 		
 	inputManager.AddBindableControl(
 		"Button 13",
 		"Activate button 13",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(12);; };
+			return function():void { inThis.pressButton(12); };
 		}(this));
 		
 	inputManager.AddBindableControl(
 		"Button 14",
 		"Activate button 14",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(13);; };
+			return function():void { inThis.pressButton(13); };
 		}(this));
 
 	inputManager.AddBindableControl(
 		"Button 15",
 		"Activate button 15",
 		function(inThis:*):Function {
-			return function():void { inThis.pressButton(14);; };
+			return function():void { inThis.pressButton(14); };
 		}(this));
 		
 
@@ -216,6 +216,38 @@
 		true);
 
 	inputManager.AddBindableControl(
+		"Force Amazon Treatment",
+		"Force next Treatment use to make the user an Amazon.",
+		function():void {
+			Cheats.TryTreatmentHaxAmazon();
+		},
+		true);
+
+	inputManager.AddBindableControl(
+		"Force Cum-Cow Treatment",
+		"Force next Treatment use to make the user a Cum-Cow.",
+		function():void {
+			Cheats.TryTreatmentHaxCumCow();
+		},
+		true);
+
+	inputManager.AddBindableControl(
+		"Force Bull Treatment",
+		"Force next Treatment use to make the user a Bull.",
+		function():void {
+			Cheats.TryTreatmentHaxBull();
+		},
+		true);
+
+	inputManager.AddBindableControl(
+		"Force Cow-Girl Treatment",
+		"Force next Treatment use to make the user an Cow-Girl.",
+		function():void {
+			Cheats.TryTreatmentHaxCowGirl();
+		},
+		true);
+
+	inputManager.AddBindableControl(
 		"Infinte Item Use",
 		"Prevents items from being consumed on use.",
 		function():void {
@@ -256,6 +288,10 @@
 	inputManager.BindCheatSequence("XP to Level", "motherlode");
 	inputManager.BindCheatSequence("Infinte Item Use", "furfag");
 	inputManager.BindCheatSequence("Toggle Debug", "fuckyou");
+	inputManager.BindCheatSequence("Force Amazon Treatment", "amazon");
+	inputManager.BindCheatSequence("Force Cum-Cow Treatment", "cumcow");
+	inputManager.BindCheatSequence("Force Bull Treatment", "bull");
+	inputManager.BindCheatSequence("Force Cow-Girl Treatment", "bimbo");
 	inputManager.BindCheatSequence("Destinations Unlocked", "marcopolo");
 	inputManager.BindCheatSequence("Runamode Bess", "insaneinthemembrane");
 	

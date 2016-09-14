@@ -311,7 +311,7 @@ public function sydianFemalePCLossHasCock():void
 		else output("You apologize,");
 		output(" and she sits up again. The sydian resumes swiveling her hips, stirring her pussy in pursuit of her own pleasure. Her fingertips scratch at");
 		if (pc.isNude()) output(" your [pc.skinFurScales], leaving angry scores that throb with pain and pleasure,");
-		else if (pc.hasUpperGarment()) output(" [pc.upperUndergarment], leaving angry scores that throb with pain and pleasure,");
+		else if (pc.hasUpperGarment()) output(" your [pc.upperUndergarment], leaving angry scores that throb with pain and pleasure,");
 		else if (pc.hasArmor()) output(" your [pc.armor], producing a faint hiss,");
 		output(" and she thrusts her chest out, enjoying your utter abjection. Her cunt is once again relaxed and swallows your dick right down to the [pc.knot "+c+"], slick with lubrication. It gets hotter and hotter as her gyrations become less elegant, until she’s hammering your pelvis and you’re both riding the edge of climax.");
 		
@@ -588,7 +588,7 @@ public function femSydianGentleFuck():void
 		}
 		else
 		{
-			output("\n\n<i>“Come with me,”</i> she breathes, helping you frig her sopping hole faster. Her other hand plunges into you, tickling your [pc.vaginaLight] with both thick fingers and spreading pleasure that shifts like a sand dune as your lubrication carries the enzyme along. You may have underestimated just how into you the sydian is - she shrieks and her cunt clamps down, sucking and squeezing your fingers. <i>“Cuh-cumming!”</i> the girl moans.");
+			output("\n\n<i>“Come with me,”</i> she breathes, helping you frig her sopping hole faster. Her other hand plunges into you, tickling your [pc.vaginaNoun] with both thick fingers and spreading pleasure that shifts like a sand dune as your lubrication carries the enzyme along. You may have underestimated just how into you the sydian is - she shrieks and her cunt clamps down, sucking and squeezing your fingers. <i>“Cuh-cumming!”</i> the girl moans.");
 			
 			output("\n\nYour own orgasm arrives with a bang,");
 			if (pc.isSquirter()) output(" and your [pc.vagina] gushes such [pc.girlCum] over her hand that she looks down to check if you’re a boy.");
@@ -637,7 +637,7 @@ public function femSydianCallOthers():void
 	}
 	else
 	{
-		output("<i>“Hello,”</i> you leer, watching the alien’s liberated breasts rise and fall. <i>“Look what you’ve been hiding.”</i> Flakes of pulverized armor fall away as she covers herself with an arm. When you glance lower, at the thin orange line between her legs, she shifts to cover the gap in her thighs, dislodging more dust. You amuse yourself, making her brush away the crumbling remnants just by eye-fucking her.}");
+		output("<i>“Hello,”</i> you leer, watching the alien’s liberated breasts rise and fall. <i>“Look what you’ve been hiding.”</i> Flakes of pulverized armor fall away as she covers herself with an arm. When you glance lower, at the thin orange line between her legs, she shifts to cover the gap in her thighs, dislodging more dust. You amuse yourself, making her brush away the crumbling remnants just by eye-fucking her.");
 	}
 
 	output("\n\n<i>“Stop staring,”</i> she snaps. The sydian won’t give you a decent eyeful of her good bits, and you’re daydreaming of someone else to keep her hands busy when you realize - that’s a real possibility. The girl eyes your distant, thoughtful expression.");
@@ -841,7 +841,7 @@ public function femSydianCallOthers():void
 		output("\n\nYou decide not to pop out when you perceive the size of the male; he’s at least seven feet tall and");
 		if (flags["MET_FLAHNE"] != undefined) output(" broader than Flahne’s definition of ‘work ethic’.");
 		else output(" stouter than a radioactive beer.");
-		output("He ");
+		output(" He");
 		if (enemy.hairColor == "orange") output(" bounds up, energized by the girl’s brilliant orange hair.");
 		else output(" saunters over, gaining energy as it drains from the girl.");
 		
@@ -856,7 +856,7 @@ public function femSydianCallOthers():void
 		if (enemy.hairColor == "orange") output("The fire-headed girl shudders and whines as her destroyed covering is replaced with a bloom of enzyme; her knees clap together and she thrusts her chest forward, betrayed by her body’s lust for a sydian’s touch.");
 		else output("The girl’s pale skin quivers under his touch, and she sighs when her struggles fail to free her from the huge hand.");
 		output(" The display brings great satisfaction to the male, and his orange, fluffy prick emerges from his crotch.");
-		if (pc.hasCock()) output(" Your own [pc.cocksLight] clamor as well, swelling with blood while you watch the bug-girl get manhandled.");
+		if (pc.hasCock()) output(" Your own [pc.cocksLight] clamor" + (pc.cocks.length == 1 ? "s" : "") + " as well, swelling with blood while you watch the bug-girl get manhandled.");
 		else if (pc.hasVagina()) output(" Your [pc.vagina] demands attention as you watch his bushy cock rub against the bug-girl’s labia, and you wish you were receiving the same treatment.");
 		if (!pc.isNice() && !pc.isTaur() && (pc.hasCock() || pc.hasVagina()))
 		{
@@ -869,7 +869,7 @@ public function femSydianCallOthers():void
 		
 		output("\n\n<i>“Good dick, isn’t it?”</i> he needles, thrusting just a little to make her shiver and sweat. She switches to pushing away from his chest, attempting to lessen the impact when he slams in with full force. Encouraged by her readiness or simply not caring, he shifts his grip to her waist and begins to fuck.");
 		
-		output("\n\n<i>“Ahhh!”</i> cries the girl, scratching at her partner’s armored chest. His strokes are already so intense that her petite breasts bounce wildly. Pitters and patters of lubrication drop from the woman’s crotch, pulled out by the brush-like covering of the brute’s titian tool.");
+		output("\n\n<i>“Ahhh!”</i> cries the girl, scratching at her partner’s armored chest. His strokes are already so intense that her petite breasts bounce wildly. Pitters and patters of lubrication drop from the woman’s crotch, pulled out by the brush-like covering of the brute’s titan tool.");
 		if (!pc.isNice() && !pc.isTaur())
 		{
 			if (pc.hasCock()) output(" The soft sounds of your own dripping precum accompany them.");
@@ -903,6 +903,8 @@ public function femSydianCallOthers():void
 				if (pc.isSquirter()) output(", coating your hand and the dry ground with a thick spray of [pc.girlCum].");
 				else output(" , milking your hand.");
 			}
+			
+			pc.orgasm();
 		}
 		
 		output("\n\nThe burly sydian’s pumps weaken as his orgasm trails off, and he releases his hold on his partner. She slips off his cock and lands on her ass while his aftershocking tool swings free. He grabs it and works out the last blobs of cum, dropping them on her alabaster stomach. Pleased with his efforts, he turns and strides off, leaving the bug-girl spread eagle with silvery jizz oozing from her savaged hole. Too exhausted to talk, she stares at you, still concealed in your hiding spot, accusing you with her eyes.");
@@ -982,7 +984,7 @@ public function femSydianGiveThrob():void
 	
 	output("\n\nThe location of the stick is a throbbing, reddish-orange welt, raised high on a pale delta; her fingers continue to scrape so furiously that you’re obliged to grab her wrists just to stop her drawing blood. Body heat seeps into your palms as she twists and jerks, trying to pull away, and her breaths hitch in short gasps. <i>“Ah... ah... ah... my body....”</i>");
 	
-	output("\n\nWith her hands restrained, the growth stalls until you touch your own finger to the tip. The teary sydian jerks and two inches of suppressed growth slide free. Inches blossom from from the mound, while the alien woman writhes in incomprehensible, foreign pleasure that will become very familiar before you’re finished with her. A slit opens as the orange growth tops half a foot, bubbling with proto-cum. Ministering to the new flesh, you tease her cock out to eight hefty inches, and little nodules with the beginnings of soft bristles develop along the crown. Her male lubrication increases to a rivulet, and streams over your hand.");
+	output("\n\nWith her hands restrained, the growth stalls until you touch your own finger to the tip. The teary sydian jerks and two inches of suppressed growth slide free. Inches blossom from the mound, while the alien woman writhes in incomprehensible, foreign pleasure that will become very familiar before you’re finished with her. A slit opens as the orange growth tops half a foot, bubbling with proto-cum. Ministering to the new flesh, you tease her cock out to eight hefty inches, and little nodules with the beginnings of soft bristles develop along the crown. Her male lubrication increases to a rivulet, and streams over your hand.");
 
 	output("\n\n<i>“What’s... happening?”</i> the sydian gasps, drawn so tight that she’s unable to breathe. The base of her new penis is still swollen and hot, promising more change. You release the slimy crown and rub the base - something is shifting under the skin. A weight drops into your palm, then another, descending until your hand is full of two heavy, sperm-stocked balls. <i>“It’s... nnn...”</i>");
 	
@@ -1187,10 +1189,10 @@ public function femSydianGiveThrob():void
 		}
 
 		processTime(30+rand(15));
-		enemy.loadInAss(pc);
+		enemy.loadInCunt(pc, 0);
 		pc.orgasm();
 		enemy.orgasm();
-		pc.loadInMouth(enemy);
+		//pc.loadInMouth(enemy);
 	}
 
 	output("\n\nShe rests quietly with you for a long time before speaking. <i>“That was so strange,”</i> she says. <i>“Um...”</i>");
@@ -1496,6 +1498,7 @@ public function femSydianFuck():void
 public function sydianPregnancyEnds():void
 {
 	clearOutput();
+	author("Zeikfried");
 
 	var se:StorageClass = pc.getStatusEffect("Sydian Pregnancy Ends");
 	
@@ -1509,20 +1512,18 @@ public function sydianPregnancyEnds():void
 	else output(" onto the ground");
 	output(". Oh god, the baby is coming...");
 
-	//on ship without automatic medbay
-	if (InShipInterior() && 9999 == 9999)
-	{
-		output("\n\nYou grab the nearest medkit and head for your bed, determined to deliver the baby safely. After setting aside your gear, you lie down and begin to breathe in preparation for your labors.");
-	}
-	/*
 	//on ship with auto-medbay (commented until one is available)
-	else
+	if (InShipInterior() && 9999 == 0)
 	{
-		output("You head for the automatic medbay, clutching your trembling stomach. Contractions intensify quickly -- by the time the system finishes its evaluation and moves into action, you're");
+		output("\n\nYou head for the automatic medbay, clutching your trembling stomach. Contractions intensify quickly -- by the time the system finishes its evaluation and moves into action, you're");
 		if (!pc.isNude()) output(" disrobed but");
 		output(" no longer able to speak between breaths.");
 	}
-	*/
+	//on ship without automatic medbay
+	else if (InShipInterior())
+	{
+		output("\n\nYou grab the nearest medkit and head for your bed, determined to deliver the baby safely. After setting aside your gear, you lie down and begin to breathe in preparation for your labors.");
+	}
 	//in public place
 	else if (InPublicSpace())
 	{
@@ -1562,10 +1563,19 @@ public function sydianPregnancyEnds():void
 	if (babym) output(" boy");
 	else output(" girl");
 	output("?");
-
-	output("\n\nA soft touch on your hand brings you out of your reverie -- your baby seems to know there's more work to do. Sighing, you clean up and cut the cord, then prepare to send " + (babym ? "him":"her") + " off. While the shuttle is in transit, you spend the time playing, letting your little one squeeze your fingers and giggle while you meditate on a name that suits " + (babym ? "him":"her") + ". You even hold up the shuttle, ignoring the drone's automated requests until you can't wait any longer. With a pang in your heart, you bundle your child into the climate-controlled device and watch it return to the shuttle.");
 	
-	SydianPregnancyHandler.sydianCleanupData();
+	if(numChildren > 1)
+	{
+		output("\n\nThe birthing doesn't stop there. After a brief moment, you take a few huffs as another movement applies pressure to your womb and your vision hazes again. Your [pc.vagina " + pregSlot + "] spreads and a new head crowns. With some effort, you gently push with your lower muscles, aiding the child out to finally join its " + (babym ? "brother" : "sister") + ".");
+		if(numChildren > 2) output(" The process continues until you have a total of " + num2Text(numChildren) + " children born.");
+		output(" You take a good look at your beautiful babies while the fuzzy fog fades from your senses.");
+	}
+
+	output("\n\n" + (numChildren == 1 ? "A soft touch" : "Soft touches") + " on your hand bring" + (numChildren == 1 ? "s" : "") + " you out of your reverie -- your bab" + (numChildren == 1 ? "y seems" : "ies seem") + " to know there's more work to do. Sighing, you clean up and cut the cord" + (numChildren == 1 ? "" : "s") + ", then prepare to send " + (numChildren == 1 ? (babym ? "him":"her") : "the newborns") + " off. While the shuttle is in transit, you spend some time playing, letting your little one" + (numChildren == 1 ? "" : "s") + " squeeze your fingers and giggle while you meditate on " + (numChildren == 1 ? ("a name that suits" + (babym ? "him":"her")) : "names that suit them") + ". You even hold up the shuttle, ignoring the drone's automated requests until you can't wait any longer. With a pang in your heart, you bundle your child" + (numChildren == 1 ? "" : "ren") + " into the climate-controlled device and watch it return to the shuttle.");
+	
+	pc.removeStatusEffect("Sydian Pregnancy Ends");
+	
+	processTime(49 + (13 * numChildren));
 	
 	clearMenu();
 	addButton(0, "Next", mainGameMenu);

@@ -142,7 +142,7 @@ public function resetDrBadgerBimboTF():void
 		}
 	}
 	//IF PC HAS MORE THAN ONE NON-TAIL VAGINA
-	if(pc.totalVaginas() > 1 && !pc.isPregnant())
+	if(pc.totalVaginas() > 1 && !pc.hasWombPregnancy())
 	{
 		while(pc.totalVaginas() > 1)
 		{
@@ -288,7 +288,7 @@ public function drBadgerJobOffer():void
 	{
 		output("<i>“A job?”</i> you ask. <i>“Why would I take a job from you?”</i>");
 		output("\n\nFor a second, Dr. Badger manages to look hurt, despite all her mad scientist trappings. <i>“Why, for </i>Science<i>, surely! What other reason could you possibly need, aside from assisting the pursuit of...”</i> She pauses, running one clawed hand along the side of her skin-tight bodysuit and slapping herself on her considerable rump. <i>“..the very best kind of knowledge?”</i>");
-		output("\n\nYou stare at her in wordlessly, not dignifying that with a response. Eventually, she rolls her eyes.");
+		output("\n\nYou stare at her wordlessly, not dignifying that with a response. Eventually, she rolls her eyes.");
 		output("\n\n<i>“Fine,”</i> she sighs, <i>“if you really need more mundane incentivization, then I’ll just pay you.”</i>");
 		output("\n\nYou stay silent, simply raising an eyebrow as you look around at her ramshackle ‘lab’.");
 		output("\n\nShe takes your hint. <i>“I know, it doesn’t look like I can even afford four solid walls, let alone spare enough credits to pay you for your time. But, appearances can be deceiving. Money isn’t my problem, my problem is not being able to spend it because I have to lay low.”</i> She looks up at you with a fierce grin. <i>“But, that’s where </i>you<i> come in.”</i>");
@@ -650,7 +650,7 @@ public function surpriseZapPennyWithBimboRay():void
 		output("\n\nYou sit back calmly before you answer. There’s no need to try to control her physically after all, you have her in the palm of your hand. <i>“Because you’ve had a taste now, haven’t you? Oh sure, you put on a fierce front, but you know what I think? I think more than anything else, you enjoy losing yourself in sex - that moment when you can just cut loose, let yourself sink down into it and be driven by nothing but your </i>need<i> to fuck and cum.”</i>");
 		output("\n\nAt that last word Penny trembles slightly once again, both the blush on her face and the slickness between her legs growing bigger.");
 		output("\n\n<i>“I’m right, aren’t I? I thought so. I heard that that was something you just <i>might</i> be interested in.”</i>");
-		output("\n\nPenny isn’t trying to talk anymore. Instead her head is hung down slightly, and it looks like she’s concentrating on her breathing. Plus, you’re not sure if it’s just the way she’s sitting of the ray has had some effect already, but you could swear her breasts are straining the inside of her uniform. Gently you reach down and take her head in your hand, lifting her cute little panting muzzle up to face you again. <i>“Here, let me help. I’ll talk you through it, okay?”</i>");
+		output("\n\nPenny isn’t trying to talk anymore. Instead her head is hung down slightly, and it looks like she’s concentrating on her breathing. Plus, you’re not sure if it’s just the way she’s sitting or the ray has had some effect already, but you could swear her breasts are straining the inside of her uniform. Gently you reach down and take her head in your hand, lifting her cute little panting muzzle up to face you again. <i>“Here, let me help. I’ll talk you through it, okay?”</i>");
 		output("\n\nThere’s the faintest squeak of a moan from Penny in response, which you take as an affirmative.");
 		output("\n\n<i>“Okay,”</i> you say softly. <i>“Here’s what’s on offer. I’m going to zap you with this beam thing here, and it’s going to make you a nice little bimbo slut. That means your tits...”</i> You hand shifts as you talk, sliding down to grope at her breasts. Penny leans in helplessly to the sensation. <i>“... are going to get all big and full. So big they’ll never fit into this tight little uniform of yours ever again. Like... this...”</i>");
 		output("\n\nWith a few adept movements you undo the buttons of her top, making her tits fall freely out into view - helpfully, it looks like she wasn’t even wearing a bra. <i>“There we go. Doesn’t that feel better?”</i>");
@@ -942,7 +942,7 @@ public function rewardFromDoctorBadger():void
 		output("\n\nYou cough discretely, changing the subject. <i>“What I was wanting to ask was - she seemed like she was going to </i>keep<i> cumming. Like, pretty much permanently.”</i>");
 		output("\n\nDr. Badger merely nods in response, forcing you to prompt for more with a shrug. <i>“How, exactly, is that something that’s happening? Without her just... dying of dehydration?”</i>");
 		output("\n\n<i>“Oh!”</i> she answers with a laugh. <i>“I forgot, you wouldn’t have seen one of my ‘premium edition’ bimbos before. Well, it’s all very complicated - quantum, and all that - but the short version is, there are an infinite number of Penny’s across the multiverse, and the energy from my raygun melded our version with some of them in some very specific ways.”</i>");
-		if(pc.intelligence() < 15) output("\n\nThat all goes completely over your head. <i>“Huh?</i>, you say simply.”</i>");
+		if(pc.intelligence() < 15) output("\n\nThat all goes completely over your head. <i>“Huh?”</i>, you say simply.");
 		else output("\n\n<i>“Okay,”</i> you say, <i>“but that doesn’t really answer the question of how she’s able to keep orgasming forever.”</i>");
 		output("\n\n<i>“The point is,”</i> Dr. Badger continues, <i>“that our Penny is now, entirely without thinking about it, constantly drawing energy from her alternate versions across the multiverse. So there’s a few thousand alternate universe Penny’s out there who are finding themselves a tiny, tiny amount hungrier every day than they were before, never realizing in the slightest what they’re contributing to.”</i>");
 		output("\n\nYou pause for a moment as that sinks in. <i>“Wait, you have the ability to draw power from infinite other </i>universes<i>, and you use it to make people cum a bunch?”</i>");
@@ -1023,7 +1023,7 @@ Setup
 
 public function pennyBadgerQuestAlert():void
 {
-	eventBuffer += "\n\n<b>A beep draws your attention to your Codex. Penny has sent you a message - it looks like she’s found a way to reprogram the gun that Dr. Badger gave you. You’d better go see her!</b>";
+	eventBuffer += "\n\n" + logTimeStamp("good") + " <b>A beep draws your attention to your Codex. Penny has sent you a message - it looks like she’s found a way to reprogram the gun that Dr. Badger gave you. You’d better go see her!</b>";
 	//[when player returns to Penny after receiving the above, add the below text to Penny's interaction space]
 }
 
@@ -1036,11 +1036,11 @@ public function turnTheTablesOnBadger():void
 	output("Penny grins as you walk over. <i>“Ah, [pc.name],”</i> she says, <i>“have I got a nice little surprise for you...”</i>");
 	output("\n\nYou raise an eyebrow. <i>“Oh? What is it?”</i>");
 	output("\n\n<i>“Well, you know our mutual friend, Dr. Badger?”</i>");
-	if(!pcBimboedByBadger()) output("\n\n<i>“You mean the mad scientist who wanted me turn you into a slutty bimbo pet? Yeah, I’m familiar with her.”</i>");
+	if(!pcBimboedByBadger()) output("\n\n<i>“You mean the mad scientist who wanted me to turn you into a slutty bimbo pet? Yeah, I’m familiar with her.”</i>");
 	else output("\n\n<i>“You mean the super smart doctor who made me all nice an’ bubbly an’ happy an’ horny?”</i>");
 	output("\n\nPenny blushes a little at that, but nods. <i>“Well, I found out that she’s got some sort of nemesis");
 	if(pc.isBimbo()) output("...”</i> she sees your blank expression and pauses. <i>“Uh, like, someone who is like, the opposite of her? Anyway");
-	output(" - there’s another doctor just a few buildings up from her on Novahome that is apparently just as smart as she is, but the two of them do </i>not<i> get on.”</i>");
+	output(" - there’s another doctor just a few buildings up from her on Novahome that is apparently just as smart as she is, but the two of them do </i>not<i> get along.”</i>");
 	if(!pcBimboedByBadger()) 
 	{
 		output("\n\n<i>“Huh. Seems a little weird that out of all the planets in the planet rush, the two evil scientists wind up right next to each other on the same one, doesn’t it?”</i>");
@@ -1074,7 +1074,7 @@ public function raygunStuff():void
 	//IF PC IS NOT A BIMBO
 	if(!pc.isBimbo())
 	{
-		output("<i>“So, uh</i>, you say hesitantly, aware that this will probably not be an enjoyable topic for him, <i>“you know that doctor who’s set up just across from you?”</i>");
+		output("<i>“So, uh”</i>, you say hesitantly, aware that this will probably not be an enjoyable topic for him, <i>“you know that doctor who’s set up just across from you?”</i>");
 		output("\n\n<i>“Doctor!”</i> he answers, and you get the impression he’d have spat that word with distaste if that didn’t seem like too much of a waste of perfectly functional saliva. <i>“Calling someone a ‘doctor’ implies they add something to the universe - that they use their intelligence to improve technology or at least people’s health. And </i>not<i>, as ‘Doctor’ Badger does, actively try to </i>reduce<i> the intelligence of the population, all the while </i>increasing<i> their damnable licentiousness!”</i>");
 		output("\n\nThat definitely answers for what he thinks of her, you think. Out loud, you say, <i>“Well, what if I told you I’ve got a way we can take care of her?”</i>");
 		output("\n\nDoctor Lash gives a short, sharp rasp of a laugh. <i>“Please. I’ve tried to... encourage her to move on myself in the past, but between her strength implants and the variety of mechanical traps she’s got set up in her... shack, all of our previous encounters have been little better than stalemates.”</i> He leans forwards, the light from his goggles dimming slightly as though he was narrowing his eyes at you. <i>“And what makes you think you could succeed where I failed?”</i>");
@@ -1286,7 +1286,7 @@ public function dontLetDoctorBadgerCum():void
 	output("\n\nAs she says those words, you watch the platinum blonde color at the tips of her hair slowly overtake her scalp, leaving her with a perfect bimbo hairdo. Her tits push outwards a little more too, and from the way her knees buckle a little you suspect her surging cock and balls just added some extra mass too. Grinning fiercely, you say one last time, <i>“Again!”</i>");
 	output("\n\nAny resistance she had collapses as she finally gives in all the way, letting herself embrace every part of the role you’ve given her. <i>“I’m nothing but a bimbo slut! Please! Please, make me your ditzy bimbo slut!”</i>");
 	output("\n\nYou lean in close, snarling in her ear, <i>“There, now <i>that’s</i> how you treat a hero. Was that so hard?”</i>");
-	output("\n\n<i>“No! Yes! Please! Uhmmmm!”</i> she babbles, unsure of what you want but desperate to fulfil whatever it could be.");
+	output("\n\n<i>“No! Yes! Please! Uhmmmm!”</i> she babbles, unsure of what you want but desperate to fulfill whatever it could be.");
 	output("\n\nLooking around, you manage to find some adhesive tape in a nearby pile of junk. Keeping her pinned by simply keeping her pressed forwards with the weight of your body, you reach over and grab the tape, securing each of her wrists to the table. It’s not a very strong restraint, and she’s probably still powerful enough to break out of them if she can think clearly enough to do so, but it should hold her for at least long enough to make your point.");
 	output("\n\n<i>“Now you’re going to stay right here and think about what you did. And when I see you again, you’d better be a nice, happy, obedient bimbo.”</i>");
 	output("\n\nHer response is barely coherent, a simple string of crazed agreement. <i>“Yes! I will! I am! Yes please!”</i>");

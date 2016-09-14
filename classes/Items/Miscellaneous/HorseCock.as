@@ -20,7 +20,7 @@
 			
 			this.quantity = 1;
 			this.stackSize = 10;
-			this.type = GLOBAL.PILL;
+			this.type = GLOBAL.SEXTOY;
 			
 			//Used on inventory buttons
 			this.shortName = "Horse-Cock";
@@ -59,6 +59,7 @@
 		{
 			var pc:Creature = target;
 			kGAMECLASS.clearOutput();
+			kGAMECLASS.showBust("HORSECOCK");
 			author("Alkahest");
 			//Trying it on yourself
 			if(target is PlayerCharacter) {
@@ -123,6 +124,7 @@
 		public function HorseCockHorseCockConversion(target:int = 0):void
 		{
 			kGAMECLASS.clearOutput();
+			kGAMECLASS.showBust("HORSECOCK");
 			author("Alkahest");
 			var pc:Creature = kGAMECLASS.pc;
 			if(target < 0)

@@ -137,7 +137,7 @@
 			this.cumMultiplierRaw = 6;
 			//Multiplicative value used for impregnation odds. 0 is infertile. Higher is better.
 			this.impregnationType = "SydianPregnancy";
-			this.cumQualityRaw = 1;
+			this.cumQualityRaw = 3;
 			this.cumType = GLOBAL.FLUID_TYPE_SYDIAN_CUM;
 			this.ballSizeRaw = 3;
 			this.ballFullness = 1;
@@ -283,7 +283,7 @@
 		{
 			output("So turned on that he's practically dripping, the big male thunders in close, grabbing one arm around your chest and hauling you up into the air. A bright orange tongue spools out of his maw, coiling this way and that, slick with his alien saliva.");
 	
-			if (target.hasArmor() && target.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT))
+			if (target.hasAirtightSuit())
 			{
 				output(" He presses it to your face, unaware that the action is useless against your airtight [pc.armor]. While this display is not affecting you directly, you certainly can't ignore the thick mass of his boner pressing against your [pc.leg].");
 			}
@@ -324,7 +324,7 @@
 				//Wearing armor!
 				if(target.armor.shortName != "" && !target.hasStatusEffect("Degraded Armor"))
 				{
-					output(" The strike doesn't hit hard to deal damage, but smear of your " + target.armor.longName + ". <b>Your armor is degraded and will not provide any defense for the rest of this fight!</b>");
+					output(" The strike doesn't hit hard enough to deal damage, but smears your " + target.armor.longName + ". <b>Your armor is degraded and will not provide any defense for the rest of this fight!</b>");
 					target.createStatusEffect("Degraded Armor", 0, 0, 0, 0, false, "DefenseDown", "Your armor is temporarily degraded and will not provide any defensive benefit.", true, 0);
 				}
 				else

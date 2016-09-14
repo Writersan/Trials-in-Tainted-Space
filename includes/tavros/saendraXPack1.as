@@ -57,9 +57,10 @@ public function tryProcSaendraXPackEmail():void
 public function unlockSaendraXPackMail():void
 {
 	clearOutput();
+	clearBust();
 	author("Savin");
 
-	output("Your Codex beeps unexpectedly, alerting you to an incoming extranet message. When you pull your device out, you’re greeted by an message addressed from one <i>“FlyGirl@PhoenixCargo.net.”</i> No bonus points guessing who <i>that</i> is. You flip it open and start to read:");
+	output("Your Codex beeps unexpectedly, alerting you to an incoming extranet message. When you pull your device out, you’re greeted by a message addressed from one <i>“FlyGirl@PhoenixCargo.net.”</i> No bonus points guessing who <i>that</i> is. You flip it open and start to read:");
 	
 	output("\n\n<i>Hey, hero, are you anywhere near Tavros? Please say yes!</i> the message reads. <i>If you are, I could really use a hand. I’m on Deck 92, up in the construction wing. Expect trouble. Hope I see you soon!</i>");
 	
@@ -98,6 +99,7 @@ public function updateSaendraXPackTimer(delta:Number = 0):void
 public function saendraX1LiftGo():void
 {
 	clearOutput();
+	clearBust();
 	showName("\nDECK 92");
 	author("Savin");
 	generateMapForLocation("SX1 FAKE FIGHT ROOM");
@@ -870,6 +872,7 @@ public function sx1InitShotguardFight(wasFlashed:Boolean = false):void
 public function sx1ShotguardPCVictory():void
 {
 	clearOutput();
+	showBust("MERCGUARD");
 	showName("VICTORY:\nVOID PIRATE");
 
 	generateMapForLocation("SX1 RESCUE ROOM");
@@ -907,6 +910,7 @@ public function sx1ShotguardPCVictory():void
 public function sx1SkipShotguard():void
 {
 	clearOutput();
+	showBust("TECHGUARD");
 
 	generateMapForLocation("SX1 RESCUE ROOM");
 
@@ -925,6 +929,7 @@ public function sx1SkipShotguard():void
 public function sx1ShotguardPCLoss():void
 {
 	clearOutput();
+	showBust("MERCGUARD");
 	showName("DEFEAT:\nVOID PIRATE");
 
 	generateMapForLocation("SX1 RESCUE ROOM");
@@ -956,6 +961,7 @@ public function sx1InitTechguardFight():void
 public function sx1TechguardPCVictory():void
 {
 	clearOutput();
+	showBust("TECHGUARD");
 	showName("VICTORY:\nVOID TECHIE");
 
 	generateMapForLocation("SX1 RESCUE ROOM");
@@ -976,6 +982,7 @@ public function sx1TechguardPCVictory():void
 public function sx1TechguardPCLoss():void
 {
 	clearOutput();
+	showBust("TECHGUARD");
 	showName("DEFEAT:\nVOID TECHIE");
 
 	generateMapForLocation("SX1 RESCUE ROOM");
@@ -1002,6 +1009,7 @@ public function sx1TechguardPCLoss():void
 public function sx1TechguardPCLossII():void
 {
 	clearOutput();
+	clearBust();
 	showName("DEFEAT:\nVOID TECHIE");
 
 	currentLocation = "MERCHANT'S THOROUGHFARE";
@@ -1047,7 +1055,7 @@ public function sx1RescueTheDude(fromCombat:Boolean = false):void
 	
 	output("\n\nShe flinches as if struck, and her twin tails coil down defensively under her legs. <i>“Yeah... I guess I do, huh, hero? Look, like I said, I gotta get Pete here to a doctor. Catch me down at the bar sometime and I’ll tell you. I promise.");
 	if (flags["SAENDRA_XPACK1_RESCUE_SHOTGUARD_STATE"] == 3 || flags["SAENDRA_XPACK1_RESCUE_TECHGUARD_STATE"] == 3) output(" Well, assuming I don’t get arrested first,”</i> she says, looking around at the bullet holes in the walls.");
-	output(" ”</i>");
+	else output("”</i>");
 	
 	output("\n\nThat’ll have to do. You step out of Saendra’s way, and she hefts her friend up into her arms and staggers out towards the stairs. For your part, you spend a few minutes ransacking the place, trying to find anything of use.");
 	
@@ -1216,11 +1224,15 @@ public function zilCallGirlAddendum(slot:int = 0):void
 	return;
 }
 
-public function showZilCallGirl(nude:Boolean = true):void
+public function showZilCallGirl(cum:Boolean = false):void
 {
 	if (CodexManager.entryViewed("Zil")) showName("ZIL\nCALL GIRL");
 	else showName("ALIEN\nCALL GIRL");
-	showBust("ZILFEMALE");
+	
+	var sBust:String = "ZIL_CALLGIRL";
+	if (zilCallGirlPregnant()) sBust += "_PREG";
+	if (cum) sBust += "_CUM";
+	showBust(sBust);
 }
 public function zilCallGirlSexed(count:Boolean = false):int
 {
@@ -1543,7 +1555,7 @@ public function zilCallGirlFuckHer():void
 {
 	clearOutput();
 	generateMapForLocation("CALLGIRL ROOM");
-	showZilCallGirl();
+	showZilCallGirl(true);
 	author("Savin");
 	
 	// Select wiener!
@@ -1685,7 +1697,7 @@ public function zilCallGirlPregScene(isBirthing:Boolean = false):void
 	{
 		output("...And boy is she expecting!");
 		output("\n\nAs soon as you’re inside the room,");
-		if (pc.hasArmor() && pc.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT)) output(" you hear");
+		if (pc.hasAirtightSuit()) output(" you hear");
 		else
 		{
 			output(" you are hit with a thick fog of pheromones, clouding your ability to smell, blurring your vision, and tingling your [pc.groin]. However, this only lasts for a brief moment when your sense of hearing picks up on");

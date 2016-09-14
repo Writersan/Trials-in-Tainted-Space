@@ -133,15 +133,30 @@
 						pc.shiftVagina(0, GLOBAL.TYPE_LAPINARA);
 						kGAMECLASS.output("You’ve got " + indefiniteArticle(pc.vaginaColor(0)) + " lapinara pussy.");
 					}
-					else if (pcRace == "canine-morph")
+					else if (InCollection(pcRace, "canine-morph", "canine-taur"))
 					{
 						pc.shiftVagina(0, GLOBAL.TYPE_CANINE);
 						kGAMECLASS.output("You’ve got " + indefiniteArticle(pc.vaginaColor(0)) + " canine-pussy.");
+					}
+					else if (InCollection(pcRace, "vulpine-morph", "vulpine-taur") || InCollection(pcRace, "kitsune", "kitsune-morph", "kitsune-taur") && pc.hasFur()) // dogina is not exactly appropriate for kemonomimi type kitsune
+					{
+						pc.shiftVagina(0, GLOBAL.TYPE_VULPINE);
+						kGAMECLASS.output("You’ve got " + indefiniteArticle(pc.vaginaColor(0)) + " vulpine pussy.");
+					}
+					else if (InCollection(pcRace, "feline-morph", "feline-taur", "nekomata", "nekomata-taur", "chakat"))
+					{
+						pc.shiftVagina(0, GLOBAL.TYPE_FELINE);
+						kGAMECLASS.output("You’ve got " + indefiniteArticle(pc.vaginaColor(0)) + " feline pussy.");
 					}
 					else if (InCollection(pcRace, "gabilani", "goblin"))
 					{
 						pc.shiftVagina(0, GLOBAL.TYPE_GABILANI);
 						kGAMECLASS.output("You’ve got a muscular, " + pc.vaginaColor(0) + " goblin pussy.");
+					}
+					else if (InCollection(pcRace, "plant-morph", "dryad"))
+					{
+						pc.shiftVagina(0, GLOBAL.TYPE_FLOWER);
+						kGAMECLASS.output("You’ve got a beautiful, " + pc.vaginaColor(0) + " orchid pussy.");
 					}
 					/*
 					else if (InCollection(pcRace, "siren", "anemone"))
@@ -180,14 +195,17 @@
 						TFed = true;
 					}
 					//BonusCapacity++
-					else if(pc.vaginas[x].bonusCapacity < 500)
+					if(pc.vaginas[x].bonusCapacity < 500)
 					{
 						TFed = true;
-						kGAMECLASS.output("\n\nYour [pc.vagina " + x + "] warms over the span of a few moments. It’s a kind of mild, painless, heat that reminds you vaguely of the time you went to the sauna as a youth. Leaning back, you ");
+						kGAMECLASS.output("\n\nYour [pc.vagina " + x + "] warms over the span of a few moments. It’s a kind of mild, painless heat that reminds you vaguely of the time you went to the sauna as a youth. Leaning back, you ");
 						if(pc.legCount > 1) kGAMECLASS.output("spread your [pc.legs]");
 						else kGAMECLASS.output("stretch out your [pc.leg]");
 						kGAMECLASS.output(" and close your eyes, enjoying the pleasant sensations emanating from your crotch. You could sit like this all day, letting expensive microsurgeons tweak your feminine flesh to perfection.");
-						kGAMECLASS.output("All the heat has you feeling a little frisky. You dip a couple fingers into your slick junction, just to test it out");
+						kGAMECLASS.output(" All the heat has you feeling a little frisky. You dip a couple fingers into your slick junction, just to test it out");
+						
+						pc.vaginas[x].bonusCapacity += 100;
+						
 						if(pc.vaginalCapacity() > 400) kGAMECLASS.output(" before graduating to your fist");
 						if(pc.vaginalCapacity() > 600) kGAMECLASS.output(" and forearm");
 						kGAMECLASS.output(", finding yourself filling past your usual limits with ease.");
@@ -197,7 +215,6 @@
 						else if(x == 1) kGAMECLASS.output("second");
 						else kGAMECLASS.output("third");
 						kGAMECLASS.output(" vagina has become more capacious!</b>");
-						pc.vaginas[x].bonusCapacity += 100;
 					}
 				}
 				//Fertility gain +TF

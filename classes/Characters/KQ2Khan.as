@@ -198,9 +198,9 @@ package classes.Characters
 			
 			// enemy AI
 			var enemyAttacks:Array = [];
-			enemyAttacks.push( { v: arcCaster, w: 40 } );
+			if (!target.hasStatusEffect("Stunned") && !target.hasStatusEffect("Disarmed")) enemyAttacks.push( { v: arcCaster, w: 40 } );
 			enemyAttacks.push( { v: labGirlsStriptease, w: 10 } );
-			enemyAttacks.push( { v: lustbang, w: 30 } );
+			if (!target.hasStatusEffect("Stunned")) enemyAttacks.push( { v: lustbang, w: 30 } );
 			if (lust() >= 110 && !hasStatusEffect("Worship Cooldown")) enemyAttacks.push( { v: ballWorship, w: lust() } );
 			
 			var attack:Function = weightedRand(enemyAttacks);
@@ -298,7 +298,7 @@ package classes.Characters
 			if (kara != null) output(" and Kara");
 			output(".");
 			
-			if(pc.hasArmor() && pc.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT)) output("\nAs the mist spreads around you, you find yourself lucky enough to be wearing some airtight armor! No telling how that stuff might affect your senses.");
+			if(pc.hasAirtightSuit()) output("\nAs the mist spreads around you, you find yourself lucky enough to be wearing some airtight armor! No telling how that stuff might affect your senses.");
 			else
 			{
 				output("\nRather than choking on it, though");

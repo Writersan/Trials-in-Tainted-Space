@@ -2,11 +2,12 @@
 //Landing on Myrellion, First Time
 public function myrellionHangarBonus():Boolean
 {
-	if(flags["MYRELLION_PROBE_CASH_GOT"] == undefined && flags["BEAT_TAIVRA_TIMESTAMP"] != undefined) 
+	if(flags["MYRELLION_PROBE_CASH_GOT"] == undefined && (flags["BEAT_TAIVRA_TIMESTAMP"] != undefined || flags["TAIVRA_NEW_THRONE"] == 0)) 
 	{
 		probeReclamationShit();
 		return true;
 	}
+	
 	if(pc.hasStatusEffect("Myr Venom Withdrawal") && rand(10) == 0)
 	{
 		sluttyMcSlutOral();
@@ -84,6 +85,21 @@ public function flyToMyrellion():void
 		generateMapForLocation(currentLocation);
 		processTime(5);
 	}
+	else if(!myrellionLeaveShip())
+	{
+		output("Flying to Myrellion is no quick jaunt down the road--however, this time, there are no myr biplanes to guide you. In fact, the sky is thick with dark clouds and the ground below seems completely deserted, almost spookily... like a land comprised of ghosts. It is hard to make out the hangar with all the dirt and debris in the air, but your guiding instruments help you with that.");
+		output("\n\nAfter making sure you are docked properly, you prepare your things and head towards the airlock--but suddenly, your ship’s radioactivity alarms start blaring, causing you to freeze instantaneously. The planet has been glassed and is surrounded by several levels of radiation. How you even ended up here is anyone’s guess, but you probably shouldn’t leave your ship to venture off into a nuclear wasteland if you know what’s good for you...");
+		
+		if(flags["KQ2_MYRELLION_STATE"] == undefined)
+		{
+			if (!reclaimedProbeMyrellion())
+			{
+				flags["KQ2_MYRELLION_STATE"] = 1;
+				if(flags["KQ2_DANE_COORDS_TIMER"] == undefined) flags["KQ2_DANE_COORDS_TIMER"] = GetGameTimestamp();
+			}
+			else if(flags["KING_NYREA"] != undefined) flags["KQ2_MYRELLION_STATE"] = 2;
+		}
+	}
 	else
 	{
 		showBust("MYR_GOLD_PILOT");
@@ -97,6 +113,17 @@ public function flyToMyrellion():void
 	CodexManager.unlockEntry("Red Myr");
 	CodexManager.unlockEntry("Gold Myr");
 	CodexManager.unlockEntry("Scarlet Federation");
+}
+
+public function myrellionLeaveShip():Boolean
+{
+	if(flags["KQ2_NUKE_EXPLODED"] != undefined)
+	{
+		currentLocation = "SHIP INTERIOR";
+		setNavDisabled(NAV_OUT_DISABLE);
+		return false;
+	}
+	return true;
 }
 
 public function streetOutsideBarBonus():Boolean
@@ -328,6 +355,9 @@ public function myrellionUndergroundCrashSiteBonus():Boolean
 {
 	if (flags["KQ2_MYRELLION_STATE"] == 2)
 	{
+		// Ship Location Hotfix
+		if(shipLocation != currentLocation && currentLocation == "2I7" && rooms["2I7"].hasFlag(GLOBAL.SHIPHANGAR)) shipLocation = "2I7";
+		
 		output(" The beacon sits silent, an ominious red glow flashing across its top like a metronome.");
 		return false;
 	}
@@ -478,6 +508,8 @@ public function kressiaWarehouseExterior():Boolean
 {
 	if (kressiaBasicBonusBitches()) return true;
 	
+	setNavDisabled(NAV_EAST_DISABLE);
+	
 	if (flags["FAZIAN_QUEST_RESCUE_TIMER"] != undefined)
 	{
 		if (flags["FAZIAN_QUEST_RESCUE_TIMER"] + (6 * 60) >= GetGameTimestamp())
@@ -488,13 +520,15 @@ public function kressiaWarehouseExterior():Boolean
 		{
 			output("\n\nTo the east looms the warehouse. A grim-faced kui-tan is in terse discussion with a group of red myr military brass in front of the main gate. Three other reds are popping the flashbulbs of their primitive recording devices at every inch of the warehouse’s grim facade.");
 		}
+		return false;
 	}
-	else if (flags["FAZIAN_QUEST_STATE"] == FAZIAN_QUEST_RESCUE)
+	
+	output("\n\nTo the east is a huge warehouse, built partially into the cave wall, shadow and harsh light thrown across it by sparsely spaced spotlights. A rifle-armed red myr guards the timber entrance.");
+	
+	if (flags["FAZIAN_QUEST_STATE"] == FAZIAN_QUEST_RESCUE)
 	{
 		addButton(0, "Approach", fazianQuestApproachWarehouse);
 	}
-	
-	setNavDisabled(NAV_EAST_DISABLE);
 	
 	return false;
 }
@@ -707,7 +741,7 @@ public function pillarsBonusFunc():Boolean
 public function deepCavesEntranceBonus():Boolean
 {
 	if(!reclaimedProbeMyrellion()) output(" Something tells you Dad's probe is down there somewhere...");
-	output("\n\nTo the south, you can see a glowing lake, illuminated by luminescent fungus and surrounded by pillars of stone that guard a passage eastward, back to the myrmedion tunnel network");
+	output("\n\nTo the south, you can see a glowing lake, illuminated by luminescent fungus and surrounded by pillars of stone that guard a passage eastward, back to the myrmedion tunnel network.");
 	addButton(7,"Descend",deepCavesDescend,undefined,"Descend","Climbing down will take at least an hour and wear you out a good bit. Who knows what terrors lie down there.");
 	return false;
 }
@@ -725,6 +759,7 @@ public function caveBottomEntranceBonus():Boolean
 	if (flags["KQ2_MYRELLION_STATE"] == 2)
 	{
 		output(" There's a hastily painted radiation symbol to one side of the cave here; a universal warning to any who might venture through these parts that it'd probably be prudent <i>not</i> to ascend to the upper levels of the cave system.");
+		addDisabledButton(5,"Ascend");
 		return false;
 	}
 	
@@ -969,7 +1004,7 @@ public function publicUseForDickedPCsInGildenmere():void
 	{
 		output("\n\n<i>“You there!”</i> The voice is heavy with authority, but almost casual in how it is handled. Whoever it is, they’ve grown accustomed to barking orders. <i>“Hey, you!”</i>");
 		output("\n\nYou turn back to look, coming face-to-face with a severe-looking gold myr - one wearing a few too many medals to ignore. Worse still, she’s backed up by a column of twenty grim-faced soldiers. <i>“Me?”</i>");
-		output("\n\n<i>“Yes, you.”</i> Her antennae stab accusingly in your direction. <i>“Your were due at the barracks over twenty minutes ago. I don’t care how big your dick");
+		output("\n\n<i>“Yes, you.”</i> Her antennae stab accusingly in your direction. <i>“You were due at the barracks over twenty minutes ago. I don’t care how big your dick");
 		if(pc.cockTotal() > 1) output("s are");
 		else output(" is");
 		output(". There’s no excuse for failing to keep an appointment.”</i>");
@@ -1148,7 +1183,7 @@ public function antOrgyPartDues(voluntary:Boolean):void
 {
 	clearOutput();
 	showAntOrgy();
-	output("Some unspoken signal goes through the horde of armored ant-girls, and as the first lucky lady steps over you, a dozen of the aroused ant-girls advance. Your lover-to-be smiles down at you, then lowers herself down so that her crotch sits on your chest and [pc.oneCock] has no choice but to slide up and into her descending abdomen, filling the air with the sloppy, wet-sounding ‘squish’ of penetration. Another, exponentially more decadent sound fills the air but a second later: all twelve of the eager myr maidens mounting their substitute members. Some do it from behind, facing away from you as they watch you being taken. Others face forward, pressing their breasts against one another, shading you beneath a quartette of sapphic kisses.");
+	output("Some unspoken signal goes through the horde of armored ant-girls, and as the first lucky lady steps over you, a dozen of the aroused ant-girls advance. Your lover-to-be smiles down at you, then lowers herself down so that her crotch sits on your chest and [pc.oneCock] has no choice but to slide up and into her descending abdomen, filling the air with the sloppy, wet-sounding ‘squish’ of penetration. Another, exponentially more decadent sound fills the air but a second later: all twelve of the eager myr maidens mounting their substitute members. Some do it from behind, facing away from you as they watch you being taken. Others face forward, pressing their breasts against one another, shading you beneath a quartet of sapphic kisses.");
 	pc.cockChange();
 	var x:int = pc.cockThatFits(1000);
 	if(x < 0) x = pc.smallestCockIndex();

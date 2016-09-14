@@ -27,8 +27,25 @@ public function flahneNameDisplay():void
 public function showFlahne(nude:Boolean = false):void
 {
 	flahneNameDisplay();
-	if(nude) showBust("FLAHNE_NUDE");
-	else showBust("FLAHNE");
+	showBust(flahneBustDisplay(nude));
+}
+public function flahneBustDisplay(nude:Boolean = false):String
+{
+	// 9999 - Special artist exceptions!
+	if(!InCollection(kGAMECLASS.gameOptions.configuredBustPreferences["FLAHNE"], ["ADJATHA", "GATS", "GATSOLD"])) return "FLAHNE";
+	
+	var str:String = "FLAHNE";
+	
+	if(nude)
+	{
+		if(flags["FLAHNE_LIKE_OVIPOSITOR"] > 0)
+		{
+			// 9999 - Special artist exceptions!
+			if(kGAMECLASS.gameOptions.configuredBustPreferences["FLAHNE"] == "ADJATHA") str += "_OVI";
+		}
+		str += "_NUDE";
+	}
+	return str;
 }
 
 public function flahneFuckCounter(arg:int = 0):Number {
@@ -74,7 +91,7 @@ public function meetingFlahne(outputT:Boolean = true):Boolean {
 			//Flahne busy with Penny IF TIME IS BETWEEN 0800 AND 1700
 			if(hours >= 8 && hours < 17)
 			{
-				showBust("FLAHNE");
+				showBust(flahneBustDisplay(false));
 				output("\n\nFlahne is at her desk, but although her figure looks a little curvier and her flesh a little lighter than normal, she looks surprisingly normal given her activities with Penny. She must be putting all that mass somewhere,");
 				//IF PC HAS TALKED TO FLAHNE ABOUT HER OVIPOSITOR
 				if(flags["FLAHNE_LIKE_OVIPOSITOR"] != undefined) output(" so you have to assume there’s some massive pile of eggs hidden somewhere nearby.");
@@ -94,7 +111,7 @@ public function meetingFlahne(outputT:Boolean = true):Boolean {
 			}
 		}
 		else if(flags["FLAHNE_PISSED"] > 0 || pc.hasStatusEffect("Flahne_Extra_Pissed")) {
-			showBust("FLAHNE");
+			showBust(flahneBustDisplay(false));
 			output("\n\nFlahne doesn't look like she wants anything to do with you right now.");
 			return false;
 		}
@@ -120,19 +137,19 @@ public function meetingFlahne(outputT:Boolean = true):Boolean {
 		//Repeat Flahn Approaches
 		//Haven’t fucked her
 		else if(flags["FLAHNE_SEXED"] == undefined) {
-			showBust("FLAHNE");
+			showBust(flahneBustDisplay(false));
 			output("\n\nFlahne looks up at you with a smile on her juicy, amber lips. <i>“Well, what can I do for you today, " + pc.mf("Mister","Miss") + " Steele?”</i>  Her big, bouncy breasts are straining her top as hard as ever, though the way she has almost half the buttons undone isn’t helping.");
 			output("\n\nWhat do you do with the curvy rahn secretary?");
 		}
 		//Fucked her
 		else if(flags["FLAHNE_LIKE_OVIPOSITOR"] != 1) {
-			showBust("FLAHNE");
+			showBust(flahneBustDisplay(false));
 			output("\n\nFlahne’s honey-colored skin blushes orange at your approach, and she asks, <i>“Hey there cutie, come back for a little more sugar? I could use a snack.”</i>  Her tongue snakes out to lick her lips before curling around her sucker and slowly pumping it in and out of her mouth. She leans down over her desk, pressing her big, soft breasts against the table so that they strain at the side seams of her shirt. <i>“Or did you just want a peep?”</i>");
 			output("\n\nThe curvy rahn seems happy with either option, though you could probably just talk too. What did you want to do with Flahne?");
 		}
 		//Fucked her and like the ovipositor
 		else {
-			showBust("FLAHNE");
+			showBust(flahneBustDisplay(false));
 			output("\n\nFlahne’s honey-colored skin blushes orange at your approach, though a big smile spreads across her plump lips. She gives a little shiver and sighs with slow relief as an oblong distention lifts her skirt higher and higher. Flahne coos, <i>“Guess who’s happy to see you?”</i>  She unbuttons part of her top while licking a lollipop rather lewdly. <i>“So, wanna have some more fun?”</i>  Pouting, she offers a little less excitedly, <i>“Or did you just want to talk?”</i>");
 			output("\n\nWhat did you want with Flahne?");
 		}
@@ -476,6 +493,11 @@ public function flahneSexMenu(display:Boolean = true):void {
 	//DA SCENE - Swap Oral
 	if(pc.hasVagina()) addButton(7,"Swap Oral",flahneEatOutSwapMeatPussiesYouKnowWhatIMean,undefined,"Swap Oral","Eat Flahne out, then see if the busty rahn can make a meal out of your own pussy - fun for everyone!");
 	else addDisabledButton(7,"Swap Oral","Swap Oral","You need a vagina to swap oral with Flahne!");
+	//Flahne Cunt Snake Scene
+	//Requires ovi out, not currently mad. Cunt snake does not get pregged from this obvs
+	if(pc.hasCuntTail() && pc.hasParasiteTail() && flags["FLAHNE_LIKE_OVIPOSITOR"] > 0) addButton(8,"Cunttail",flahneCuntSnake,undefined,"Cunttail","Teach Flahne how fun having a cuntsnake can be.");
+	else addDisabledButton(8,"Cunttail","Cunttail","You need a parasitic vagina-tail to do this.");
+
 	this.addButton(14,"Back",mainGameMenu);
 }
 
@@ -610,7 +632,7 @@ public function rahnSuppository():void {
 	output("\n\nAs the ovipositor spreads your ");
 	if(pc.ass.looseness() >= 3) output("loose ");
 	else if(pc.ass.looseness() <= 1) output("tight ");
-	output("walls wide, conforming to your shape and size while surging inward, you groan, trying to stay relaxed and loose. Your hug the rahn close, pulling her against yourself until your head is practically buried in her tremendous bosom, breath coming ragged as you're speared by inch after inch of gooey cock. <i>“Easy, sweet thing. I know I'm... well endowed, but I've got a lot of experience. Just relax, lean in and rest your head. I'll take care of everything.”</i>");
+	output("walls wide, conforming to your shape and size while surging inward, you groan, trying to stay relaxed and loose. You hug the rahn close, pulling her against yourself until your head is practically buried in her tremendous bosom, breath coming ragged as you're speared by inch after inch of gooey cock. <i>“Easy, sweet thing. I know I'm... well endowed, but I've got a lot of experience. Just relax, lean in and rest your head. I'll take care of everything.”</i>");
 	
 	output("\n\nYou groan, trying to keep your asshole calm as your muscles spasm around Flahne's prick, milking it with every gasping breath you take. She eases in slowly, giving both of you plenty of time to get adjusted to her girth. You barely notice, but it looks like the busty Rahn's just as sexually riveted as you are, her chest heaving around your buried head as her hands gently hug and caress your ass, hugging you tight to herself as her cock finally hilts you.");
 	
@@ -1455,6 +1477,55 @@ public function flahneEatOutSwapMeatPussiesYouKnowWhatIMean():void
 	output("\n\nAs soon as your [pc.legs] are steady again, you get up and grab your [pc.gear], grinning at the amber gel-girl. She blows you a kiss between licking your juices off her cheeks.");
 	processTime(33);
 	flahneFuckCounter(1);
+	pc.orgasm();
+	clearMenu();
+	addButton(0,"Next",mainGameMenu);
+}
+
+//Flahne Cunt Snake Scene
+//Requires ovi out, not currently mad. Cunt snake does not get pregged from this obvs
+public function flahneCuntSnake():void
+{
+	clearOutput();
+	showFlahne(true);
+	author("Nonesuch");
+	//First
+	if(flags["FLAHNE_CSNAKED"] == undefined)
+	{
+		output("You keep your eyes fixed on the plump, merry loo’rahn’s features as you release your [pc.cuntTail] and allow it to swing into view around your flank. As you anticipated, her face is a picture - from an eager, soft grin to a flustered gawk in moments.");
+		output("\n\n<i>“You’re infested, [pc.name]!”</i> she cries, shooting her chair back from her desk. <i>“Didn’t I warn you about cunt snakes? Ooh, I should have told you to be more careful!”</i> She drums her hands on her desk rapidly. <i>“Come on, we’ll get you to the med-bay across town. The V-Ko there can get this sorted out -”</i>");
+		output("\n\n<i>“Calm down, Flahne,”</i> you urge. With tenses of the lithe muscles that run along its length, you drift the cunt-tail closer, so that she can see its moist opening in detail. You allow your gaze to run along her extremely generous curves, a quivering orange blancmange embodiment of female fertility, and arousal shivers up your appendage, spreading its glistening entrance readily. The loo’rahn is frozen, staring at it uncertainly.");
+		output("\n\n<i>“It’s just my little friend,”</i> you go on. <i>“And it wants to say hi! Ever since I got it, we’ve been having ever so much fun.”</i> You drift it closer, drawing it over the desk, dabbing its moist hole on her incredibly soft membrane. Flahne shies from it slightly - but she just doesn’t bat it away, and you can’t help notice a certain redness to her face. Is that a lump forming in her skirt...?");
+		output("\n\n<i>“You shouldn’t encourage these creatures, [pc.name],”</i> she scolds. <i>“They’re a serious problem here. They get everywhere because of careless spacers like you - littering.”</i> She’s upset enough that she doesn’t laugh at her own joke.");
+		output("\n\n<i>“But where’s the problem when it’s just you and me, Flahne?”</i> you tease. You decide to take a risk - moving behind her desk, you reach down and pull her skirt up her thick, round thighs. She gasps as her big, long ovipositor leaps upwards from her mound, erect and raring to go. You can smell the slightly sugary scent that accompanies it - and you have to exercise all of your restraint to stop your [pc.cuntTail] from immediately honing in on the giant, juicy phallus.");
+		output("\n\n<i>“Oh, look what you’ve done now!”</i> she wails, stuffed bust quivering. <i>“You’ve got me all worked up with that pesky parasite of yours and now, now I’m going to have to go jerk off or this work’s never going to get done!”</i>");
+		output("\n\n<i>“Why can’t you see what I’m trying to tell you?”</i> you say gently. You let the dripping entrance of your cunt-tail land on the blunt end of the orange ovi-dick and murmur with pleasure as hungry, alien lust pulses up your spine. <i>“It needs SPERM in order to breed. All those poor, pent up eggs of yours - they won’t do anything.”</i> Flahne doesn’t reply; still lent back, she seems paralysed with lust, mouth slightly ajar. <i>“And this is a much better way of getting rid of them than jerking off,”</i> you go on, grin widening. Without any further ado you thrust your [pc.cuntTail] downwards, engulfing her ovipositor in hot, wet paradise.");
+	}
+	//Repeat
+	else
+	{
+		output("<i>“You really are bad for not getting that thing sorted out, [pc.name],”</i> Flahne scolds as you rear your [pc.cuntTail] into view. She’s smiling coquettishly though; you won the argument here, and you both know it. You just feel too goddamn good.");
+		output("\n\n<i>“I guess you don’t want to help me, then,”</i> you sigh, playing up to it. You allow your gaze to run along her extremely generous curves, a quivering orange blancmange embodiment of female fertility, and arousal shivers up your appendage, spreading its glistening entrance readily. Poor thing never learns. <i>“Guess I’ll have to go find some unsuspecting penis-owner and pollute Mhen’ga with even more cunt snakes.”</i>");
+		output("\n\n<i>“Well now, let’s not get carried away...”</i> the rahn does not resist when you drift behind her desk and hike her skirt up her thick, round thighs. <i>“I always help friends who are in need. Just - make sure it’s the last time, ok?”</i> She sighs as her big, long ovipositor leaps upwards from her mound, erect and raring to go. You can smell the slightly sugary scent that accompanies it - and you have to exercise all of your restraint to stop your [pc.cuntTail] from immediately honing in on the giant, juicy phallus. Instead, knowing full well how soft and sensitive she is, you drift its moist opening down her skin, flicking over an erect nipple, touching her supple paunch and inner thigh, waiting until that delightful, open mouthed expression of dozy lust has settled upon her face. Only then do you lay the dripping entrance of your cunt-tail land on the blunt end of the orange ovi-dick and, with hungry, alien lust pulsing up your spine, you thrust it firmly downwards, engulfing her ovipositor in hot, wet paradise.");
+	}
+	output("\n\nYour breath catches in your throat as you push your tail-cunt further and further down Flahne’s shaft, sensation shimmering up its body as its smooth hardness rubs over its tender walls. You don’t have to direct its movements at all; driven by greedy lust, it stuffs itself as full as it can, gorging itself on the thick ovipositor, more and more nerve endings lighting up down your tail as it is stretched open.");
+	output("\n\nSighing beatifically, you ");
+	if(!pc.isTaur()) output("sit yourself down on Flahne’s desk");
+	else output("lean yourself against Flahne’s desk");
+	output(" so that you can drink in the rahn’s reaction to it. She grips the desk and squirms in her chair with thighs splayed, producing brisk squeaks as her chubby frame wobbles up and down, eyes closed and biting her lip, cute little gasps escaping her mouth as your appendage assiduously milks her.");
+	output("\n\nThe taste of sweetness makes you lick your [pc.lips] reflexively; the sugary leak of Flahne’s pre excites the [pc.cuntTail] beyond belief, making it rear up and down her egg-cock ever more frenetically, fluids leaking down its girth. The bulge near its head ripples up and down the tightened up tail, sending pleasure sparking through you.");
+	output("\n\n<i>“Oh stars above [pc.name], you horrible, naughty [pc.boy]!”</i> the rahn cries out deliriously, a button popping off her shirt as she bounces up and down ever more violently. <i>“Give it to me! Give all of that filthy thing to me!”</i> Heady lust throbbing through you, you can’t resist that heaving bosom in front of you anymore; you reach beneath the stretched fabric and grope a plush, pendulous boob, sinking your fingers deep into her as you rub over its protuberant nipple. At the same time, with an ecstatic groan, you drive your tail-cunt all the way down her ovipositor, gloving every glorious, chubby inch of it, juices foaming at its mouth.");
+	output("\n\nFlahne flails in her chair, fat legs waggling, and wails as her ovipositor bulges up and flumes a jet of slick, sweet rahn eggs deep in your parasite’s maw. Ecstasy shifts up and down that dripping tunnel as she thrust into it repeatedly, driving out her pent up juices into it until you feel utterly gorged on her sugary seed, the body of your tail swollen up with it. Hand still deeply impressed in her breast, you reach forward and mash her soft lips against your own, wrapping your [pc.tongue] around her own long, lithe tongue, passionately and sloppily frenching as she pulses out her girly load until it oozes down her gelatinous flesh.");
+	output("\n\nYou withdraw at last, drawing your [pc.cuntTail] up and off her wilting ovipositor, tingling all the way. You know innately that the thing is displeased - it can tell now that what you’ve fed it is the wrong type of gamete, and it throbs with resentment. The rest of you, looking down at the flushed, leaking mess of a rahn you’ve created, couldn’t care less.");
+	output("\n\n<i>“You really are a bad [pc.boyGirl], [pc.name],”</i> she says at last. She makes no attempt to wipe the big grin off her face. <i>“I KNOW you aren’t using that thing on just me and other rahns.”</i>");
+	output("\n\n<i>“I promise that whenever the urge gets too much, I’ll come here and milk your bulging, pent-up ovipositor for every last drop,”</i> you say, with a noble air.");
+	output("\n\n<i>“I... good,”</i> replies Flahne, tucking it away, rearranging her clothes primly and fetching a lollipop out of the drawer. <i>“That’s what I like to hear.”</i>");
+	//Normalise PC alignment towards Mischievous by 1 point
+	pc.addMischievous(1);
+	flahneFuckCounter(1);
+	pc.loadInCuntTail(chars["FLAHNE"]);
+	IncrementFlag("FLAHNE_CSNAKED");
+	processTime(17);
 	pc.orgasm();
 	clearMenu();
 	addButton(0,"Next",mainGameMenu);

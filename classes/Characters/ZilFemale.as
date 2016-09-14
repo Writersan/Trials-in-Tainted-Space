@@ -36,7 +36,7 @@
 			
 			this.rangedWeapon.attack = 1;
 			this.rangedWeapon.longName = "dart";
-			this.rangedWeapon.attackVerb = "dart";
+			this.rangedWeapon.attackVerb = "shoot";
 			this.rangedWeapon.attackNoun = "dart";
 			this.rangedWeapon.hasRandomProperties = true;
 			
@@ -279,7 +279,7 @@
 			
 			for (var i:int = 0; i < 3; i++)
 			{
-				CombatAttacks.SingleMeleeAttackImpl(this, target, true);
+				CombatAttacks.SingleRangedAttackImpl(this, target, true);
 				output("\n");
 			}
 		}
@@ -289,7 +289,7 @@
 			output("The zil girl dances away from you, just out of reach before grabbing one of the vials off her belt and throwing it at the ground just in front of you!");
 	
 			// Airtight check
-			if(target.hasArmor() && target.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT))
+			if(target.hasAirtightSuit())
 			{
 				output(" You attempt to dodge but the vial shatters, exploding in a pink cloud that blows over you. Fortunately for you, your airtight [pc.armor] refuses to allow the gas to seep in. The permeating lust cloud floats about, affecting the bee lady to a small degree.");
 				lust(1);
@@ -361,9 +361,9 @@
 		{
 			author("Savin");
 			output("Suddenly, the zil girl drops her combat stance, and dips her fingers right into her honeypot, masturbating furiously.");
-			if(target.hasArmor() && target.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT))
+			if(target.hasAirtightSuit())
 			{
-				output(" You wonder what the hell she's doing, but judging by the look on her face, she is being assualted by a potent cloud of her own sex pheromones!");
+				output(" You wonder what the hell she's doing, but judging by the look on her face, she is being assaulted by a potent cloud of her own sex pheromones!");
 				output("\n\nLuckily your [pc.armor] is airtight, so you don't have to worry about being affected by it - but you can see <i>she</i> definitely is!");
 				lust(8);
 			}

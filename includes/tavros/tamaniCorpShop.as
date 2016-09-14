@@ -15,7 +15,6 @@ public function showLerris(asNude:Boolean = false):void
 
 public function tavrosTamaniCorpStoreEntry():Boolean
 {
-	showBust();
 	author("Savin");
 
 	output("\n\n");
@@ -28,12 +27,12 @@ public function tavrosTamaniCorpStoreEntry():Boolean
 	}
 	else
 	{
-		output("Leriss is prancing about the place, wiggling her hips and tail to the soft pop tunes playing over the shop speakers. She gives you a flirtatious grin whenever you wander by");
+		output("Lerris is prancing about the place, wiggling her hips and tail to the soft pop tunes playing over the shop speakers. She gives you a flirtatious grin whenever you wander by");
 		if (flags["FUCKED_LERRIS"] != undefined)
 		{
 			output(" before reaching down to a product on the floor to clean it off, putting her lush behind on full display beneath her skin-tight suit. Your eyes are drawn inexorably to her [lerris.chest], though, hanging down in front of her.");
-			if (lerris.milkFullness <= 50) output(" The two perky, firm orbs look positively delicious");
-			else if (lerris.milkFullness <= 150) output(" The two big, weighty melons look like they’re just about full of sweet [lerris.milk]");
+			if (lerris.milkFullness <= 50) output(" The two perky, firm orbs look positively delicious.");
+			else if (lerris.milkFullness <= 150) output(" The two big, weighty melons look like they’re just about full of sweet [lerris.milk].");
 			else output(" Her massive, milky tits swing heavily under her, threatening to weigh her down to the ground. You can’t wait to see just how much she’s stored up for you now...");
 		}
 		else output(" before dancing off to clean another display or help another customer, making sure she doesn’t get in your way... even if the sway of her hips and her plush butt under the skin-tight suit is more than a little distracting.");
@@ -76,7 +75,7 @@ public function lerrisRepeatApproach():void
 	}
 	else
 	{
-		output("You saunter up to the shop counter, and as always, you’re greeted by the familiar, bouncing form of Leriss. She gives you a pink-lipped smile and wiggles her hips, her [lerris.tails] lifting in the air behind her. The way she languidly leans over the counter and presses up her [lerris.breasts], she looks more like she’s ready  to bend over for you than to sell you cosmetics.");
+		output("You saunter up to the shop counter, and as always, you’re greeted by the familiar, bouncing form of Lerris. She gives you a pink-lipped smile and wiggles her hips, her [lerris.tails] lifting in the air behind her. The way she languidly leans over the counter and presses up her [lerris.breasts], she looks more like she’s ready  to bend over for you than to sell you cosmetics.");
 		
 		output("\n\n<i>“Hey, cutie,”</i> she purrs, stretching out like a kitten in heat. <i>“Anything I can get for you? Or were you hoping to get hands on with the merchandise again? I know which I want...”</i>");
 	}
@@ -101,6 +100,18 @@ public function lerrisMenu():void
 
 public function lerrisProducts():void
 {
+	// Unlocks
+	if(pc.level >= 2)
+	{
+		if(!chars["LERRIS"].hasItem(new NukiNutbutter())) chars["LERRIS"].inventory.push(new NukiNutbutter());
+	}
+	else chars["LERRIS"].destroyItem(new NukiNutbutter());
+	if(flags["PLANET_3_UNLOCKED"] != undefined) // Lerris after clearing Tarkus makes sense.
+	{
+		if(!chars["LERRIS"].hasItem(new Anusoft())) chars["LERRIS"].inventory.push(new Anusoft());
+	}
+	else chars["LERRIS"].destroyItem(new Anusoft());
+	
 	CodexManager.unlockEntry("Bubble Buddy");
 	shopkeep = lerris;
 	buyItem();
@@ -501,8 +512,8 @@ public function lerrisBendHerOver():void
 	output("\n\nSpreading her cheeks wide, you plunge into the slimy embrace of Lerris’s [lerris.vagOrAss].");
 
 	pc.cockChange(true, false);
-	if (lerris.hasVagina()) lerris.cuntChange(0, (pc.hasCock() ? pc.cockVolume(cockIdx) : lerris.vaginalCapacity()), true, true, false);
-	else lerris.buttChange((pc.hasCock() ? pc.cockVolume(cockIdx) : lerris.analCapacity()), true, true, false);
+	if (lerris.hasVagina()) lerris.cuntChange(0, (pc.hasCock() ? pc.cockVolume(cockIdx) : pc.hardLightVolume()), true, true, false);
+	else lerris.buttChange((pc.hasCock() ? pc.cockVolume(cockIdx) : pc.hardLightVolume()), true, true, false);
 
 	output(" She squeals, bucking forward under the sheer pressure of your entrance until her face is pressed against the back of the sofa. Her breasts bounce hypnotically while she moves, tempting you into reaching forward and taking them both in your hands, squeezing until she sprays milk between your fingers and her");
 	if (lerris.hasVagina()) output(" pussy");
@@ -695,7 +706,8 @@ public function lerrisSuckleMilky69():void
 
 	output("You gently roll Lerris off of you, setting the eager kitten aside for the moment while you sprawl out on your back half way up, letting your [pc.legs] dangle off the armrest. So situated, you tell Lerris to get on and start feeding you - and");
 	if (pc.canLactate()) output(" get a drink for herself while she’s at it");
-	else output(" put those hands to work!");
+	else output(" put those hands to work");
+	output("!");
 	
 	output("\n\nShe giggles girlishly as she clambers up on top of you, leaning from over your head so that her [lerris.breasts] hang over your [pc.face], dribbling onto your lips before you catch one and start to suckle. A gasp of pleasure shudders through the kitty-slut, but she dutifully runs her tongue across your own [pc.nipple] in turn, reaching a hand down to your crotch and");
 	if (pc.hasVagina()) output(" caressing the lips of your cunt.");
@@ -776,10 +788,10 @@ public function lerrisTalkMenu(fromFunc:Function = null):void
 			if (fromFunc != lerrisTalkGirlfriend) addButton(1, "Her Girlfriend", lerrisTalkGirlfriend, undefined, "Her Girlfriend", "Ask Lerris about her girlfriend. She sounds like a real hard-ass of a mistress.");
 			else addDisabledButton(1, "Her Girlfriend");
 		}
-		else
-		{
-			addDisabledButton(1, "Jessa"); // 9999 scenes not finished/present :V
-		}
+		//else
+		//{
+			//addDisabledButton(1, "Jessa"); // 9999 scenes not finished/present :V
+		//}
 	}
 	
 	addButton(14, "Back", lerrisMenu);
@@ -882,7 +894,7 @@ public function lerrisTalkLactaid():void
 	output("\n\n<i>“Ooh, my favorite subject!”</i> Lerris teases, flicking her twin tails behind her. <i>“Well, favorite work subject, anyway. I mentioned I was all about Lactaid already, right? Right. My girlfriend and I had a baby a couple of years ago, and we both started lactating on our own, like kaithrit do when we have kids. But she was so busy with her job, well, I ended up doing most of the leg work in the, uh, baby feeding department. Lactaid is hands down the best thing ever if you want to have kids the old fashioned way, trust me. It’s not like normal, where you just sort of dribble a little unless you use a milker - no way! Lactaid makes it like those cow-girl pornos off of New Texas, just gushing milk like you’ve got a pair of tanks in your chest!”</i>");
 	
 	output("\n\nYou");
-	if (pc.libido() <= 33) output(" can’t help but blush as Lerris dumps that kind of detail on you");
+	if (pc.libido() <= 33) output(" can’t help but blush as Lerris dumps that kind of detail on you.");
 	else if (pc.isBro() || (pc.libido() >= 66 && pc.hasCock())) output(" feel a sudden rush in your crotch as Lerris dumps all that detail on you. Hot.");
 	else output(" blink at the sudden data-dump, shifting around as an unbidden heat spreads out from your loins.");
 	output(" Your eyes are drawn right to the cat-girl’s chest, and your thoughts flit inexorably to the milky bounty she’s hiding under her sexy jumpsuit.");
@@ -1064,9 +1076,12 @@ public function lerrisDrinkDatTittymilks():void
 	}
 	else
 	{
+		var vagIdx:int = -1;
+		if(pc.hasVagina()) vagIdx = rand(pc.vaginas.length);
+		
 		output("\n\n<i>“S-sorry,”</i> Lerris whines as one of your hands makes disappointed rubs and caresses around her hips. <i>“Just keep drinking and I’ll be hard again in no time. If you want that, anyway...”</i>");
 		
-		output("\n\nOh, you do. Your heart is pounding in your chest, burning with desire. Watching the kitty cream herself just from your suckling has practically driven your wild with lust, and you’re soon roaming your hands all over her body, groping at breasts and buttocks and every other tender spot you can imagine while your lips keep drinking.");
+		output("\n\nOh, you do. Your heart is pounding in your chest, burning with desire. Watching the kitty cream herself just from your suckling has practically driven you wild with lust, and you’re soon roaming your hands all over her body, groping at breasts and buttocks and every other tender spot you can imagine while your lips keep drinking.");
 		
 		output("\n\n<i>“That’s it,”</i> Lerris moans, bucking her hips in your lap. <i>“Oh, stars, this feels so good. Wh-why am I such a milk-slut, [pc.name]? Why does it feel so <b>good</b>!?”</i>");
 		
@@ -1078,17 +1093,20 @@ public function lerrisDrinkDatTittymilks():void
 		output(", steadying you as you straddle her. Your");
 		if (!pc.isNude()) output(" clothes");
 		else output(" equipment");
-		output(" is tossed aside in the blink of an eye, leaving your [pc.vagOrAss] rubbing into Lerris’s cum-stained lap. Your mouth returns to one of her breasts, pinning her against the cushion and sucking deep. The flow of sweet cream returns as if it had never stopped, filling your mouth as you line yourself up with Lerris’s minute erection. She’s so small that you’ll barely be getting anything inside, but lucky for you, her crown is ringed with feline nubs, perfect for rubbing around inside");
+		output(" is tossed aside in the blink of an eye, leaving your [pc.vagOrAss " + vagIdx + "] rubbing into Lerris’s cum-stained lap. Your mouth returns to one of her breasts, pinning her against the cushion and sucking deep. The flow of sweet cream returns as if it had never stopped, filling your mouth as you line yourself up with Lerris’s minute erection. She’s so small that you’ll barely be getting anything inside, but lucky for you, her crown is ringed with feline nubs, perfect for rubbing around inside");
 		if (pc.hasVagina()) output(" right at G-spot depth");
 		output(".");
 		
 		output("\n\n<i>“C-come on already,”</i> Lerris mewls, biting her lip and groping helplessly at you. <i>“D-don’t just sit there and tease me! I might cum again if you keep it up!”</i>");
 		
-		output("\n\nDamn she’s sensitive! You shrug and glide down on her little shaft, eliciting a moan from both of you as you easily take Lerris’s cum-lubed shaft to the hilt. She squeals underneath you, legs squirming as you overwhelm her in pleasure. <i>“G-gotta... gotta...”</i>");
+		output("\n\nDamn she’s sensitive! You shrug and glide down on her little shaft, eliciting a moan from both of you as you easily take Lerris’s cum-lubed shaft to the hilt.");
+		if (pc.hasVagina()) pc.cuntChange(vagIdx, lerris.cockVolume(0));
+		else pc.buttChange(lerris.cockVolume(0));
+		output(" She squeals underneath you, legs squirming as you overwhelm her in pleasure. <i>“G-gotta... gotta...”</i>");
 		
-		output("\n\nYou shush her between moving from one breast to the other, knowing the poor thing’s so over-sensitive now that any little touch would set her off, to say nothing of your [pc.vagOrAss] squeezing down on her throbbing clitty. So you just keep suckling, grinding your hips as you feel a rush of liquid heat spraying inside you, smearing across your inner walls and getting ground into your flesh by Lerris’s nubby crown. The cat-girl gasps and bucks her hips against your [pc.butt], emptying that little pouch of hers into you with every ounce of vigor she’s got left.");
+		output("\n\nYou shush her between moving from one breast to the other, knowing the poor thing’s so over-sensitive now that any little touch would set her off, to say nothing of your [pc.vagOrAss " + vagIdx + "] squeezing down on her throbbing clitty. So you just keep suckling, grinding your hips as you feel a rush of liquid heat spraying inside you, smearing across your inner walls and getting ground into your flesh by Lerris’s nubby crown. The cat-girl gasps and bucks her hips against your [pc.butt], emptying that little pouch of hers into you with every ounce of vigor she’s got left.");
 		
-		output("\n\nPretty soon, though, Lerris has gone boneless in your grasp, moaning softly and fluttering her eyes as you suck and fuck her. But she stays hard somehow, as much as she can, and you’re able to keep pounding your hips against her lap as you drain those big, bouncy tits of hers dry. By the time the constant flow of milk into your mouth finally starts to die down, she must have cum three or four times, completely soaking your [pc.vagOrAss] and leaving both your crotches a shameful mess.");
+		output("\n\nPretty soon, though, Lerris has gone boneless in your grasp, moaning softly and fluttering her eyes as you suck and fuck her. But she stays hard somehow, as much as she can, and you’re able to keep pounding your hips against her lap as you drain those big, bouncy tits of hers dry. By the time the constant flow of milk into your mouth finally starts to die down, she must have cum three or four times, completely soaking your [pc.vagOrAss " + vagIdx + "] and leaving both your crotches a shameful mess.");
 		
 		output("\n\nBreathing hard from the exertion, you finally pull yourself up off of Lerris’s chest and release your");
 		if (pc.hasVagina()) output(" twat");

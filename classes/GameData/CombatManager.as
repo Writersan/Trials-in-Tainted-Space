@@ -1,6 +1,7 @@
 package classes.GameData 
 {
 	import classes.Creature;
+	import classes.StorageClass;
 	import classes.kGAMECLASS;
 	import classes.Engine.Interfaces.*;
 	
@@ -42,6 +43,10 @@ package classes.GameData
 		public static function encounterText(tText:String):void
 		{
 			combatContainer.encounterText = tText;
+		}
+		public static function encounterTextGenerator(tFunc:Function):void
+		{
+			combatContainer.encounterTextGenerator = tFunc;
 		}
 		
 		private static var _friendlyCharacters:Array;
@@ -165,12 +170,29 @@ package classes.GameData
 				combatContainer = null;
 			}
 			clearMenu();
+			addButton(0, "Next", postAbortCombat);
+		}
+		public static function abortCombatDeferred(nextScene:Function):void
+		{
+			if (combatContainer)
+			{
+				combatContainer.doCombatCleanup();
+				combatContainer = null;
+			}
+			clearMenu();
 			addButton(0, "Next", function():void {
 				userInterface().mainButtonsReset();
 				userInterface().hideNPCStats();
 				userInterface().leftBarDefaults();
-				kGAMECLASS.mainGameMenu();
+				nextScene();
 			});
+		}
+		public static function postAbortCombat():void
+		{
+			userInterface().mainButtonsReset();
+			userInterface().hideNPCStats();
+			userInterface().leftBarDefaults();
+			kGAMECLASS.mainGameMenu();
 		}
 		public static function showCombatMenu():void
 		{
@@ -223,6 +245,25 @@ package classes.GameData
 		{
 			if (combatContainer) return combatContainer.enemiesAlive();
 			return -1;
+		}
+		
+		public static function addCombatEffect(effect:StorageClass):void
+		{
+			if (combatContainer) combatContainer.addCombatEffect(effect);
+		}
+		public static function removeCombatEffect(effectName:String):void
+		{
+			if (combatContainer) combatContainer.removeCombatEffect(effectName);
+		}
+		public static function hasCombatEffect(effectName:String):Boolean
+		{
+			if (combatContainer) return combatContainer.hasCombatEffect(effectName);
+			return false;
+		}
+		public static function getCombatEffect(effectName:String):StorageClass
+		{
+			if (combatContainer) return combatContainer.getCombatEffect(effectName);
+			return null;
 		}
 	}
 

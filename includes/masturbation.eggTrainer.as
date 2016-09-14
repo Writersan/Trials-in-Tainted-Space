@@ -554,7 +554,7 @@ public function carryTrainingBonusBlurbCheck():void
 		{
 			//Event: Jiggle Jiggle!
 			//Play sometimes when PC is walking. Increase Lust by 10 per Training level.
-			msg += "\n\nYour progress is interrupted by a sudden shift in your [pc.belly], making you nearly double over with intense, overwhelming pleasure. Just feeling the ";
+			msg += "\n\n" + logTimeStamp() + ParseText(" Your progress is interrupted by a sudden shift in your [pc.belly], making you nearly double over with intense, overwhelming pleasure. Just feeling the ");
 			if(pc.totalBabiesOfType("EggTrainerCarryTraining") < 18) msg += "dozen";
 			else if(pc.totalBabiesOfType("EggTrainerCarryTraining") < 75) msg += "dozens";
 			else msg += "close to a hundred";
@@ -572,7 +572,7 @@ public function carryTrainingBonusBlurbCheck():void
 			else msg += "little";
 			msg += " more flushed than before.";
 			
-			kGAMECLASS.eventBuffer += ParseText(msg);
+			eventBuffer += msg;
 			//Reset cooldown
 			flags["CARRY_TRAINING_BONUS_PROC"] = GetGameTimestamp();
 		}
@@ -736,7 +736,7 @@ public function fauxPregImplantation():void
 	else output("already yearing for the wonderfully, impossibly full sensation inside you at all times");
 	output(". You press the button, and are treated to another of the brief holographic demonstrations. This time, the device cheerily advertises TamaniCorp’s latest and greatest scientific breakthrough: an egg that will actually grow inside you like a child, swelling your womb over weeks and months like a real pregnancy... without the inevitable letdown of birth. You could stay forever gravid if you wanted, perhaps even ever expanding. The video fails to mention if there’s an upper limit on just how swollen this one little egg can get, but judging from some of the promotional pictures it uses - displaying Tamani herself reclining on a couch, nude and with legs splayed to show off a belly that looks far, far larger than what you’d expect from a human pregnancy... you’re not convinced the lascivious executive’s company was too concerned about limitations.");
 	output("\n\nThe holographic Tamani on-screen gives you a wink, rubbing her tremendous belly, and text on-screen tells you simply <i>“Good luck, slut!”</i>");
-	output("\n\nNot sure how you feel about getting called a slut by a sophisticated deep-fryer, you neverthless do as you always do. Your body shivers with anticipation, even knowing that though this time you’re not in for the sudden, orgasmic swelling of a dozen... or ten dozen... eggs being pumped inside you one after the other. This is going to be a slow, steady build-up, a change in lifestyle to let you enjoy the fruits of your ");
+	output("\n\nNot sure how you feel about getting called a slut by a sophisticated deep-fryer, you nevertheless do as you always do. Your body shivers with anticipation, even knowing that though this time you’re not in for the sudden, orgasmic swelling of a dozen... or ten dozen... eggs being pumped inside you one after the other. This is going to be a slow, steady build-up, a change in lifestyle to let you enjoy the fruits of your ");
 	//nocunt:
 	if(x < 0) output("wanna-be ");
 	output("womb. Following the screen’s familiar instructions, you");

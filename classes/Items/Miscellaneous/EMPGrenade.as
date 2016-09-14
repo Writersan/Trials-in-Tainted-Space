@@ -103,6 +103,14 @@ package classes.Items.Miscellaneous
 		{
 			var hGroup:Array = CombatManager.getHostileCharacters();
 			var aTarget:Creature = CombatAttacks.GetBestPotentialTarget(hGroup);
+			if(aTarget == null)
+			{
+				if (attacker is PlayerCharacter) output("It seems you have no target to use your EMP grenade on.");
+				else output(attacker.capitalA + attacker.uniqueName + " produces an EMP grenade--but with no target to use it on, " + attacker.mfn("he", "she", "it") + " puts it away.");
+				
+				if(!kGAMECLASS.infiniteItems()) quantity++;
+				return;
+			}
 			
 			if (attacker is PlayerCharacter) output("You pull out an EMP grenade and huck it in the direction of " + aTarget.a + aTarget.uniqueName + ".");
 			else if (aTarget is PlayerCharacter) output(attacker.capitalA + attacker.uniqueName + " produces an EMP grenade and hucks it in your direction!");
@@ -115,13 +123,21 @@ package classes.Items.Miscellaneous
 				
 				var d:DamageResult = applyDamage(damageRand(baseDamage, 15), attacker, cTarget, "suppress");
 				
-				output("\n\n" + cTarget.capitalA + cTarget.uniqueName + " is caught in the explosion!");
+				output("\n\n" + cTarget.capitalA + cTarget.uniqueName + " " + (cTarget.isPlural ? "are" : "is") + " caught in the explosion!");
 				outputDamage(d);
 				
-				if (!cTarget.hasStatusEffect("Blinded") && (cTarget.originalRace == "robot" || cTarget.originalRace == "Automaton") && cTarget.shieldDisplayName != "ARMOR" && !cTarget.getHPResistances().hasFlag(DamageFlag.GROUNDED))
+				if (!cTarget.hasStatusEffect("Blinded") && (cTarget.originalRace == "robot" || cTarget.originalRace == "Automaton") && cTarget.hasShields() && !cTarget.getHPResistances().hasFlag(DamageFlag.GROUNDED))
 				{
-					cTarget.createStatusEffect("Stunned", 2, 0, 0, 0, false, "Stun", "An electrical burst has temporarily stunned your target!", true, 0,0xFF0000);
-					output("\n\nThe electronic burst from the grenade as temporarily disrupted " + targetCreature.a + targetCreature.short + "’s systems!");
+					if(cTarget is PlayerCharacter)
+					{
+						cTarget.createStatusEffect("Stunned", 2, 0, 0, 0, false, "Stun", "An electrical burst has temporarily stunned your equipment!", true, 0,0xFF0000);
+						output("\n\nThe electronic burst from the grenade has temporarily disrupted your systems!");
+					}
+					else
+					{
+						cTarget.createStatusEffect("Stunned", 2, 0, 0, 0, false, "Stun", "An electrical burst has temporarily stunned your target!", true, 0,0xFF0000);
+						output("\n\nThe electronic burst from the grenade has temporarily disrupted " + cTarget.a + cTarget.short + "’s systems!");
+					}
 				}
 			}
 		}

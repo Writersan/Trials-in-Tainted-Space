@@ -68,7 +68,7 @@ public function zodeeGivesFirstGalomax():void
 {
 	showName("A\nSTRANGER");
 	showBust("ZODEE");
-	output("\n\nThere's another rusher here - a rahn by the looks of it. She's dressed in a pale white jumpsuit that hides most of her gleaming teal, gelatinous skin from view but does little to conceal the weighty jiggle of her chest. Her hands are in her pack, sorting through enough gleaming prizes to make your belly clench with envy, and her plump rump is positioned perfectly to entice you with its restless wiggles. Just how much did she find before you could get to here?");
+	output("\n\nThere's another rusher here - a rahn by the looks of it. She's dressed in a pale white jumpsuit that hides most of her gleaming teal, gelatinous skin from view but does little to conceal the weighty jiggle of her chest. Her hands are in her pack, sorting through enough gleaming prizes to make your belly clench with envy, and her plump rump is positioned perfectly to entice you with its restless wiggles. Just how much did she find before you got here?");
 	output("\n\nTossing items carelessly over her shoulder, the rahn seems blithely unaware of your presence until a pill-bottle smacks off your chest, rattling noisily. She draws in the blink of an eye, then lowers her weapon at the sight of another galactic traveler.");
 	output("\n\n<i>“Oh, didn’t think I’d bump into another rusher out here. You can have the GaloMax if you want. Not much use to a girl like me.”</i> She eyeballs you from the crown of your head to the bottom");
 	if(pc.legCount != 1) output("s");
@@ -381,12 +381,16 @@ public function galoMaxTFProc():void
 				output(" semi-transparent cock that you realize what’s happened.");
 			}
 			else output(", and it isn’t until you see the edge of a finger through a freshly-cleaned nether-lip that you realize what’s happened.");
-			output(" <b>Your genitalia... your whole pubic mound, really, has become [pc.hairColor] and gooey, just like your hair.</b>");
+			output(" <b>Your genitalia... your whole pubic mound, really, has become " + (pc.hairType == GLOBAL.HAIR_TYPE_GOO ? "[pc.hairColor]" : "green") + " and gooey");
+			if(pc.hairType == GLOBAL.HAIR_TYPE_GOO) output(", just like your hair");
+			output(".</b>");
 		}
 		else
 		{
 			output(", and it isn’t until you see the edge of a finger through the skin that you realize what’s happened.");
-			output(" <b>Your... your whole “pubic” area really has become gooey, just like your hair.</b>");
+			output(" <b>Your... your whole “pubic” area really has become gooey");
+			if(pc.hairType == GLOBAL.HAIR_TYPE_GOO) output(", just like your hair");
+			output(".</b>");
 		}
 		output("\n\n<i>Maybe you can shift things around down there too...</i>");
 		pc.createStatusEffect("Goo Crotch");
@@ -699,7 +703,7 @@ public function gooShiftMenu():void
 	else addDisabledGhostButton(3,"Locked","Locked","It takes four doses of GaloMax to unlock this option.");
 	if(pc.hasStatusEffect("Goo Vent")) addGhostButton(4,"ToggleVent",ventToggle,undefined,"Toggle Vent","Toggle on or off whether you would like to add excess biomass to your own orgasmic releases.");
 	else addDisabledGhostButton(4,"Locked","Locked","It takes two doses of GaloMax to unlock this option.");
-	addGhostButton(14, "Back", appearance, pc);
+	addGhostButton(14, "Back", backToAppearance, pc);
 }
 
 public function showBiomass():void
@@ -731,7 +735,8 @@ public function gooHairAdjustmenu():void
 	addGhostButton(0,"Lengthen",lengthenHairGoo,undefined,"Lengthen","Put 100 mLs of biomass into adding an inch to your hair.");
 	if(pc.hasHair()) addGhostButton(1,"Shorten",shortenHairGoo,undefined,"Shorten","Shorten your gooey hair, regaining a portion of its biomass.");
 	else addDisabledGhostButton(1,"Shorten","Shorten","You've got to have hair in order to shorten it!");
-	addGhostButton(2,"Style",newGooStyle,undefined,"Style","Style your hair into a more pleasing shape.");
+	if(pc.hairLength <= 0) addDisabledGhostButton(2,"Style","Style","You need some hair in order to style it!");
+	else addGhostButton(2,"Style",newGooStyle,undefined,"Style","Style your hair into a more pleasing shape.");
 	addGhostButton(14,"Back",gooShiftMenu);
 	
 }
@@ -1126,6 +1131,7 @@ public function adjustGooBody(arg:Array):void
 		cost = 20;
 		limitMax = 100;
 		limitMin = 0;
+		if(pc.hasPerk("Buttslut")) limitMin = 20;
 		if(desc == "increase" || desc == "decrease")
 		{
 			clearOutput2();
@@ -1249,15 +1255,28 @@ public function revertGooBodyColor(part:String = "menu"):void
 			addDisabledGhostButton(0,"Hair","Hair","Your hair and body colors already match!");
 			addDisabledGhostButton(1,"Skin","Skin","Your hair and skin colors already match!");
 		}
+		if(pc.hasBeard())
+		{
+			if(pc.beardColor != pc.hairColor)
+			{
+				output2("Your [pc.beardColor] beard doesn’t quite match your [pc.hairColor] hair. ");
+				if(gooBiomass() >= 10) addGhostButton(5,"Beard",revertGooBodyColor,"beard","Beard","Shift your beard color to match your [pc.hairColor] hair.\n\n<b>10 mLs Biomass</b>");
+				else addDisabledGhostButton(5,"Beard","Beard","You don’t have enough biomass for that.\n\n<b>10 mLs Biomass</b>");
+			}
+			else
+			{
+				addDisabledGhostButton(5,"Beard","Beard","Your beard and hair colors already match!");
+			}
+		}
 		if(gooMismatchedGenitals(sColor) > 0)
 		{
-			output2("Your genital colors seem to be off compared to the rest of your body.");
+			output2("Your genital colors seem to be off compared to the rest of your body. ");
 			if(gooBiomass() >= 10) addGhostButton(2,"FixGenitals",revertGooGenitalColor,sColor,"Revert Genital Color","Shift your genital color to match your " + sColor + " body.\n\n<b>10 mLs Biomass</b>");
 			else addDisabledGhostButton(2,"FixGenitals","Revert Genital Color","You don’t have enough biomass for that.\n\n<b>10 mLs Biomass</b>");
 		}
 		else
 		{
-			if(pc.hairColor == pc.skinTone) output2("You might be able to shift your colors if they are ever mismatched.");
+			if(pc.hairColor == pc.skinTone) output2("You might be able to shift your colors if they are ever mismatched. ");
 			addDisabledGhostButton(2,"FixGenitals","Revert Genital Color","Your genital and body colors already match!");
 		}
 		addGhostButton(14,"Back",gooBodyCustomizer);
@@ -1299,6 +1318,16 @@ public function revertGooBodyColor(part:String = "menu"):void
 			addGhostButton(1,"No",revertGooGenitalColor);
 		}
 		else addGhostButton(0,"Next",revertGooBodyColor,"menu");
+	}
+	else if(part == "beard")
+	{
+		output2("Concentrating hard, you try to allow the pigmentation to climb from your head and into your facial hair.");
+		output2("\n\nTiny dots of [pc.hairColor] bubble up and grow within the [pc.beardColor] [pc.beardNoun]. After a brief moment, you complete the color transformation and admire your changes.");
+		output2(" <b>Your beard color now matches your hair color!</b>");
+		pc.beardColor = pc.hairColor;
+		gooBiomass(-10);
+		clearGhostMenu();
+		addGhostButton(0,"Next",revertGooBodyColor,"menu");
 	}
 }
 public function revertGooGenitalColor(sColor:String = "null"):void
@@ -1994,6 +2023,8 @@ public function nutShrinkGo():void
 	output2("You sag with relief as your body reabsorbs some of the weight from your [pc.sack]. Getting around will certainly be a little easier!");
 	gooBiomass(nutShrinkCost());
 	pc.ballSizeRaw = (pc.ballSizeRaw/Math.PI-1) * Math.PI;
+	//Failsafe!
+	if(pc.ballSizeRaw < 0.5) pc.ballSizeRaw = 0.5;
 	trace("FINAL ACTUAL VOL: " + pc.ballVolume());
 	clearGhostMenu();
 	addGhostButton(0,"Next",gooBallsMenu);
@@ -2044,6 +2075,12 @@ public function expandoNuts():void
 	}
 	gooBiomass(nutExpansionCost() * -1);
 	pc.ballSizeRaw = (pc.ballSizeRaw/Math.PI+1) * Math.PI;
+	//Failsafe!
+	if(pc.ballSizeRaw < 0.5) 
+	{
+		output2("\n\n<b>Something went wrong! BallSizeRaw reported as " + pc.ballSizeRaw + ". Too low. Resetting to 1. Please report this as a bug on the bug report forums with a copy/paste of this message as well as any other pertinent information.</b>");
+		pc.ballSizeRaw = 1;
+	}
 	trace("FINAL ACTUAL VOL: " + pc.ballVolume());
 	pc.lust(15);
 	while(pc.lust() < 33) { pc.lust(5); }
@@ -2165,20 +2202,15 @@ public function reshapeAGooCawkForReaaaaal(arg:int = 0):void
 {
 	clearOutput2();
 	output2("What new shape would you like to give your [pc.cockNoun " + arg + "]?");
+	
+	reshapeAGooCawkMenu([arg, 0]);
+}
+public function reshapeAGooCawkMenu(arg:Array):void
+{
+	var iCock:int = arg[0];
+	var offset:int = arg[1];
+	
 	clearGhostMenu();
-	/*
-	addGhostButton(0,"Terran",seriouslyThoReshapeDatGooCock,[arg,GLOBAL.TYPE_HUMAN]);
-	addGhostButton(1,"Equine",seriouslyThoReshapeDatGooCock,[arg,GLOBAL.TYPE_EQUINE]);
-	addGhostButton(2,"Canine",seriouslyThoReshapeDatGooCock,[arg,GLOBAL.TYPE_CANINE]);
-	addGhostButton(3,"Feline",seriouslyThoReshapeDatGooCock,[arg,GLOBAL.TYPE_FELINE]);
-	addGhostButton(4,"Vulpine",seriouslyThoReshapeDatGooCock,[arg,GLOBAL.TYPE_VULPINE]);
-	addGhostButton(5,"Zil",seriouslyThoReshapeDatGooCock,[arg,GLOBAL.TYPE_BEE]);
-	addGhostButton(6,"Draconic",seriouslyThoReshapeDatGooCock,[arg,GLOBAL.TYPE_DRACONIC]);
-	addGhostButton(7,"Snake-like",seriouslyThoReshapeDatGooCock,[arg,GLOBAL.TYPE_SNAKE]);
-	addGhostButton(8,"Demonic",seriouslyThoReshapeDatGooCock,[arg,GLOBAL.TYPE_DEMONIC]);
-	addGhostButton(9,"Kui-tan",seriouslyThoReshapeDatGooCock,[arg,GLOBAL.TYPE_KUITAN]);
-	addGhostButton(10,"Tentacle",seriouslyThoReshapeDatGooCock,[arg,GLOBAL.TYPE_TENTACLE]);
-	*/
 	
 	var cTypes:Array = [GLOBAL.TYPE_HUMAN, GLOBAL.TYPE_CANINE, GLOBAL.TYPE_FELINE, GLOBAL.TYPE_KUITAN, GLOBAL.TYPE_SNAKE, GLOBAL.TYPE_GRYVAIN, GLOBAL.TYPE_EQUINE, GLOBAL.TYPE_VULPINE];
 	// Unlockables
@@ -2200,31 +2232,25 @@ public function reshapeAGooCawkForReaaaaal(arg:int = 0):void
 	var newType:Number = 0;
 	var btnName:String = "";
 	var btnSlot:int = 0;
-	for(var x:int = 0; x < cTypes.length; x++)
+	
+	for(var x:int = offset; x < (offset + 10); x++)
 	{
-		if(btnSlot >= 14 && (btnSlot + 1) % 15 == 0)
-		{
-			if(pc.cockTotal() == 1) addGhostButton(btnSlot,"Back",gooCockRootMenu);
-			else addGhostButton(btnSlot,"Back",reshapeACaaaawk);
-			btnSlot++;
-		}
+		if(x >= cTypes.length) break;
 		
 		newType = cTypes[x];
 		if(newType == GLOBAL.TYPE_HUMAN) btnName = "Terran";
 		else if(newType == GLOBAL.TYPE_SNAKE) btnName = "Snake-like";
 		else if(newType == GLOBAL.TYPE_BEE) btnName = "Zil";
 		else btnName = GLOBAL.TYPE_NAMES[newType];
-		if(pc.cocks[arg].cType != newType) addGhostButton(btnSlot,btnName,seriouslyThoReshapeDatGooCock,[arg,newType]);
+		if(pc.cocks[iCock].cType != newType) addGhostButton(btnSlot,btnName,seriouslyThoReshapeDatGooCock,[iCock,newType]);
 		else addDisabledGhostButton(btnSlot,btnName,btnName,"The penis is already this shape.");
 		btnSlot++;
-		
-		if(cTypes.length > 15 && (x + 1) == cTypes.length)
-		{
-			while((btnSlot + 1) % 15 != 0) { btnSlot++; }
-			if(pc.cockTotal() == 1) addGhostButton(btnSlot,"Back",gooCockRootMenu);
-			else addGhostButton(btnSlot,"Back",reshapeACaaaawk);
-		}
 	}
+	
+	if(offset >= 10)
+		addGhostButton(10, "Prev Pg.", reshapeAGooCawkMenu, [iCock, (offset - 10)], "Previous Page", "View more penis types.");
+	if(offset + 10 < cTypes.length)
+		addGhostButton(12, "Next Pg.", reshapeAGooCawkMenu, [iCock, (offset + 10)], "Next Page", "View more penis types.");
 	
 	if(pc.cockTotal() == 1) addGhostButton(14,"Back",gooCockRootMenu);
 	else addGhostButton(14,"Back",reshapeACaaaawk);
@@ -2577,7 +2603,7 @@ public function vaginaGooRootMenu():void
 			if(!pc.removeVaginaUnlocked(0, 1)) addDisabledGhostButton(5,"Remove Vag 1","Remove First Vagina","Something is preventing this vagina from being removed.");
 			else if(pc.isPregnant(0)) addDisabledGhostButton(5,"Remove Vag 1","Remove First Vagina","Your first vagina is pregnant and cannot be removed.");
 			else addGhostButton(5,"Remove Vag 1",removeAVag,0,"Remove First Vagina","Remove your first vagina.");
-	}
+		}
 		else addDisabledGhostButton(5,"Remove Vag 1","Remove First Vagina","This vagina isn't made of goo and cannot be removed.");
 		if(pc.vaginas[1].hasFlag(GLOBAL.FLAG_GOOEY))
 		{
@@ -2595,20 +2621,22 @@ public function vaginaGooRootMenu():void
 			if(!pc.removeVaginaUnlocked(2, 1)) addDisabledGhostButton(7,"Remove Vag 3","Remove Third Vagina","Something is preventing this vagina from being removed.");
 			else if(pc.isPregnant(2)) addDisabledGhostButton(7,"Remove Vag 3","Remove Third Vagina","Your third vagina is pregnant and cannot be removed.");
 			else addGhostButton(7,"Remove Vag 3",removeAVag,2,"Remove Third Vagina","Remove your third vagina.");
-	}
+		}
 		else addDisabledGhostButton(7,"Remove Vag 3","Remove Third Vagina","This vagina isn't made of goo and cannot be removed.");
 	}
 	//else addDisabledGhostButton(7,"Remove Vag 3","Remove Third Vagina","You have no vagina to remove.");
 	
-		var numGooVags:Number = 0;
+	var numGooVags:Number = 0;
 	var numPregVags:Number = 0;
 	var numPregTotal:Number = pc.totalPregnancies();
+	
 	if(pc.isPregnant(3)) numPregTotal--;
-		for(x = 0; x < pc.totalVaginas(); x++)
-		{
-			if(pc.vaginas[x].hasFlag(GLOBAL.FLAG_GOOEY)) numGooVags++;
+	for(x = 0; x < pc.totalVaginas(); x++)
+	{
+		if(pc.vaginas[x].hasFlag(GLOBAL.FLAG_GOOEY)) numGooVags++;
 		if(pc.isPregnant(x)) numPregVags++;
-		}
+	}
+	
 	if(numPregTotal > pc.totalVaginas())
 	{
 		if(pc.totalVaginas() == 0) addGhostButton(8,"Fix Womb",fixAllVags,(numPregTotal - pc.totalVaginas()),"Fix Womb","You seem to have a pregnant womb and no vaginas... You should fix this before something goes horribly wrong!\n\n<b>500 mLs Biomass</b>");
@@ -2785,19 +2813,19 @@ public function shiftACuntYaCunt():void
 	addGhostButton(14,"Back",vaginaGooRootMenu);
 	showBiomass();
 }
-
 public function pickNewCuntType(arg:int = 0):void
 {
 	clearOutput2();
 	output2("What type of vagina will you change it into?");
+	
+	pickNewGooCuntMenu([arg, 0]);
+}
+public function pickNewGooCuntMenu(arg:Array):void
+{
+	var iCunt:int = arg[0];
+	var offset:int = arg[1];
+	
 	clearGhostMenu();
-	/*
-	addGhostButton(0,"Terran",actuallyTFToNewCuntType,[arg,GLOBAL.TYPE_HUMAN]);
-	addGhostButton(1,"Equine",actuallyTFToNewCuntType,[arg,GLOBAL.TYPE_EQUINE]);
-	addGhostButton(2,"Canine",actuallyTFToNewCuntType,[arg,GLOBAL.TYPE_CANINE]);
-	addGhostButton(3,"Lapinara",actuallyTFToNewCuntType,[arg,GLOBAL.TYPE_LAPINARA]);
-	addGhostButton(4,"Vanae",actuallyTFToNewCuntType,[arg,GLOBAL.TYPE_VANAE]);
-	*/
 	
 	var vTypes:Array = [GLOBAL.TYPE_HUMAN, GLOBAL.TYPE_CANINE, GLOBAL.TYPE_GRYVAIN, GLOBAL.TYPE_EQUINE];
 	// Unlockables
@@ -2815,30 +2843,23 @@ public function pickNewCuntType(arg:int = 0):void
 	var newType:Number = 0;
 	var btnName:String = "";
 	var btnSlot:int = 0;
-	for(var x:int = 0; x < vTypes.length; x++)
+	for(var x:int = offset; x < (offset + 10); x++)
 	{
-		if(btnSlot >= 14 && (btnSlot + 1) % 15 == 0)
-		{
-			if(pc.totalVaginas() == 1) addGhostButton(btnSlot,"Back",vaginaGooRootMenu);
-			else addGhostButton(btnSlot,"Back",shiftACuntYaCunt);
-			btnSlot++;
-		}
+		if(x >= vTypes.length) break;
 		
 		newType = vTypes[x];
 		if(newType == GLOBAL.TYPE_HUMAN) btnName = "Terran";
 		else if(newType == GLOBAL.TYPE_SNAKE) btnName = "Snake-like";
 		else btnName = GLOBAL.TYPE_NAMES[newType];
-		if(pc.vaginas[arg].type != newType) addGhostButton(btnSlot,btnName,actuallyTFToNewCuntType,[arg,newType]);
+		if(pc.vaginas[iCunt].type != newType) addGhostButton(btnSlot,btnName,actuallyTFToNewCuntType,[iCunt,newType]);
 		else addDisabledGhostButton(btnSlot,btnName,btnName,"The vagina is already this shape.");
 		btnSlot++;
-		
-		if(vTypes.length > 15 && (x + 1) == vTypes.length)
-		{
-			while((btnSlot + 1) % 15 != 0) { btnSlot++; }
-			if(pc.totalVaginas() == 1) addGhostButton(btnSlot,"Back",vaginaGooRootMenu);
-			else addGhostButton(btnSlot,"Back",shiftACuntYaCunt);
-		}
 	}
+	
+	if(offset >= 10)
+		addGhostButton(10, "Prev Pg.", pickNewGooCuntMenu, [iCunt, (offset - 10)], "Previous Page", "View more vagina types.");
+	if(offset + 10 < vTypes.length)
+		addGhostButton(12, "Next Pg.", pickNewGooCuntMenu, [iCunt, (offset + 10)], "Next Page", "View more vagina types.");
 	
 	if(pc.totalVaginas() == 1) addGhostButton(14,"Back",vaginaGooRootMenu);
 	else addGhostButton(14,"Back",shiftACuntYaCunt);
@@ -2953,14 +2974,14 @@ public function gooCrotchUpdate():void
 		if(truantCocks.length == pc.cocks.length)
 		{
 			//Singledongs
-			if(pc.cockTotal() == 1) eventBuffer += "\n\nThe " + pc.cockColor() + " skin of your " + pc.simpleCockNoun(0) + " is vanishing into a slowly creeping wave " + gooColor() + " goo, losing cohesion in exchange for infinitely morphic possibilities. <b>Your penis is now gelatinous.</b>";
+			if(pc.cockTotal() == 1) eventBuffer += "\n\n" + logTimeStamp("passive") + " The " + pc.cockColor() + " skin of your " + pc.simpleCockNoun(0) + " is vanishing into a slowly creeping wave " + gooColor() + " goo, losing cohesion in exchange for infinitely morphic possibilities. <b>Your penis is now gelatinous.</b>";
 			//Multischlongs
-			else eventBuffer += "\n\nThe skin of your " + pc.cocksDescript() + " tingles like mad as waves of translucent goo slowly replaces their skin, transforming them from fleshy wieners into semi-solid, shape-shifting pricks. <b>Your penises are now gelatinous.</b>";
+			else eventBuffer += "\n\n" + logTimeStamp("passive") + " The skin of your " + pc.cocksDescript() + " tingles like mad as waves of translucent goo slowly replaces their skin, transforming them from fleshy wieners into semi-solid, shape-shifting pricks. <b>Your penises are now gelatinous.</b>";
 		}
 		//Just partial - PC MUST have multicocks for this.
 		else
 		{
-			eventBuffer += "\n\nYour gooey, ever-slick crotch spreads down the length";
+			eventBuffer += "\n\n" + logTimeStamp("passive") + " Your gooey, ever-slick crotch spreads down the length";
 			if(truantCocks.length > 1) eventBuffer += "s of your rogue, solid dicks, transforming them into drippy, inexplicably jellied boners.";
 			else 
 			{
@@ -2994,7 +3015,7 @@ public function gooCrotchUpdate():void
 	{
 		if(truantVaginas.length == pc.totalVaginas())
 		{
-			eventBuffer += "\n\nYou're getting incredibly wet";
+			eventBuffer += "\n\n" + logTimeStamp("passive") + " You're getting incredibly wet";
 			if(pc.legCount > 1) eventBuffer += " between the [pc.legs]";
 			else eventBuffer += "... down there";
 			eventBuffer += ". Moisture seems to be dripping everywhere, transforming your puss";
@@ -3004,7 +3025,7 @@ public function gooCrotchUpdate():void
 		//Not matched. Therefore min 2 vags
 		else
 		{
-			eventBuffer += "\n\nUnsurprisingly, the slime that surrounds your multiple mounds trickles in, remaking the more solid flesh into an even wetter, slicker parody of itself. <b>All of your vaginas are made of goo.</b>";
+			eventBuffer += "\n\n" + logTimeStamp("passive") + " Unsurprisingly, the slime that surrounds your multiple mounds trickles in, remaking the more solid flesh into an even wetter, slicker parody of itself. <b>All of your vaginas are made of goo.</b>";
 		}
 	}
 }

@@ -63,23 +63,83 @@ public function pennysOffice():void {
 
 public function showPennyName():void
 {
-	if(flags["MET_PENNY"] == undefined) userInterface.showName("POLICE\nWOMAN");
-	else userInterface.showName("\nPENNY");
+	if(flags["MET_PENNY"] == undefined) showName("POLICE\nWOMAN");
+	else showName("\nPENNY");
+}
+public function pennyBustDisplay(nude:Boolean = false):String
+{
+	// 9999 - Special artist exceptions!
+	// Umm... Art for Penny is kinda all over the place.
+	var hasNude:Boolean = true;
+	if(!InCollection(kGAMECLASS.gameOptions.configuredBustPreferences["PENNY"], "GATS", "JACQUES")) hasNude = false;
+	
+	var sBust:String = "PENNY";
+	if(nude && hasNude)
+	{
+		sBust += "_NUDE";
+		if(kGAMECLASS.gameOptions.configuredBustPreferences["PENNY_NUDE"] == "JACQUES")
+		{
+			if(penny.hasCock(GLOBAL.TYPE_VULPINE))
+			{
+				sBust += "_VIXEN";
+				if(penny.cocks[0].cLengthRaw < 11.5) sBust += "";
+				else if(penny.cocks[0].cLengthRaw < 18) sBust += "_1";
+				else sBust += "_2";
+			}
+			else if(penny.hasCock(GLOBAL.TYPE_EQUINE))
+			{
+				sBust += "_HORSE";
+				if(penny.cocks[0].cLengthRaw < 16) sBust += "";
+				else if(penny.cocks[0].cLengthRaw < 20) sBust += "_1";
+				else sBust += "_2";
+			}
+		}
+	}
+	
+	if(flags["PENNY_BADGER_BIMBO"] != undefined || pennyIsCumSlut())
+	{
+		if
+		(	(kGAMECLASS.gameOptions.configuredBustPreferences["PENNY"] == "JACQUES")
+		||	(flags["PENNY_BADGER_BIMBO"] == undefined && kGAMECLASS.gameOptions.configuredBustPreferences["PENNY_NUDE"] == "JACQUES")
+		||	(flags["PENNY_BADGER_BIMBO"] != undefined && kGAMECLASS.gameOptions.configuredBustPreferences["PENNY_BIMBO"] == "JACQUES")
+		||	(penny.hasCock(GLOBAL.TYPE_EQUINE) && kGAMECLASS.gameOptions.configuredBustPreferences["PENNY_BIMBO_HORSE"] == "JACQUES")
+		)
+		{
+			if(flags["PENNY_BADGER_BIMBO"] == undefined) sBust = "PENNY_NUDE";
+			else sBust = "PENNY_BIMBO";
+			
+			if(penny.hasCock(GLOBAL.TYPE_VULPINE))
+			{
+				sBust += "_VIXEN";
+				if(penny.cocks[0].cLengthRaw < 11.5) sBust += "";
+				else if(penny.cocks[0].cLengthRaw < 18) sBust += "_1";
+				else sBust += "_2";
+			}
+			else if(penny.hasCock(GLOBAL.TYPE_EQUINE))
+			{
+				sBust += "_HORSE";
+				if(penny.cocks[0].cLengthRaw < 16) sBust += "";
+				else if(penny.cocks[0].cLengthRaw < 20) sBust += "_1";
+				else sBust += "_2";
+			}
+		}
+		else
+		{
+			sBust = "PENNY_BIMBO";
+			if(penny.hasCock(GLOBAL.TYPE_EQUINE)) sBust += "_HORSE";
+		}
+	}
+	
+	return sBust;
 }
 public function showPennyBust(nude:Boolean = false):void
 {
 	if(flags["PENNY_BADGER_BIMBO"] != undefined || pennyIsCumSlut())
 	{
-		var pennyBust:String = "PENNY_BIMBO";
-		if(penny.hasCock(GLOBAL.TYPE_EQUINE)) pennyBust = "PENNY_BIMBO_HORSE";
-		if(flags["SEEN_BIMBO_PENNY"] != undefined && (hours < 8 || hours >= 17)) showBust("FLAHNE_NUDE",pennyBust);
-		else showBust(pennyBust);
+		if(flags["SEEN_BIMBO_PENNY"] != undefined && (hours < 8 || hours >= 17)) showBust(flahneBustDisplay(true),pennyBustDisplay(true));
+		else showBust(pennyBustDisplay(true));
 	}
-	else
-	{
-		if(!nude) showBust("PENNY");
-		else showBust("PENNY_NUDE");
-	}
+	else showBust(pennyBustDisplay(nude));
 }
 public function showPenny(nude:Boolean = false):void
 {
@@ -287,8 +347,12 @@ public function getSpitRoastedForPenny():void {
 		if(!pc.hasVagina() && pc.analVirgin) output("anal ");
 		output("innocence surprisingly bearable. ");
 	}
+	var x:int = -1;
 	if(pc.hasVagina()) {
-		pc.cuntChange(rand(pc.vaginas.length),zilpack.cockVolume(0),false, false,false);
+		for(x = 0; x < pc.vaginas.length; x++)
+		{
+			pc.cuntChange(x,zilpack.cockVolume(0),false, false,false);
+		}
 	}
 	else {
 		pc.buttChange(zilpack.cockVolume(0),false, false,false);
@@ -349,12 +413,18 @@ public function getSpitRoastedForPenny():void {
 	
 	output("\n\nYour waspish suitors pull out of you at the same time, wings buzzing. Your shaking limbs tremble, trying to hold you up as they switch places, floating past each other as they reposition, presenting you with a yellow-skinned, cum-covered cock to suck. You smile drunkenly up at the Zil and open wide to the sound of Penny’s moans.");
 	
-	output("\n\nThe fox-morph watches you fuck these bug-men with her cunt dribbling on the tiled floor. Her mask fell off during her frenzied self-pleasure. She pants as she aggressively smooshes her hand deep into her now-esposed tits, burying her palm wrist-deep in boob. Her other hand is halfway buried in her snatch, leaving only her thumb to tend to a tiny, barely-visible clit. Penny grunts bestially as her muscles lock, her body shivering lustily before she sags against the wall, still watching. Her hand comes partway out of her reddened slit, though she continues to idly stroke a single digit through her folds as she watches the cum ooze from you.");
+	output("\n\nThe fox-morph watches you fuck these bug-men with her cunt dribbling on the tiled floor. Her mask fell off during her frenzied self-pleasure. She pants as she aggressively smooshes her hand deep into her now-exposed tits, burying her palm wrist-deep in boob. Her other hand is halfway buried in her snatch, leaving only her thumb to tend to a tiny, barely-visible clit. Penny grunts bestially as her muscles lock, her body shivering lustily before she sags against the wall, still watching. Her hand comes partway out of her reddened slit, though she continues to idly stroke a single digit through her folds as she watches the cum ooze from you.");
 	output("\n\nYou’re filled on both sides once more, each zil getting sloppy seconds in one of your holes. Gushing everywhere, the honey quickly coats the floor");
 	if(pc.wetness() >= 3) output(" along with your own moisture");
 	output(", squirting from your well-used holes. The constant sexual onslaught sends you to orgasm after orgasm, almost one on top of the other. Your mind seems to be turning to putty under the ecstatic assault, shutting down one thought process after another as you ride pleasure unending. Dimly, you’re aware of one sloppy honey injection after another...");
 	pc.orgasm();
-	if(pc.hasVagina()) pc.loadInCunt(chars["ZIL"]);
+	if(pc.hasVagina())
+	{
+		for(x = 0; x < pc.vaginas.length; x++)
+		{
+			pc.loadInCunt(chars["ZIL"], x);
+		}
+	}
 	pc.loadInAss(chars["ZIL"]);
 	//Cum, pregnancy chances, sensitivity reduction
 	//Pass 2 hours.
@@ -374,7 +444,7 @@ public function getFucked4PennyEpilogue():void {
 	output("\n\nThe zil, looking confused and hurt, answers, <i>“Is custom when meeting other tribes. Sex establishes dominance and who is to be obeyed. Even though you’re aliens, we assumed you worked the same. We thought if we could dominate you, you would acknowledge us and leave.”</i> He slumps, looking defeated.");
 	output("\n\nYou note that Penny has a trickle of golden goo escaping from between her legs. Obviously she stepped in for you at some point and took them the rest of the way down. Her lip pulls back in a sneer. <i>“Well since you two are my... </i>prey<i>, I guess you’ve gotta listen to me now, huh?”</i> ");
 	output("\n\nBoth zil nod.");
-	output("\n\n<i>“Good. I’m going to lead you out of here on leashes in a minute. You be sure and tell your people that we’ll kill anyone that comes into town trying to force customs on us again. Make sure that message spreads through all your villages. I don’t care if you have to fuck or get fucked by every one of them to do it,”</i> Penny declares while separating herself from the beaten zil. She grabs her pants and throws them on in a huff, closely followed by her wraps, bra, and vest.");
+	output("\n\n<i>“Good. I’m going to lead you out of here on leashes in a minute. You be sure to tell your people that we’ll kill anyone that comes into town trying to force customs on us again. Make sure that message spreads through all your villages. I don’t care if you have to fuck or get fucked by every one of them to do it,”</i> Penny declares while separating herself from the beaten zil. She grabs her pants and throws them on in a huff, closely followed by her wraps, bra, and vest.");
 	output("\n\nYou stagger up after the fox-girl, groggily grabbing your things, all of them covered in sexual fluids. She smirks and points you to a shower while she finds some restraints.");
 	this.clearMenu();
 	this.addButton(0,"Next",postSexShower);
@@ -510,7 +580,7 @@ public function loseToZilpackPartTwoLoseHarder():void {
 	output(" with another hot, sticky load of honey-colored cum. <i>“And what are you going to do about it, hmm? Clearly your friend likes it... " + pc.mf("he","she") + " knows the way of the world. Dominate, or submit. There is no other choice.”</i>");
 	output("\n\nYou note that the crotch of Penny’s trousers has begun to soak through. She just can’t hide how hard she got off to watching you tangle with the slutty aliens. She bites her lip. <i>“But you're the ones behind bars. You're </i>my<i> prey, now. You'll submit to me, or rot in here.”</i>");
 	output("\n\nA moment passes. You gag as the dusky Zil brother fills your mouth with a heady load of sweet cum. Then, glumly, they nod. They're sexual predators, but not stupid... and they're awfully sexy. Dominant beasts of sensual prey - you shake your head and spit out the cum, trying to focus.");
-	output("\n\nPenny continues more confidently, <i>“Good. If you want to be left alone, then don't come into town trying to fuck everyone. I'm going to release you, but you WILL listen to me: be sure to and tell your people that we’ll kill anyone that comes into town trying to force ‘customs’ on us again. I don't give a damn about your sick take on dominance; we do NOT exist to be fucked by your people. Do you fuckheads understand that? We will </i>kill<i> the next one that tries to rape an offworlder. Make sure that message spreads through all your villages. I don’t care if you have to fuck or get fucked by every one of them to do it,”</i> Penny declares while pulling her mask back on and hastily twining her wraps back around her torso, covering them them partway with her vest a minute later. <i>“Gotta keep the girls in place,”</i> she mutters as her hard nipples press plainly through the fabric.");
+	output("\n\nPenny continues more confidently, <i>“Good. If you want to be left alone, then don't come into town trying to fuck everyone. I'm going to release you, but you WILL listen to me: be sure to tell your people that we’ll kill anyone that comes into town trying to force ‘customs’ on us again. I don't give a damn about your sick take on dominance; we do NOT exist to be fucked by your people. Do you fuckheads understand that? We will </i>kill<i> the next one that tries to rape an offworlder. Make sure that message spreads through all your villages. I don’t care if you have to fuck or get fucked by every one of them to do it,”</i> Penny declares while pulling her mask back on and hastily twining her wraps back around her torso, covering them them partway with her vest a minute later. <i>“Gotta keep the girls in place,”</i> she mutters as her hard nipples press plainly through the fabric.");
 	output("\n\nPenny smirks and points you to a shower while she finds some restraints. <i>“Get cleaned up, I’ll take care of the hooligans.”</i> You are a bit worked up from the fight. A shower would be nice.");
 	this.clearMenu();
 	this.addButton(0,"Next",finishLosingToZilYouLoser);
@@ -555,7 +625,7 @@ public function defeatZilPair():void {
 	output("\n\nThe zil, looking confused and hurt, answers, <i>“Is custom when meeting other tribes. Sex establishes dominance and who is to be obeyed. Even though you’re aliens, we assumed your culture is similar. We thought if we could dominate you, you would acknowledge us and leave.”</i> He slumps, looking defeated. <i>“Are you going to take us now?”</i>");
 	output("\n\nYou note that the crotch of Penny’s trousers has begun to soak through. She just can’t hide how hard she got off to watching you tangle with the slutty aliens. She bites her lip. <i>“Well since you two are my... </i>prey<i>, I guess you’ve gotta listen to me now, huh?”</i>");
 	output("\n\nBoth zil nod.");
-	output("\n\nPenny continues more confidently, <i>“Good. I’m going to lead you out of here on leashes in a minute. You be sure to and tell your people that we’ll kill anyone that comes into town trying to force ‘customs’ on us again. Make sure that message spreads through all your villages. I don’t care if you have to fuck or get fucked by every one of them to do it,”</i> Penny declares while separating herself from the beaten zil. She grabs her wraps and hastily twines them around her torso, covering them partway up with her vest a minute later. <i>“Gotta keep the girls in place,”</i> she mutters as her hard nipples press plainly through the fabric.");
+	output("\n\nPenny continues more confidently, <i>“Good. I’m going to lead you out of here on leashes in a minute. You be sure to tell your people that we’ll kill anyone that comes into town trying to force ‘customs’ on us again. Make sure that message spreads through all your villages. I don’t care if you have to fuck or get fucked by every one of them to do it,”</i> Penny declares while separating herself from the beaten zil. She grabs her wraps and hastily twines them around her torso, covering them partway up with her vest a minute later. <i>“Gotta keep the girls in place,”</i> she mutters as her hard nipples press plainly through the fabric.");
 	output("\n\nPenny smirks and points you to a shower while she finds some restraints. <i>“Get cleaned up, I’ll take care of the hooligans.”</i> You are a bit worked up from the fight. A shower would be nice.");
 	//[Next]
 	pc.lust(10);
@@ -603,10 +673,28 @@ public function approachFriendPenny(outputT:Boolean = true):void {
 	if(flags["DR_BADGER_TURNED_IN"] == undefined)
 	{
 		if(flags["NO_REPORTING_DOC_BADGER"] != undefined) addDisabledButton(5,"ReportBadger","Report Dr. Badger","You've decided not to turn in Doctor Badger.");
-		else if(flags["MET_DR_BADGER"] != undefined) addButton(5,"ReportBadger",whineToPennyCauseYerABitch,undefined,"Report Dr. Badger","That Doctor Badger thought she could get the best of you... time to turn the tables the right way: by bringing the hammer of the LAW down on her.");
+		else if(flags["MET_DR_BADGER"] != undefined) addButton(5,"ReportBadger",whineToPennyCauseYerABitch,undefined,"Report Dr. Badger","That Doctor Badger thought she could get the best of you... Time to turn the tables the right way: by bringing the hammer of the LAW down on her.");
 		else addDisabledButton(5,"Locked","Locked","Someone would have to do something illegal to you to unlock this button...");
+		
+		if(flags["BADGER_QUEST"] == 1)
+		{
+			addButton(6,"BadgerWarn",warnPennyAboutDoctorBadgersNefariousSchemes,undefined,"Warn Her About Dr. Badger","Penny would probably have some opinions about Dr. Badger's plan. Who knows, maybe she’d be into it, or maybe she’ll have some ideas about how to turn the tables on Dr. Badger instead.");
+			if(flags["NO_ZAP_PENNY"] == undefined) 
+			{
+				if(flags["PENNY_BADGER_WARNED"] == undefined) addButton(5,"Zap Penny",surpriseZapPennyWithBimboRay,undefined,"Zap Penny","This seems like a jerk move, but if nothing else you can be pretty sure she’ll probably enjoy the end result, as will you.");
+				else addButton(5,"Zap Penny",zapPennyAfterWarningHer,undefined,"Zap Penny","Go ahead and zap Penny with the Bimbo Raygun, now that it seems like she approves.");
+			}
+			else addDisabledButton(5,"Zap Penny","Zap Penny","Now that you've tipped her off, it'll be impossible to catch her with her guard down.");
+		}
 	}
 	else addDisabledButton(5,"ReportBadger","Report Dr. Badger","You already turned in Doctor Badger.");
+	//Penny has the doc's raygun
+	if(flags["BADGER_QUEST"] == -1 || flags["BADGER_QUEST"] == -2)
+	{
+		addDisabledButton(5,"ReportBadger","Report Dr. Badger","Why would you report Dr. Badger when you and Penny are planning to give her a taste of her own medicine?");
+	}
+	//Mission complete
+	if(flags["BADGER_QUEST"] == -3) addDisabledButton(5,"ReportBadger","Report Dr. Badger","Why would you report Dr. Badger when you've turned her into your big-breasted, bimbo badger fucktoy?");
 }
 
 //[Sex]
@@ -826,7 +914,7 @@ public function firstTimePennyShowerSex():void {
 	output(". <i>“My </i>");
 	if(pc.tallness <= 50) output("<i>little </i>");
 	else if(pc.tallness >= 70) output("<i>big </i>");
-	output("<i>mate. We’ll have to do something like this again, and soon.”</i> She smiles. <i>“It is nice to finally cut loose with someone. I just hope you don’t mind to much when I get all riled up and get a little predatory on you.”</i> Her hand traces down your flank. <i>“You are one delicious piece of prey, though.”</i>");
+	output("<i>mate. We’ll have to do something like this again, and soon.”</i> She smiles. <i>“It is nice to finally cut loose with someone. I just hope you don’t mind too much when I get all riled up and get a little predatory on you.”</i> Her hand traces down your flank. <i>“You are one delicious piece of prey, though.”</i>");
 	output("\n\nThe conversation dies away, and the two of you get dressed to go on your separate ways. You find yourself on the receiving end of a tonguing kiss before Penny goes back to work, looking more satisfied than you’ve ever seen her.");
 	pc.orgasm();
 	penny.loadInCunt(pc);
@@ -1305,7 +1393,7 @@ public function pennyGirlfriendMenu():void
 	if(flags["DR_BADGER_TURNED_IN"] == undefined)
 	{
 		if(flags["NO_REPORTING_DOC_BADGER"] != undefined) addDisabledButton(2,"ReportBadger","Report Dr. Badger","You've decided not to turn in Doctor Badger.");
-		else if(flags["MET_DR_BADGER"] != undefined) addButton(2,"ReportBadger",whineToPennyCauseYerABitch,undefined,"Report Dr. Badger","That Doctor Badger thought she could get the best of you... time to turn the tables the right way: by bringing the hammer of the LAW down on her.");
+		else if(flags["MET_DR_BADGER"] != undefined) addButton(2,"ReportBadger",whineToPennyCauseYerABitch,undefined,"Report Dr. Badger","That Doctor Badger thought she could get the best of you... Time to turn the tables the right way: by bringing the hammer of the LAW down on her.");
 		else addDisabledButton(2,"Locked","Locked","Someone would have to do something illegal to you to unlock this button...");
 		
 		if(flags["BADGER_QUEST"] == 1)
@@ -1482,7 +1570,7 @@ public function whatSheLookedLikeBFour():void {
 public function pennyFutanariTalk():void {
 	clearOutput();
 	showPenny();
-	if (flags["PENNY_FUTA_TALK"] == undefined)
+	if (flags["PENNY_FUTA_TALK"] == undefined && !penny.hasCock())
 	{
 		flags["PENNY_FUTA_TALK"] = 1;
 		output("<i>“Grow a dick?”</i> Penny states with a dumbfounded look. Ears flattening back on her head, she admits, <i>“I did mention that, didn’t I?”</i>");
@@ -1513,12 +1601,19 @@ public function pennyFutanariTalk():void {
 	{
 		if(penny.hasCock(GLOBAL.TYPE_EQUINE))
 		{
-			output("<i>“Oh, you mean this show pony you tricked me into getting?”</i> Penny asks with a knowing grin. <i>“I thought Throbb would have be all drippy and horny at all times of the day, but this thing is almost as bad!”</i> She shifts uncomfortably. <i>“I can barely hide the thing, and just thinking about it gets it hard enough to whack into the bottom of my desk.”</i>");
+			output("<i>“Oh, you mean this show pony you tricked me into getting?”</i> Penny asks with a knowing grin. <i>“I thought Throbb would have me all drippy and horny at all times of the day, but this thing is almost as bad!”</i> She shifts uncomfortably. <i>“I can barely hide the thing, and just thinking about it gets it hard enough to whack into the bottom of my desk.”</i>");
 			if(flags["PENNY_THROBB_USES"] >= 3 && flags["PENNY_THROBB_USES"] != undefined)
 			{
 				output("\n\nThe over-sized futanari fennec shifts to bring the flared head up to her lips. She swiftly slathers it in a fresh layer of spit. <i>“Part of me wants more... but...”</i> She moans, swallowing at least six inches of pulsing meat. When she pulls it back out again her cock is slick and dripping white. <i>“This is just so awesome already.”</i> A pearl-white smile spreads across her face.")
 			}
 			output("\n\nShe's no longer interested in taking Throbb.");
+			if(flags["PENNY_THROBB_USES"] == undefined || flags["PENNY_THROBB_USES"] == 0) 
+			{
+				output("\n\n<i>“You know, I’ve actually still got plenty of Throbb left over. If you ever want some, just ask.”</i> Penny glances at your groin and ");
+				if(pc.biggestCockLength() >= 15) output("smiles wickedly, licking her lips. <i>“God, imagine you with an even more enormous cock. You’d break my jaw!”</i>");
+				else output("smirks knowingly. <i>“Imagine how much harder you could make me drool if we gave you a little boost. Just enough to make your dickgirl mate </i>really<i> whimper.”</i>");
+				flags["PENNY_THROBB_PURCHASE_UNLOCKED"] = 1;
+			}
 			clearMenu();
 			if(flags["PENNY_THROBB_USES"] >= 3 && flags["PENNY_THROBB_USES"] != undefined)
 			{
@@ -3194,13 +3289,7 @@ public function pennyVsFlahneWhoWillOutslutWho():void
 {
 	clearOutput();
 	author("Abe E. Seedy");
-	var pennyBust:String = "PENNY_NUDE";
-	if(flags["PENNY_BADGER_BIMBO"] != undefined || pennyIsCumSlut())
-	{
-		pennyBust = "PENNY_BIMBO";
-		if(penny.hasCock(GLOBAL.TYPE_EQUINE)) pennyBust = "PENNY_BIMBO_HORSE";
-	}
-	userInterface.showBust(pennyBust, "FLAHNE_NUDE");
+	showBust(pennyBustDisplay(true), flahneBustDisplay(true));
 	var x:int = pc.biggestCockIndex(); // Fenstyle yo
 
 	output("You mention to Penny that you had a very interesting talk about her with Flahne recently. At the mention of Flahne’s name Penny’s ears prick up with almost comical enthusiasm, betraying her interest as they literally swivel slightly towards you.");

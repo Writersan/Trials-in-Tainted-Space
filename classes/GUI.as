@@ -259,7 +259,7 @@
 			if (_availableModules["MainMenu"].visible == true)
 			{
 				//showPrimaryOutput();
-				backToPrimaryOutput();
+				kGAMECLASS.backToPrimaryOutput();
 			}
 			else
 			{
@@ -360,6 +360,8 @@
 		 */
 		private function creditsHandler():void
 		{
+			if (systemText != "BY FENOXO") showName("\nCREDITS");
+			
 			clearOutput2();
 			
 			// Had to do this- our output mechanics choked to fucking DEATH on the size of the output otherwise.
@@ -577,7 +579,10 @@
 		 */
 		public function showMainMenu():void
 		{
+			if (systemText != "BY FENOXO") showName("MAIN\nMENU");
 			this.showModule("MainMenu");
+			hideBust();
+			author("");
 			
 			var buttons:Array = (_availableModules["MainMenu"] as MainMenuModule).mainMenuButtons;
 			
@@ -595,8 +600,11 @@
 		
 		public function showOptionsModule():void
 		{
+			if (systemText != "BY FENOXO") showName("\nOPTIONS");
 			this.showModule("Options");
 			(_currentModule as OptionsModule).updateDisplay();
+			hideBust();
+			author("");
 			mainButtonsOnly();
 			clearGhostMenu();
 			
@@ -607,8 +615,8 @@
 		
 		public function backToPrimaryOutput():void
 		{
-			mainButtonsReset();
 			showPrimaryOutput();
+			mainButtonsReset();
 		}
 		
 		// Interaction bullshit for the main menu
@@ -624,6 +632,11 @@
 			_buttonTray.resetButtons();
 		}
 		
+		public function isPrimaryOutputActive():Boolean
+		{
+			return (_currentModule.moduleName == "PrimaryOutput");
+		}
+		
 		public function showSecondaryOutput():void
 		{
 			if (_currentModule.moduleName != "SecondaryOutput")
@@ -632,6 +645,11 @@
 			}
 			
 			this.clearGhostMenu();
+		}
+		
+		public function isSecondaryOutputActive():Boolean
+		{
+			return (_currentModule.moduleName == "SecondaryOutput");
 		}
 		
 		public function showMinigame():void
@@ -660,9 +678,11 @@
 		// Codex trigger
 		public function showCodex():void
 		{
-			this.showModule("CodexDisplay");
+			showModule("CodexDisplay");
 			(_currentModule as CodexModule).cullHeaders();
-			this.setLocation("", "CODEX", "DATABASE");
+			hideBust();
+			setLocation("", "CODEX", "DATABASE");
+			author("");
 			
 			// Trigger an update of the visual data state whenever we begin displaying the Codex
 			(_currentModule as CodexModule).update();
@@ -671,22 +691,28 @@
 		public function showMails():void
 		{
 			showModule("MailDisplay");
-			setLocation("", "CODEX", "MESSENGER");
 			(_currentModule as MailModule).update();
+			hideBust();
+			setLocation("", "CODEX", "MESSENGER");
+			author("");
 		}
 		
 		public function showLevelUpStats(character:PlayerCharacter):void
 		{
-			this.showModule("LevelUpStats");
+			showModule("LevelUpStats");
 			(_currentModule as LevelUpStatsModule).setCreatureData(character);
+			kGAMECLASS.showPCBust();
 			setLocation("", "LEVEL UP", "STATS");
+			author("");
 		}
 		
 		public function showLevelUpPerks(character:PlayerCharacter):void
 		{
-			this.showModule("LevelUpPerks");
+			showModule("LevelUpPerks");
 			(_currentModule as LevelUpPerksModule).setCreatureData(character);
+			kGAMECLASS.showPCBust();
 			setLocation("", "LEVEL UP", "PERKS");
+			author("");
 		}
 		
 		// Once this is all working, a lot of this should be refactored so that code external to GUI
@@ -800,15 +826,18 @@
 		
 		public function author(name:String):void
 		{
-			if(kGAMECLASS.gameOptions.authorToggle)
+			if(kGAMECLASS.gameOptions.authorToggle && name != "")
 				_leftSideBar.generalInfoBlock.sceneAuthor = name;
 			else
+			{
+				if(name == "") _leftSideBar.generalInfoBlock.sceneAuthor = "";
 				_leftSideBar.generalInfoBlock.HideScene();
+			}
 		}
 		
 		public function showSceneTag():void
 		{
-			if(kGAMECLASS.gameOptions.authorToggle)
+			if(kGAMECLASS.gameOptions.authorToggle && _leftSideBar.generalInfoBlock.sceneAuthor != "")
 				_leftSideBar.generalInfoBlock.ShowScene();
 			else
 				_leftSideBar.generalInfoBlock.HideScene();
@@ -843,7 +872,7 @@
 			
 			if (tarButton.func == null) return false;
 			
-			if (!inCombat) showBust("none");
+			kGAMECLASS.clearBust();
 			
 			if (tarButton.arg == undefined) 
 			{
@@ -937,6 +966,7 @@
 			outputBuffer = "\n";
 			
 			author("Probably Fenoxo");
+			//author("");
 			textPage = 4;
 			
 			bufferButtonUpdater();
@@ -1380,7 +1410,8 @@
 				argS += args[i];
 			}
 			//trace("showBust called with args: [" + argS + "]");
-			_leftSideBar.locationBlock.showBust(args);			
+			if(args.length > 0) _leftSideBar.locationBlock.showBust(args);
+			else _leftSideBar.locationBlock.showBust(args);
 		}
 		
 		public function bringLastBustToTop():void

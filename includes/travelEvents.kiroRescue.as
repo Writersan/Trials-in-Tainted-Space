@@ -5,9 +5,21 @@ import classes.Items.Melee.Cutlass;
 
 public function showKiro(nude:Boolean = false):void
 {
-	if(nude) showBust("KIRO_NUDE");
-	else showBust("KIRO");
+	showKiroBust(nude);
 	showName("\nKIRO");
+}
+public function kiroBustDisplay(nude:Boolean = false):String
+{
+	var sBust:String = chars["KIRO"].bustDisplay + (nude ? "_NUDE" : "");
+	// Hide ball sizes if clothed
+	if(!nude) sBust = sBust.replace(/_SM|_LG|_XL/g, "");
+	
+	return sBust;
+}
+public function showKiroBust(nude:Boolean = false):void
+{
+	// Show bust
+	showBust(kiroBustDisplay(nude));
 }
 
 public function answerKiroDistressCall(destination:String):void
@@ -71,7 +83,7 @@ public function boardKirosShipRescue(destination:String):void
 {
 	clearOutput();
 
-	output("The ship proves remarkable easy to dock with. In fact, as soon as your navigational computer begins to plot a course, it automatically extends a docking umbilical in your direction. You guide your craft through the necessary navigational hoops in order to properly connect with it and grab your gear. This could be dangerous.");
+	output("The ship proves remarkably easy to dock with. In fact, as soon as your navigational computer begins to plot a course, it automatically extends a docking umbilical in your direction. You guide your craft through the necessary navigational hoops in order to properly connect with it and grab your gear. This could be dangerous.");
 
 	// [Normal ship menu with exit ship as if had landed at a planet]
 	shipLocation = "KIROS SHIP AIRLOCK";
@@ -153,7 +165,7 @@ public function kirosShipCutlassCheck():void
 
 public function kirosShipWails(doOutput:Boolean = true):Boolean
 {
-	showBust("KIRO_NUDE");
+	showKiroBust(true);
 
 	if (doOutput)
 	{
@@ -226,7 +238,7 @@ public function kirosShipChubnookiUpDaButt():void
 {
 	clearOutput();
 	author("Savin");
-	showBust("KIRO_NUDE");
+	showKiroBust(true);
 
 	flags["KIRO_FUCKED_DURING_RESCUE"] = 1;
 	
@@ -320,6 +332,12 @@ public function kirosShipChubnookiUpDaButt():void
 	kiro.loadInAss(pc);
 	kiro.loadInAss(pc);
 	kiro.loadInMouth(pc);
+	for (var i:int = 0; i < 20; i++)
+	{
+		kiro.orgasm();
+	}
+	pc.orgasm();
+	pc.orgasm();
 	applyCumSoaked(pc);
 
 	processTime(60+rand(15));
@@ -332,7 +350,7 @@ public function kirosShipChubnookiUpDaCooter():void
 {
 	clearOutput();
 	author("Fenoxo"); // Guessing, doc doesn't say anything, formatting/markup makes me think its fenwrites
-	showBust("KIRO_NUDE");
+	showKiroBust(true);
 	
 	flags["KIRO_FUCKED_DURING_RESCUE"] = 1;
 
@@ -526,7 +544,7 @@ public function kirosShipChubnookiFucksYouGud(anal:Boolean = false):void
 {
 	clearOutput();
 	author("Fenoxo");
-	showBust("KIRO_NUDE");
+	showKiroBust(true);
 	
 	flags["KIRO_FUCKED_DURING_RESCUE"] = 1;
 	
@@ -773,7 +791,7 @@ public function kirosShipfixDaMachine():void
 {
 	clearOutput();
 	author("Savin"); // Maybe?
-	showBust("KIRO_NUDE");
+	showKiroBust(true);
 
 	//Tech Specialist only, needs Difficult INT Check
 	output("\"<i>Hang on, ma'am, help's on the way,</i>\" you say, grabbing your tools as you approach the gigantic cock-milker.");
@@ -809,7 +827,7 @@ public function kirosShipfixDaMachine():void
 public function kirosShipNopeFuckThisShit():void
 {
 	clearOutput();
-	showBust("KIRO_NUDE");
+	showKiroBust(true);
 	author("Fenoxo");
 
 	output("\n\nYou throw your hands up and say, \"<i>Nope, I'm out. Don't get paid enough for this shit.</i>\" You turn away and run back to your ship, not daring to look back at the monstrously perverted mess behind you. When the familiar flooring of your ship is underfoot once more, you sigh with relief and slam the hatch closed. You can't fly away quick enough.");
@@ -826,7 +844,7 @@ public function kirosShipNopeFuckThisShit():void
 public function kirosShipPostFirstFuck():void
 {
 	clearOutput();
-	showBust("KIRO_NUDE");
+	showKiroBust(true);
 	author("Fenoxo");
 
 	//Combine after sex scenes or Tech Spec. repair job. 

@@ -1,7 +1,7 @@
 ﻿package classes
 {
 	import classes.DataManager.Serialization.UnversionedSaveable;
-	
+	import classes.kGAMECLASS;
 	public class VaginaClass extends UnversionedSaveable
 	{
 		//constructor
@@ -42,6 +42,12 @@
 			
 			var currWet:Number = wetnessRaw + wetnessMod;
 			
+			if(kGAMECLASS.pc && kGAMECLASS.pc.hasStatusEffect("Anal Lubricant") && kGAMECLASS.pc.ass == this)
+			{
+				currWet += 2;
+				if(currWet > 5) currWet = 5;
+			}
+			
 			if (currWet < 0)
 			{
 				return 0;
@@ -68,9 +74,9 @@
 			
 			var currLoose:Number = loosenessRaw + loosenessMod;
 			
-			if (currLoose < 1)
+			if (currLoose < 0.5)
 			{
-				return 1;
+				return 0.5;
 			}
 			else if (currLoose > 5) // or so :V
 			{
@@ -113,6 +119,13 @@
 		public function addFlag(arg:int):void {
 			if(!hasFlag(arg)) vagooFlags[vagooFlags.length] = arg;
 			else trace("Attempted to add flag " + arg + " to vagina of type " + type + ".");
+		}
+		public function delFlag(arg:int):void
+		{
+			//Find and destroy it.
+			for(var x:int = 0; x < vagooFlags.length; x++) {
+				if(arg == vagooFlags[x]) vagooFlags.splice(x,1);
+			}
 		}
 		public function clearFlags():void {
 			vagooFlags = new Array();

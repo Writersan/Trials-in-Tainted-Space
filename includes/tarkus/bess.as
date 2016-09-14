@@ -5198,7 +5198,7 @@ public function aboutBess8():void
 	
 	output("\n\n<i>“I’m not all that different from you in that respect - after all, it’s not like </i>you<i> can’t produce this stuff given the circumstances just by eating and drinking. You’re pretty amazing!”</i> [bess.name] exclaims, clearly amazed by how you can produce saliva and sweat at the same time as a basic function.");
 	
-	output("\n\n<i>“That said, I </i>can<i> get low on MeldMilk. When that happens, the best thing I can do is consume a similar substance. That usually isn’t so hard considering what I’m built for.");
+	output("\n\n<i>“That said, I </i>can<i> get low on MeldMilk. When that happens, the best thing I can do is consume a similar substance. That usually isn’t so hard considering what I’m built for.”</i>");
 	
 	output("\n\n<i>“In the worst case scenario I can transform tap water into MeldMilk at a processing hit. It creates sub-par MeldMilk, but it makes do in a pinch. After all, you organics are usually 70 percent water.");
 	if (pc.hasCock()) output(" I much prefer your semen, though.");
@@ -10715,7 +10715,7 @@ public function bessSexMenu():void
 		// If you've equipped Bess with the saurian / dino-dick, the pc's orifice capacity must be able to take a 20 inch long, 12 inch wide cock.
 		if (bess.cocks[0].cType == GLOBAL.TYPE_SAURIAN)
 		{
-			if ((pc.hasVagina() && pc.cuntThatFits(1360) >= 0) || pc.analCapacity() >= 1360) addButton(2, "GetDoggy", bessGetDoggy, undefined, "Get Doggystyle", "Take it from [bess.name], doggy style! [bess.HeShe] must have a cock.");
+			if ((pc.hasVagina() && pc.cuntThatFits(bess.cockVolume(0)) >= 0) || pc.analCapacity() >= bess.cockVolume(0)) addButton(2, "GetDoggy", bessGetDoggy, undefined, "Get Doggystyle", "Take it from [bess.name], doggy style! [bess.HeShe] must have a cock.");
 			else addDisabledButton(2, "GetDoggy", "Get Doggystyle", "Take it from [bess.name], doggy style! [bess.HeShe] must have a cock that [bess.heShe] can squeeze into you!");
 		}
 		else
@@ -11566,14 +11566,14 @@ public function bessGiveDoggySelected(bTargetVag:Boolean = false):void
 public function bessGetDoggy():void
 {
 	// Cunt that fits Saurian-type cocks, ass doesn't fit
-	if (pc.hasVagina() && bess.cocks[0].cType == GLOBAL.TYPE_SAURIAN && pc.cuntThatFits(1360) >= 0 && pc.analCapacity() < 1360)
+	if (pc.hasVagina() && bess.cocks[0].cType == GLOBAL.TYPE_SAURIAN && pc.cuntThatFits(bess.cockVolume(0)) >= 0 && pc.analCapacity() < bess.cockVolume(0))
 	{
 		bessGetDoggySelected(true);
 		return;
 	}
 
 	// Cunt doesn't fit Saurian-type cocks, or no cunt
-	if ((pc.hasVagina() && bess.cocks[0].cType == GLOBAL.TYPE_SAURIAN && pc.cuntThatFits(1360) == -1) || !pc.hasVagina())
+	if ((pc.hasVagina() && bess.cocks[0].cType == GLOBAL.TYPE_SAURIAN && pc.cuntThatFits(bess.cockVolume(0)) == -1) || !pc.hasVagina())
 	{
 		bessGetDoggySelected(false);
 		return;
@@ -11859,6 +11859,7 @@ public function bessGetDoggySelected(bTargetVag:Boolean):void
 	output(". You groan as [bess.heShe] presses forward, slowly sinking [bess.himHer]self inside of you, right up to the hilt.");
 	if (bess.balls > 0) output(" As [bess.heShe] bottoms out, you feel [bess.hisHer] [bess.balls] deliciously brushing against your [bess.thighs], and your whole body flushes with excitement.");
 	
+	bess.cockChange();
 	if (bTargetVag) pc.cuntChange(vagIdx, bess.cockVolume(0));
 	else pc.buttChange(bess.cockVolume(0));
 
@@ -12619,7 +12620,7 @@ public function bessIntimateSexMenu():void
 		// If you've equipped Bess with the saurian / dino-dick, the pc's orifice capacity must be able to take a 20 inch long, 12 inch wide cock.
 		if (bess.cocks[0].cType == GLOBAL.TYPE_SAURIAN)
 		{
-			if ((pc.hasVagina() && pc.cuntThatFits(1360) >= 0) || pc.analCapacity() >= 1360) addButton(2, "Missionary", bessIntimateGetDoggy, false, "Get Intimate Missionary", "Take it from [bess.name], missionary style.");
+			if ((pc.hasVagina() && pc.cuntThatFits(bess.cockVolume(0)) >= 0) || pc.analCapacity() >= bess.cockVolume(0)) addButton(2, "Missionary", bessIntimateGetDoggy, false, "Get Intimate Missionary", "Take it from [bess.name], missionary style.");
 			else addDisabledButton(1, "Missionary", "Get Intimate Missionary", "Take it from [bess.name], missionary style. [bess.HeShe] must have a cock that [bess.heShe] can squeeze into you!");
 		}
 		else
@@ -12714,6 +12715,8 @@ public function bessIntimateGiveDoggy(fromEvent:Boolean = false):void
 	if (bess.hasVagina()) output(" slick");
 	output(" narrow tunnel and arching your back. As you unload inside of [bess.hisHer] [bess.heShe] moans and cums again around your spasming shaft.");
 	
+	pc.cockChange();
+	
 	output("\n\nYour lap feels as if there’s a");
 	if (bess.hasVagina()) output(" liquid");
 	output(" furnace on it as you both kiss in your delirious post-orgasmic haze. You’re not sure how much time passes before you fall down exhausted in each other’s arms, your [pc.cum]");
@@ -12757,8 +12760,8 @@ public function bessIntimateGetDoggy(fromEvent:Boolean = false):void
 
 	if (bess.cocks[0].cType == GLOBAL.TYPE_SAURIAN)
 	{
-		vagIdx = pc.cuntThatFits(1360);
-		cVolume = 1360;
+		vagIdx = pc.cuntThatFits(bess.cockVolume(0));
+		cVolume = bess.cockVolume(0);
 	}
 	else if (pc.hasVagina())
 	{
@@ -12801,6 +12804,7 @@ public function bessIntimateGetDoggy(fromEvent:Boolean = false):void
 	else output(" [pc.asshole]");
 	output(".");
 
+	bess.cockChange();
 	if (pc.hasVagina()) pc.cuntChange(vagIdx, cVolume, true, true, false);
 	else pc.buttChange(cVolume, true, true, false);
 	

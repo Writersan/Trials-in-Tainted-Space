@@ -103,6 +103,7 @@
 
 		[Embed(source = "../../../assets/images/npcs/gats/Gray_Goo.png", mimeType = "image/png")]
 		public var Bust_GRAY_GOO:Class;
+		public var Bounds_GRAY_GOO:Rectangle = new Rectangle(9, 0, 70, 70);
 
 		[Embed(source = "../../../assets/images/npcs/gats/Rival_Jack.png", mimeType = "image/png")]
 		public var Bust_JACK:Class;
@@ -136,6 +137,14 @@
 		public var Bust_KIRO:Class;
 		[Embed(source = "../../../assets/images/npcs/gats/Kiro_Nude.png", mimeType = "image/png")]
 		public var Bust_KIRO_NUDE:Class;
+
+		[Embed(source = "../../../assets/images/npcs/gats/korgonne_female_barbarian.png", mimeType = "image/png")]
+		public var Bust_KORGONNE_FEMALE:Class;
+		[Embed(source = "../../../assets/images/npcs/gats/korgonne_female_barbarian_2.png", mimeType = "image/png")]
+		public var Bust_KORGONNE_FEMALE2:Class;
+		[Embed(source = "../../../assets/images/npcs/gats/korgonne_female_barbarian_nude.png", mimeType = "image/png")]
+		public var Bust_KORGONNE_FEMALE_NUDE:Class;
+
 
 		[Embed(source = "../../../assets/images/npcs/gats/Machina.png", mimeType = "image/png")]
 		public var Bust_MACHINA:Class;
@@ -241,6 +250,7 @@
 
 		[Embed(source = "../../../assets/images/npcs/gats/Tamwolf.png", mimeType = "image/png")]
 		public var Bust_TAMWOLF:Class;
+		public var Bounds_TAMWOLF:Rectangle = new Rectangle(48, 16, 64, 64);
 		
 		[Embed(source = "../../../assets/images/npcs/gats/una.png", mimeType = "image/png")]
 		public var Bust_UNA:Class;
@@ -253,6 +263,13 @@
 			public var Full_UNA:Class;
 			[Embed(source = "../../../assets/images/npcs/gats/hr/una_nude.png", mimeType = "image/png")]
 			public var Full_UNA_NUDE:Class;
+
+			[Embed(source = "../../../assets/images/npcs/gats/korgonne_female_barbarian.png", mimeType = "image/png")]
+			public var Full_KORGONNE_FEMALE:Class;
+			[Embed(source = "../../../assets/images/npcs/gats/korgonne_female_barbarian_2.png", mimeType = "image/png")]
+			public var Full_KORGONNE_FEMALE2:Class;
+			[Embed(source = "../../../assets/images/npcs/gats/korgonne_female_barbarian_nude.png", mimeType = "image/png")]
+			public var Full_KORGONNE_FEMALE_NUDE:Class;
 		}
 
 		[Embed(source = "../../../assets/images/npcs/gats/Venus_Pitcher.png", mimeType = "image/png")]

@@ -271,7 +271,7 @@
 				}
 			}
 			//Change arm type to furred
-			if(pc.armType != GLOBAL.TYPE_CANINE && changes < changeLimit && rand(3) == 0)
+			if((pc.armType != GLOBAL.TYPE_CANINE || !target.hasArmFlag(GLOBAL.FLAG_FURRED)) && changes < changeLimit && rand(3) == 0)
 			{
 				if (target.armTypeUnlocked(GLOBAL.TYPE_CANINE))
 				{
@@ -284,7 +284,7 @@
 				else kGAMECLASS.output(target.armTypeLockedMessage());
 			}
 			//Change leg-type to furred (Needs Bipedal legs)
-			if(pc.legType != GLOBAL.TYPE_CANINE && changes < changeLimit && pc.legCount >= 2 && rand(3) == 0 && pc.armType == GLOBAL.TYPE_CANINE)
+			if((pc.legType != GLOBAL.TYPE_CANINE || !target.hasLegFlag(GLOBAL.FLAG_FURRED)) && changes < changeLimit && pc.legCount >= 2 && rand(3) == 0 && pc.armType == GLOBAL.TYPE_CANINE)
 			{
 				if (target.legTypeUnlocked(GLOBAL.TYPE_CANINE))
 				{
@@ -367,6 +367,24 @@
 		public function huskarStageTFs(target:Creature, changeLimit:int):int
 		{
 			var changes:int = 0;
+			
+			// Get floppy doggie ears
+			if (target.earType == GLOBAL.TYPE_CANINE && rand(4) == 0)
+			{
+				if (target.earTypeUnlocked(GLOBAL.TYPE_DOGGIE))
+				{
+					output("\n\nYour canine-shaped ears each develop an itch, spreading from base to tip. You feel them")
+					if(target.earLength <= 4) output(" elongate a bit and")
+					else if(target.earLength > 12) output(" shorten some and")
+					output(" gradually loosen. With a few twitches of your ear muscles, you find that your ears are capable of a lot more expression than before. You can make them perk up when alert, fold back when cautious, or droop down when at rest, and with much less effort now. Their shape rounds out slightly, losing the anubis-like triangle for a look that is less intimidating to strangers. <b>Your canine ears are now floppy dog ears!</b>");
+					
+					target.earType = GLOBAL.TYPE_DOGGIE;
+					if(target.earLength <= 4) target.earLength = 3 + rand(2);
+					if(target.earLength > 12) target.earLength = 12;
+					changes++;
+				}
+				else output(target.earTypeLockedMessage());
+			}
 			
 			if (target.hasArmFlag(GLOBAL.FLAG_FURRED) && !target.hasArmFlag(GLOBAL.FLAG_FLUFFY) && changes < changeLimit && rand(2) == 0)
 			{
@@ -457,7 +475,7 @@
 				//Usage text:
 				kGAMECLASS.output("You pop the bone-shaped cookie into your mouth. It's pleasantly chewy and chocolatey, though as you swallow it, you find yourself panting and scratching at your ears. Weird.");
 				
-				if (target.race().indexOf("ausar") == -1 && target.race().indexOf("huskar") == -1)
+				if (((target.race() == "half-ausar" && !target.hasLegFlag(GLOBAL.FLAG_FURRED) && !target.hasArmFlag(GLOBAL.FLAG_FURRED)) || target.race().indexOf("ausar") == -1) && target.race().indexOf("huskar") == -1)
 				{
 					if(rand(2) == 0) changeLimit++;
 					if(rand(3) == 0) changeLimit++;
@@ -466,7 +484,7 @@
 			
 					changes = ausarStageTFs(target, changeLimit);
 				}
-				else if (target.race().indexOf("ausar") != -1)
+				else if (target.race().indexOf("ausar") != -1 || target.race() == "half-huskar")
 				{
 					if(rand(3) == 0) changeLimit++;
 					if (rand(4) == 0) changeLimit++;

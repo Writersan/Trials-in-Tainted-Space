@@ -4,8 +4,10 @@
 	import classes.GLOBAL;
 	import classes.Items.Miscellaneous.*;
 	import classes.Items.Transformatives.Catnip;
+	import classes.Items.Transformatives.Foxfire;
 	import classes.Items.Transformatives.OvirAce;
 	import classes.Items.Transformatives.OvirPositive;
+	import classes.Items.Transformatives.DracoGuard;
 	import classes.kGAMECLASS;
 	import classes.Engine.Utility.rand;
 	
@@ -14,7 +16,7 @@
 		//constructor
 		public function Jade()
 		{
-			this._latestVersion = 8;
+			this._latestVersion = 10;
 			this.version = _latestVersion;
 			this._neverSerialize = false;
 			
@@ -60,6 +62,8 @@
 			inventory.push(new OvirAce());
 			inventory.push(new OvirPositive());
 			this.inventory.push(new Catnip());
+			this.inventory.push(new Foxfire());
+			this.inventory.push(new DracoGuard());
 			this.typesBought[this.typesBought.length] = GLOBAL.PILL;
 			this.typesBought[this.typesBought.length] = GLOBAL.POTION;
 			this.typesBought[this.typesBought.length] = GLOBAL.DRUG;
@@ -198,7 +202,6 @@
 		{
 			dataObject.inventory.push(new NukiCookies().getSaveObject());
 		}
-		
 		public function UpgradeVersion5(dataObject:Object):void
 		{
 			delete dataObject.resistances;
@@ -208,16 +211,22 @@
 			delete dataObject.lustVuln;
 			delete dataObject.bonusLustVuln;
 		}
-		
 		public function UpgradeVersion6(d:Object):void
 		{
 			d.inventory.push(new OvirAce().getSaveObject());
 			d.inventory.push(new OvirPositive().getSaveObject());
 		}
-		
 		public function UpgradeVersion7(d:Object):void
 		{
 			d.inventory.push(new Catnip().getSaveObject());
+		}
+		public function UpgradeVersion8(dataObject:Object):void
+		{
+			dataObject.inventory.push(new DracoGuard().getSaveObject());
+		}
+		public function UpgradeVersion9(d:Object):void
+		{
+			d.inventory.push(new Foxfire().getSaveObject());
 		}
 		
 		override public function onLeaveBuyMenu():void

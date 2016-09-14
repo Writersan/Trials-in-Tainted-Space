@@ -192,12 +192,21 @@ public function kq2RappelIn():void
 	
 	if (pc.isMischievous())
 	{
-		output("\n\n<i>“Oh, no, ladies first. I insist,”</i> you answer with a grin of your own. Kara rolls her eyes but agrees, grabbing the rope and sliding down out of sight. You follow her down a few seconds later");
-		if (!pc.isBiped()) output(", surprised that the rope can actually bear your bestial half’s weight");
+		output("\n\n<i>“Oh, no, ladies first. I insist,”</i> you answer with a grin of your own. Kara rolls her eyes but agrees, grabbing the rope and sliding down out of sight. You");
+		if (pc.hasWings() && pc.canFly()) output(" spread your [pc.wingsNoun] and");
+		output(" follow her down a few seconds later");
+		if (!pc.isBiped() && !(pc.hasWings() && pc.canFly())) output(", surprised that the rope can actually bear your bestial half’s weight");
 		output(".");
 	}
-	else output("\n\nYou nod and grab the rope.");
-	output(" The descent is slow going, taking you more than a hundred feet down from the plateau to the lowland surface. You hit dirt with a slight THUD,");
+	else
+	{
+		output("\n\nYou");
+		if (pc.hasWings() && pc.canFly()) output(" spread your [pc.wingsNoun] and jump.");
+		else output(" nod and grab the rope.");
+	}
+	output(" The descent is slow going, taking you more than a hundred feet down from the plateau to the lowland surface. You");
+	if (pc.hasWings() && pc.canFly()) output(" gracefully land on the dirt floor below,");
+	else output(" hit dirt with a slight THUD,");
 	if (pc.isMischievous()) output(" catching up to Kara");
 	else output(" joined by Kara a moment later");
 	output(". She looks around a moment, then nods toward the open maw of a cave entrance not far away. <i>“There we go. Should be a crack in the floor of that cavern that’ll drop us right into the base’s waste pumps. Just a short ways from there to the base interior. C’mon, let’s move.”</i>");
@@ -206,6 +215,16 @@ public function kq2RappelIn():void
 	currentLocation = "K2_SEWERENTRANCE";
 	clearMenu();
 	addButton(0, "Next", mainGameMenu);
+}
+
+public function kq2rfSewerEntrance():Boolean
+{
+	output("The ‘entrance’ Kara promised you to the base’s sewer is little more than a crack in the ground a few yards into the mouth of a surface cave.");
+	if (pc.hasAirtightSuit()) output(" Your codex’s sensors tell you there is water running below you though, luckily, you can’t smell the foul odor it must be eminating.");
+	else output(" You can hear water running below, and there is a powerful stink rising up from it.");
+	output("\n\n<i>“Ew,”</i> Kara groans, waving her hand over her nose.");
+	
+	return false;
 }
 
 public function kq2rfSewer1():Boolean
@@ -504,6 +523,7 @@ public function kq2rfKaraOverride():void
 	CombatManager.newGroundCombat();
 	CombatManager.setFriendlyCharacters([pc]);
 	CombatManager.setHostileCharacters([new KQ2BlackVoidGrunt(), new KQ2BlackVoidGrunt(), new KQ2BlackVoidGrunt(), new KQ2BlackVoidGrunt()]);
+	CombatManager.displayLocation("VOID GRUNTS");
 	CombatManager.victoryCondition(CombatManager.SURVIVE_WAVES, 5);
 	CombatManager.victoryScene(kq2KaraHotwiresSumDoors);
 	CombatManager.lossScene(kq2CapturedByPiratesBadEnd);
@@ -530,12 +550,14 @@ public function kq2KaraHotwiresSumDoors():void
 public function kq2rfEnterRNDFirstTime():void
 {
 	clearOutput();
+	userInterface.hideNPCStats();
+	userInterface.leftBarDefaults();
 
 	if (flags["KQ2_KARA_WITH_PC"] != 1)
 	{
 		output("You wave at the radio tower, trying to signal Kara to come over. She’s back with you momentarily, running across the courtyard as quick as she can.");
 
-		if (kara.isMischievous()) output("\n\n<i>“Miss me?”</i> she grins, giving you a playful wink. <i>“Alright, we’re in! God job, [pc.name]!”</i>");
+		if (kara.isMischievous()) output("\n\n<i>“Miss me?”</i> she grins, giving you a playful wink. <i>“Alright, we’re in! Good job, [pc.name]!”</i>");
 		
 		flags["KQ2_KARA_WITH_PC"] = 1;
 	}
@@ -582,6 +604,11 @@ public function kq2rfYardA1():Boolean
 		flags["KQ2_RF_KENNEL_USED"] = 1;
 		flags["TAMWOLF_FIXED_IN_KENNEL"] = 1;
 		processTime(2);
+		
+		showBust("TAMWOLF");
+		clearMenu();
+		addButton(0, "Next", mainGameMenu);
+		return true;
 	}
 	else if (flags["KQ2_RF_KENNEL_USED"] == undefined && (pc.accessory is TamWolf || pc.hasItemByType(TamWolf)))
 	{
@@ -603,6 +630,11 @@ public function kq2rfYardA1():Boolean
 			pc.inventory.push(new TamWolfII());
 		}
 		processTime(2);
+		
+		showBust("TAMWOLF_II");
+		clearMenu();
+		addButton(0, "Next", mainGameMenu);
+		return true;
 	}
 
 	return false;
@@ -821,12 +853,12 @@ public function kq2rfKhansLab():Boolean
 		kq2EncounterKhan();
 		return true;
 	}
-	output("The sealed lab hits you with a sultry heat the moment you step in, clinging to your [pc.skinFurScales] as your [pc.feet] tread through something wet and sticky covering the white floor. The lab’s a mess compared to the sterile facility you just passed through: computers and machinery is turned and toppled all over, and covered in a thick, musky white goo.");
+	output("The sealed lab hits you with a sultry heat the moment you step in, clinging to your [pc.skinFurScales] as your [pc.feet] tread through something wet and sticky covering the white floor. The lab’s a mess compared to the sterile facility you just passed through: computers and machinery are turned and toppled all over, and covered in a thick, musky white goo.");
 
 	if (flags["KQ2_DEFEATED_KHAN"] != undefined)
 	{
 		output("\n\nDoctor Khan is knocked out in the corner, propped up by his oversized nuts. His <i>“assistants”</i> are");
-		if (9999 == 9999) output(" fawning over him, even in his sleep.");
+		if (9999 == 0) output(" fawning over him, even in his sleep.");
 		else output(" trying to pick up the pieces of their work, occasionally shooting their former master dark looks.");
 	}
 

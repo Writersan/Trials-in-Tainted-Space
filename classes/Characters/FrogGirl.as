@@ -265,7 +265,7 @@
 		{
 			output("The agile lady skirts up to you, attempting to give you a lick from waist to neck.");
 			if(combatMiss(target, target)) output(" You leap backwards, escaping her attack before she can pull it off.");
-			else if(target.hasArmor() && target.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT))
+			else if(target.hasAirtightSuit())
 			{
 				output(" Her tongue caresses you, but your are left unaffected thanks to the impermeability of your [pc.armor].");
 			}
@@ -306,7 +306,7 @@
 			output("The lusty frog girl licks across her body with her long tongue, moaning as the oral muscle slips over her netherlips. Without warning she lashes it at you, whipping it like a flail.");
 			var damage:TypeCollection;
 			//miss: 
-			if (combatMiss(this, target)) output("\nThe tongue flies by you, smashing into a tree and eliciting a pained gasp from its owner");
+			if (combatMiss(this, target)) output("\nThe tongue flies by you, smashing into a tree and eliciting a pained gasp from its owner.");
 			else 
 			{
 				output("\nThe tip of her tongue slams into you, ");
@@ -324,7 +324,7 @@
 					
 					outputDamage(damageResult);
 				}
-				else if (target.hasArmor() && target.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT))
+				else if (target.hasAirtightSuit())
 				{
 					output("and you are slimed by her toxic saliva. Luckily your [pc.armor] is airtight enough to prevent any of the fluid from seeping into your [pc.skin], but you definitely feel the impact of the hit.");
 					damage = meleeDamage();

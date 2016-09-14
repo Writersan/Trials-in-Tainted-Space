@@ -280,9 +280,7 @@ public function reallySmashedEpiloguetoDrinkingWithCandicePartII():void
 public function stephIrson4Go():void
 {
 	clearOutput();
-	author("Savin");
-	showName("STEPH\nIRSON");
-	showBust("STEPH_4");
+	stephHeader(4);
 	
 	flags["STEPH_WATCHED"] = 1;
 	
@@ -298,15 +296,14 @@ public function stephIrson4Go():void
 	processTime(6);
 	clearMenu();
 	addButton(0,"Next",stephIrsonEpisode4Part2);
-	addButton(1,"Stop Watching",mainGameMenu);
+	addButton(1,"StopWatching",mainGameMenu);
 }
 
 public function stephIrsonEpisode4Part2():void
 {
 	clearOutput();
-	author("Savin");
-	showName("STEPH\nIRSON");
-	showBust("STEPH_4");
+	stephHeader(4);
+	
 	output("<i>“Ah, I’m sorry, I didn’t... I didn’t see you there!”</i> the alien girl groans, blinking hard.");
 	output("\n\n<i>“Crikey! It’s a nyrea!”</i> Steph shouts, leaping to her feet. <i>“Are you getting this, camera? A live nyrean female, right in front of me. I’ve gotta subdue ‘er quick, or I’m gonna get stuffed with eggs!”</i>");
 	output("\n\nThe alien girl blinks. <i>“B-but I’m a male...”</i>");
@@ -325,15 +322,14 @@ public function stephIrsonEpisode4Part2():void
 	pc.lust(3);
 	clearMenu();
 	addButton(0,"Next",stephIrsonEpisode4Part3);
-	addButton(1,"Stop Watching",mainGameMenu);
+	addButton(1,"StopWatching",mainGameMenu);
 }
 
 public function stephIrsonEpisode4Part3():void
 {
 	clearOutput();
-	author("Savin");
-	showName("STEPH\nIRSON");
-	showBust("STEPH_4_NUDE");
+	stephHeader(4, true);
+	
 	output("The nyrea takes a long step forward, her hips swaying seductively towards Steph. <i>“Besides, I can’t have just anybody running up and attacking my favorite little beta bitch, can I?”</i> she coos, swatting the male on the ass as she passes by. <i>“Why don’t you slip out of the fuck-me outfit and spread your legs. Iryn here’s just finished giving me a ripe, fertile clutch of eggs that are desperate for somewhere to go...”</i>");
 	output("\n\nSteph gulps, taking a defensive step back. <i>“Aww, c’mon!”</i> she groans, though the camera doesn’t fail to catch her thumbs hooking into her belt and yanking her pants down, revealing the silver lips of her pussy. It looks like Steph’s gotten used to her inevitable fate these days...");
 	output("\n\n<i>“Ah, what an eager slut,”</i> the nyrean alpha grins, planting her spear head-first in the ground and stepping forward to plant a hand on Steph’s waist. Her other hand snakes down to her shaft, starting to stroke the bulge in her panties as she slowly works them off her hips. They clatter to the ground, letting a foot of turgid, arm-thick meat flop free between her legs. Steph’s eyes go wide at the sight of it, and the camera pans to show her silvery pussy already gleaming with excitement. She takes another step back, followed immediately by the nyrea alpha, whose cock jumps when Steph’s bare leg brushes against it.");
@@ -349,15 +345,14 @@ public function stephIrsonEpisode4Part3():void
 	pc.lust(3);
 	clearMenu();
 	addButton(0,"Next",stephIrsonEpisode4Part4);
-	addButton(1,"Stop Watching",mainGameMenu);
+	addButton(1,"StopWatching",mainGameMenu);
 }
 
 public function stephIrsonEpisode4Part4():void
 {
 	clearOutput();
-	author("Savin");
-	showName("STEPH\nIRSON");
-	showBust("STEPH_4_NUDE");
+	stephHeader(4, true);
+	
 	output("She starts to move, trying to get up out of the mass of vines... when the very roots around her start to move, squirming around her limbs. One of the tips come into sight, drawing the camera’s eye: it’s tipped with a bulbous, purple crown that splatters Steph’s cheek with moisture as it moves. In the dim light, you could be forgiven for thinking that it was a great big tentacle cock.");
 	output("\n\n<i>“Crikey!”</i> Steph squeals, struggling against the viney hold on her limbs. More tentacles squirm down from on high, dangling down around her, crawling across her body, tearing away the straining cloth of her shirt and wrapping around her huge tits, squeezing a squirt of milk out of her teats. She yelps, making the mistake of opening her mouth as a particularly daring vine brushes past her cheek. Sensing the defenseless opening, it darts in eagerly, plugging her maw with a squirming mass of green vine.");
 	output("\n\nAs it fucks its way into Steph’s mouth, a small disclaimer appears at the bottom of the screen, telling you that the U.G.C. Scout Authority and the Entertainment Board are not responsible for the content of live television, and that the species colloquially called <i>“cock vines”</i> should be avoided at all costs. <b>Viewer discretion is advised</b>.");
@@ -368,15 +363,14 @@ public function stephIrsonEpisode4Part4():void
 	pc.lust(5);
 	clearMenu();
 	addButton(0,"Next",stephIrsonEpisode4Part5);
-	addButton(1,"Stop Watching",mainGameMenu);
+	addButton(1,"StopWatching",mainGameMenu);
 }
 
 public function stephIrsonEpisode4Part5():void
 {
 	clearOutput();
-	author("Savin");
-	showName("STEPH\nIRSON");
-	showBust("STEPH_4_NUDE");
+	stephHeader(4, true);
+	
 	output("The tentacles are relentless, single-minded in their motions to pump Steph full of creamy, viscous seed. Her belly swells with the sheer volume of plant-spunk flooding into her womb and both ends of her gut, distending even more as the tentacles visibly squirm inside her, straining her body to its limits. Minutes fly by in vigorous fucking, the tentacles drilling deeper and deeper into Steph’s abused body, joined by even more small vines that worm their way into her holes beside their larger cousins. Every root and vine in the bush seems to be trying to wriggle its way into her, to give the Huntress its load of thick, creamy plant spunk.");
 	output("\n\nBy the time they’re done with her, Steph’s as white as a sheet, slathered with plant spooge from head to toe and still trickling milk as the vines latched onto her breasts release her. She sputters and coughs as the vine in her mouth withdraws, giving her a final money-shot across her cheeks in glorious close-up high definition. Her eyes flutter as the last squirts of cum plaster her gray lips, and her tongue laps it up with lazy hunger. She gives a full body shiver, drawing the camera’s eye towards her crotch as the tentacles buried in her twat slowly slither out, drawing out another screaming orgasm from the show’s host as they pop out, splattering her thighs with thier cum and hers.");
 	output("\n\nSteph slumps against the restraints still around her limbs, breathing hard and shivering with the aftershocks of repeated orgasm, completely at the plant’s mercy. However, it seems done with her now that she’s utterly filled with the vines' seed. The camera follows her as the tentacles draw her limp body back up through the bush over the pit and deposit her back on the surface, plopping her back on the stone cavern floor in a pool of white, creamy spunk. You can see one tentacle, however, still outside the pit, attached firmly to the Galactic Huntress’s backside.");
@@ -385,95 +379,13 @@ public function stephIrsonEpisode4Part5():void
 	output("\n\nThe tail plunges into her, pumping vigorously into her backside. She gives a startled squeal, slumping forward onto her big, milky jugs as her new appendage gets used to her. The camera feed fades to black, telling you to tune in next week for another exciting episode of <i>Steph Irson, Galactic Huntress</i>.");
 	output("\n\nHow the hell is this on public television still?");
 	if (pc.libido() >= 40) output(" Not that you’re complaining...");
+	
+	watchStephEpisodeBroadcast("STEPH_COCKED");
+	
 	processTime(6);
 	pc.lust(7);
 	clearMenu();
 	addButton(0,"Next",mainGameMenu);
-}
-
-public function grayGooAtBarSetup(slot:int = 8):void
-{
-	output("\n\nOf all the things, there's a gray goo-girl bouncing around the bar, her eyes saucer-like and full of wonder as she stares at the myr and other aliens.");
-	addButton(slot, "Gray Goo", grayGooAtBar);
-}
-public function grayGooAtBar():void
-{
-	clearOutput();
-	author("Savin");
-	showName("\nGRAY GOO");
-	showBust("GRAYGOO");
-
-	output("<i>“Oh, hi!”</i> she says, perking up as you approach. <i>“Holy wow, it’s really you!”</i>");
-	
-	output("\n\nYou cock an eyebrow. <i>“Do I know you?”</i>");
-	
-	output("\n\n<i>“Sure you do! Um, well, maybe? You’ve totally </i>seen<i> me, anyway. I’m Nova!”</i> she grins, shifting her form momentarily to that of the tall, slender, handsome woman you met on Deck 13 of the <i>Nova</i>, dressed in a facsimile of an officer’s uniform. The goo squirms and shifts back to her normally buxom form and giggles playfully. <i>“Recognize me now?”</i>");
-	
-	output("\n\nWait, wasn’t she going to be getting a new cyber body?");
-	
-	output("\n\n<i>“</i>She<i> sure did,”</i> the goo-girl laughs, <i>“Captain what’s-her-butt and her crew are all off getting their fancy new bodies. Which means I got to wake up after she left! The nice people in lab coats said I should go find somebody to take care of me, sooooo I’m looking for someone really nice to be my friend! Oh! Do you want to be my friend? Pretty please? You were so nice to all my friends already...”</i>");
-
-	processTime(5+rand(3));
-
-	// [Sure] [Not now]
-	clearMenu();
-	addButton(0, "Sure", grayGooAtBarSure, undefined, "Sure", "Tell the goo-girl you'll take her with you. Considering what she was able to do when you fought her, maybe you can get some use out of her in battle...");
-	addButton(1, "Not Now", grayGooAtBarNotNow);
-}
-
-public function grayGooAtBarSure():void
-{
-	clearOutput();
-	author("Savin");
-	showName("\nGRAY GOO");
-	showBust("GRAYGOO");
-
-	goo.short = "Nova";
-
-	output("<i>“Sure. I’m [pc.name],”</i> you say, extending a hand to the goo.");
-	
-	output("\n\n<i>“Yaaaaaaaaay!”</i> she cheers, leaping onto you and giving you a huge, wet hug, pressing her massive tits against your chest. <i>“Bestest friends forever and ever and ever!”</i> ");
-	
-	output("\n\nYou chuckle and pat the goo on the head, your fingers coming away slightly wet and sticky. She slips back out of your grasp, going straight through your arm. <i>“You can call me Nova! I guess. I dunno, that’s what all the people that used to live in my head called me. Oh well! Hey, since we’re super best friends, wanna... I dunno, wanna fuck?”</i>");
-	
-	output("\n\n");
-	if (pc.lust() >= pc.lustMax() * 0.75) output("As much as you really could use a little relief.... ");
-	output("<i>“Not right now,”</i> you say. Might as well make sure she isn’t going to force herself on you.");
-	
-	output("\n\n[goo.name] shrugs. <i>“Kay! Um... what do best friends do other than fuck all the time?”</i>");
-	
-	output("\n\nYou smile, relieved, and ask if [goo.name] would like to come with you back to your ship.");
-	
-	output("\n\n<i>“Oh wow! A SPACE SHIP!? That’s awesome. I wanna see. I wanna see!”</i>");
-	
-	output("\n\nLaughing, you take [goo.name]’s hand and lead her up toward the hangar.");
-
-	currentLocation = shipLocation;
-	
-	flags["ANNO_NOVA_UPDATE"] = 2;
-
-	processTime(45+rand(15));
-
-	clearMenu();
-	addButton(0, "Next", mainGameMenu);
-}
-
-public function grayGooAtBarNotNow():void
-{
-	clearOutput();
-	author("Savin");
-	showName("\nGRAY GOO");
-	showBust("GRAYGOO");
-	
-	output("<i>“Sorry,”</i> you say, taking a step back from the over-eager pile of goo.");
-	
-	output("\n\nShe visibly deflates. <i>“Aww. Nobody around here wants to be friends with me,”</i> the goo groans.");
-
-	processTime(1);
-
-	//{Back to bar menu}
-	clearMenu();
-	addButton(0, "Next", mainGameMenu);
 }
 
 /*Room Descript Additions

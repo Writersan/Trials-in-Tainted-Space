@@ -13,8 +13,16 @@ public function showSyri(nude:Boolean = false):void
 {
 	if(flags["MET_SYRI"] == undefined) userInterface.showName("AUSAR\nGIRL");
 	else userInterface.showName("\nSYRI");
-	if(!nude) userInterface.showBust("SYRI");
-	else userInterface.showBust("SYRI_NUDE");
+	showBust(syriBustDisplay(nude));
+}
+public function syriBustDisplay(nude:Boolean = false):String
+{
+	// 9999 - Special artist exceptions!
+	if(kGAMECLASS.gameOptions.configuredBustPreferences["SYRI"] != "GATS") return "SYRI";
+	
+	var sBust:String = "SYRI";
+	if(nude) sBust += "_NUDE";
+	return sBust;
 }
 
 public function syriIsCrew():Boolean {
@@ -290,9 +298,10 @@ public function victoryFuckSyrisBunghole():void {
 	output("\n\nPrick still lodged in Syri's well-fucked ass, you heave a heavy sigh and wipe the sweat from your brow. Beneath you, the ausar girl's breath comes in short little gasps, her breasts rising and falling erratically as she tries to pick herself up from the table. <i>“D-damn, [pc.name]. You're a fucking machine. Gods and spirits I'll be sore for days after that reaming....”</i>");
 
 	output("\n\nYou reach down and squeeze one of her delightfully squishy cheeks, promising ");
-	if(pc.isNice()) output("you'll take it easy on her next time");
-	else if(pc.isMischievous()) output("that she'll have to get used to it if she doesn't get on your level next time");
-	else output("that she'll be walking bow-legged when you're done with her next time.");
+	if(pc.isNice()) output("you'll take it easy on her");
+	else if(pc.isMischievous()) output("that she'll have to get used to it if she doesn't get on your level");
+	else output("that she'll be walking bow-legged when you're done with her");
+	output(" next time.");
 
 	output("\n\n<i>“Next time... it's </i>your<i> ass, [pc.name],”</i> she growls, pulling your cock out - which only serves to unleash a flood of your pent-up seed that spills down between her cheeks and along the cleft of her swinging sack.");
 
@@ -742,7 +751,7 @@ public function talkToSyriNumber4():void {
 
 	output("\n\n<i>“Oh, fine. Nosey little shit, aren't you? Yeah, the Joint Ausar Fleet pays me a little stipend to keep me from starving, but it doesn't buy shit on the homeworld. That's half of why I'm out here in the boonies, where everything's barter or on the cheap. And hey, there's actually work for someone like me out here.”</i>");
 
-	output("\n\nSomeone like you?");
+	output("\n\nSomeone like her?");
 
 	output("\n\n<i>“Not a 'hot babe with a cock and a smart mouth' if that's what you're thinking.... Hey, come on, seriously. I have a degree, honest!”</i> Syri sighs and grabs her drink, knocking about half of it back in one swill. <i>“I'm not </i>just<i> a pretty face, Steele. They bus engineers out here to the fringes by the boatload to get roads and housing set up, maybe power and sewage. It's not glamorous, but it pays the bills, you know? Ex-combat engineers like me are in especially high demand, since we can handle a gun and keep calm under pressure.”</i>");
 
@@ -769,7 +778,7 @@ public function syriSexMenu(outputs:Boolean = true):void {
 		//(First Time Variant) 
 		if(flags["SYRI_SEEN_PCS_SHIP_CABIN"] == undefined) {
 			flags["SYRI_SEEN_PCS_SHIP_CABIN"] = 1;
-			output("Looking around at the mostly empty bar and then at the pretty ausar girl starting up at you, you ask if she'd like to get out of here.");
+			output("Looking around at the mostly empty bar and then at the pretty ausar girl staring up at you, you ask if she'd like to get out of here.");
 
 			output("\n\n<i>“Ooh, I thought you'd never ask, " + pc.mf("handsome","beautiful") + ",”</i> Syri says with a wink and a grin, gathering up her scattered belongings. <i>“My place is kind of a wreck, so... let's head back to that ship of yours. You still owe me a tour of your ship after all, Captain...”</i>");
 
@@ -822,8 +831,14 @@ public function syriSexMenu(outputs:Boolean = true):void {
 	//Catch Anal
 	//Blow Her
 	addButton(3,"Blow Her",blowSyriYouFukkinSlut);
-	addButton(4,"Catch Anal",catchAnalFromSyriIfYouDontUseACondom);
+	addButton(4, "Catch Anal", catchAnalFromSyriIfYouDontUseACondom);
+
+	//For Cocktail Cockwielders
+	if (pc.hasCock() && pc.hasTailCock()) addButton(5, "Tailcock", bangSyriWithTailcock, undefined, "Tailcock","Use your tailcock on Syri's ass while she sucks you off.");
+	else if (!pc.hasCock()) addDisabledButton(5,"Tailcock","Tailcock","You also need a cock for this!");
+	else addDisabledButton(5,"Tailcock","Tailcock","You don't have a tailcock, silly!");
 }
+
 
 //Reverse Cowgirl
 public function syriReverseCowgirlConsensualization():void {
@@ -1142,6 +1157,70 @@ public function blowSyriYouFukkinSlut(postScene:Function = null):void {
 	else addButton(0, "Next", postScene);
 }
 
+
+//Tailcock Scene, Coded by Savin, probably works like shit
+public function bangSyriWithTailcock():void
+{
+	clearOutput();
+	showSyri(true);
+	author("Archangel");
+
+	output("You suggest to Syri that she could suck you off while you plow her from behind.");
+	
+	output("\n\n<i>“That sounds really nice and all, but I’m no Kaithrit, Cap,”</i> she says with a wry smile and a shake of her head before starting to lightly rake her claws down your back. <i>“Maybe we could just-”</i> She abruptly stops when her hands reach the junction where tailcock meets spine. She looks downward with surprise, ");
+	
+	if (flags["SyriTailcocked"] != undefined)
+	{
+		output("as your tail curls around her wrist, and a playful grin spreads across her lips. She eagerly turns to the wall, shaking her full, round ass at you. <i>“Come on, Steele, spear your slutty ausar’s ass wide open with your [pc.tailCock]!”</i>");
+	}
+	else
+	{
+		output("“<i>Oh. You’ve got one of... those,”</i> she says with slight nervousness.");
+		
+		output("\n\nYou run your hands down her back and grope her pert ass, pulling her close, breathing in the musky scent of her arousal. <i>“Is something the matter?”</i> you ask, hooking your fingers into the waistband and pulling her tight jeans down.");
+		
+		output("\n\n<i>“No, not really. I’ve just never seen one of those before. Always wondered what one felt like, though.”</i> She says with a wolfish grin, pulling your [pc.upperGarment] off.");
+	}
+	
+	output("\n\n<i>“There’s my girl. I knew you would come around,”</i> you say, smiling. <i>“I believe I should get you ready first, hmm?”</i> You say before spinning her by the shoulders, slamming her against the cabin wall, and dropping to your knees.");
+	
+	output("\n\n<i>“Ooh. Playing a little rough, are we?”</i> she says, giggling and wiggling her hips to entice you forwards, although you hardly need it, if your [pc.cocks] are any indication. You stretch her asscheeks wide, getting a good look at her slightly winking star before you dig in. You force your [pc.tongue] into her asshole and wildly lash it around. She moans loudly, pushing her ass into your face some more, wanting to get your tongue as deep into her tunnel as possible. You oblige, sticking it in as far as it will go. She moans whorishly loud when she feels your [pc.tongue] rub against her prostate, a tiny spurt of pre squirting out of her doggy dick.");
+	
+	output("\n\nYou take pity on her, reaching up and slowly stroke her pecker, using her pre as lube and eliciting another loud moan from your horny ausar buttslut.");
+	
+	output("\n\nYour [pc.tailCock] twitches and crawls up Syri’s leg while she’s busy moaning in pleasure, and plunges itself into her half open mouth. Her eyes widen with shock from the sudden girth invading her mouth, but she accepts it, eagerly sucking on it. You raise an eyebrow. Syri seems to have gotten over her prior nervousness rather quickly! Grinning, you let go of her cock and press three pre-slicked fingers into her backdoor. She whines loudly around the tentacle filling her mouth when she feels your fingers pushing past her sphincter. You start to thrust in and out of her ass, rubbing over her prostrate as much as you can. You notice her cock twitch, and immediately pull your fingers and [pc.tailCock] out of her ass and mouth before she can cum.");
+	
+	output("\n\n<i>“Why’d you stop!? I was gonna cum!”</i> she whines plaintively.");
+	
+	output("\n\n<i>“That’s exactly </i>why<i> I stopped. Don’t want you cumming too early and ruining all the fun!”</i> you say, smirking and slapping her ass, which earns another lewd moan and a fresh gush of pre from her cock. You tug at her tail and sit on the bed. She turns, sinks to all fours and crawls towards you, a trail of pre leaking from her dick. Her ass and tits sway with each motion, making them jiggle wonderfully and urging your [pc.cocks] to become painfully hard. She reaches your spread legs and plants a chaste kiss on the tip of your [pc.cockBiggest].");
+	
+	output("\n\nShe wraps a hand around your [pc.cockBiggest] and starts slowly jacking it off. Your [pc.tailCock] slithers over the floor, then lifts itself up and hovers for a second before ramming into Syri’s asshole without warning. She gasps, her mouth falling open into a perfect O. You take the opportunity to grab her head and slam it down onto your [pc.cockBiggest]. She gags with the amount of dick filling her throat before you let go of her head.");
+	
+	output("\n\nSyri immediately pulls away, gasping for air. <i>“Fuck was that for, asshole?”</i> she says, lightly punching your stomach.");
+	
+	if(pc.isBimbo()) output("\n\n<i>“W- What? I thought you’d, like, like it! I totally love it when guys do that to me!”</i> you babble.");
+	else if(pc.isBro()) output("\n\n<i>“I don’t think I gave you permission to stop sucking, slut!”</i> you grin, giving her a nudge back towards your dick.");
+	else if(pc.isNice()) output("\n\n<i>“I-I’m sorry! I don’t know what came over me!”</i> You say, astonished at yourself at having treated your lover so roughly.");
+	else if(pc.isMischievous()) output("\n\n<i>“What? I saw the opportunity and I took it!”</i> you say, grinning wickedly.");
+	else if(pc.isAss()) output("\n\n<i>“Thought I was going to go easy on you? Think again!”</i> You growl.");
+	output(" Syri rolls her eyes and lowers her head back to your [pc.cocks]. Lewd slurps fill the air as your dick is engulfed in her warm throat, her canid tongue wriggling along the underside of your [pc.cockBiggest]. The experience is made all the more pleasurable by the vibrations caused by her simultaneous moaning from the rough anal pounding she’s receiving from your tailcock. You notice that the haft of your tailcock has at some point wrapped itself around her dong and is now jacking it off with every thrust into her tight asshole, a little precum squirting out every time it rams itself into her slightly-gaping hole.");
+	
+	output("\n\nYou hook your hands under Syri’s armpits and pull her up, sliding your [pc.cocks] right between her bouncy mammaries as you do so. You grab her tits and start thrusting, using her breasts like a soft, squishy onahole. She opens her mouth and spits into the valley of her cleavage, providing lubricant to ease the passage of your [pc.cocks] through her boobflesh. She lowers her head and keeps her mouth slightly open, letting your [pc.cockHead] enter her warm mouth. It isn’t long before you feel your orgasm start to boil up in your [pc.balls], the rough ass and tit fucking starting to take its toll.");
+	
+	output("\n\n<i>“Oh fuck, I- I’m going to cum! Just a little more...!”</i> she manages to get out. You’re not sure you can hold on much longer, but a few minutes later, a loud <i>“Fuck yes! Fuck my slutty ass! I’m cumming!”</i> interrupts your thoughts. Syri cums hard, tilting her head back and howling, her asshole spasming and cock blasting thick ropes of cum all over your [pc.lowerBody] and the floor. The sudden wringing tightness of her asshole trying to milk the cum from you is too much, and you finally let go. Your [pc.cock] explodes, blasting a jets of [pc.cum] straight into the air, which fall back onto you and Syri; she leans back with an open mouth and hefted tits to catch as much cum as she can. Your [pc.tailCock] shudders and pumps load after load of cum into Syri’s well-fucked ass, which in turn sets off another mindblowing orgasm for Syri, who finally empties her nuts, hosing down the floor with whatever was left.");
+	
+	output("\n\nSyri looks at you for a moment with a face and tits covered in cum, then collapses forwards. You catch her, pulling her up onto the bed next to you. <i>“That... was absolutely... fucking... amazing. We have to do this again! Er... just not right now. I’m walloped,”</i> she says, giggling, then curls up against you.");
+	
+	processTime(40+rand(15));
+	pc.orgasm();
+	chars["SYRI"].orgasm();
+	IncrementFlag("SyriTailcocked");
+	
+	clearMenu();
+	addButton(0,"Next",syriSexOutro);
+}
+
+
 //Shipboard Sex Outro: Syri hits the Road
 public function syriSexOutro():void {
 	processTime(120+rand(60));
@@ -1160,9 +1239,9 @@ public function syriSexOutro():void {
 
 	clearMenu();
 
-	addButton(1,"Sure",sureUseMyShowerAndClogTheDrainWithDogHair);
-	if(pc.libido() >= 60 || pc.lust() >= 33) addButton(2,"Don't Go",dontGoAwayYouKnotCunt);
-	else addDisabledButton(2,"Don't Go");
+	addButton(0,"Sure",sureUseMyShowerAndClogTheDrainWithDogHair);
+	if(pc.libido() >= 60 || pc.lust() >= 33) addButton(1,"Don't Go",dontGoAwayYouKnotCunt);
+	else addDisabledButton(1,"Don't Go","Don't Go","You're not aroused or sexually driven enough to continue!");
 }
 
 //Don't Go
@@ -1783,16 +1862,20 @@ public function fuckSyrisAss():void
 	clearOutput();
 	showSyri(true);
 	author("Savin");
+	
+	var x:int = pc.cockThatFits(chars["SYRI"].analCapacity() + 500);
+	if(x < 0) x = rand(pc.cocks.length);
+	
 	output("Syri wasn’t kidding: watching her pop those buzzing anal beads out and busting a nut in her silky little outfit has gotten you more hot and bothered than a New Texan bull in a brothel. [pc.EachCock] is almost painfully rigid, demanding of attention. Or better yet, a hot, lubed-up hole to work out all your tension into.");
 	output("\n\nRubbing a hand along Syri’s tight ass, you give the string of beads a final tug to pop the anchor out. Your lover moans and shivers as the last bead pops out, and you toss the chain of buzzing butt-breakers to the deck in a wet pile of cum-lube. <i>“Oh that feels better,”</i> Syri purrs, straightening up and smiling at you over her shoulder. <i>“Had those in me since about when you popped into the system... mmm, now I feel kind of empty. Think you can fill me up, Steele?”</i>");
-	output("\n\nOh yeah. You lean back in the couch and pat your thigh, inviting your lover to come and get some. She saunters over and slips backwards into your lap, swinging her legs up to rest on either side of you and giving your a face-full of busy ausar tail. You laugh and bat her fluff out of the way, just enough to reach forward and pull Syri back against your chest. She moans and kisses you over her shoulder, grinding her slick ass against your [pc.cock]. As she moves, Syri slowly slips her panties further down, getting them out of the way... and spilling more than a little of her still-hot spunk onto your own [pc.cock], which her fingers are quick to rub in, spreading her spunk over your shaft like an extra layer of lube.");
+	output("\n\nOh yeah. You lean back in the couch and pat your thigh, inviting your lover to come and get some. She saunters over and slips backwards into your lap, swinging her legs up to rest on either side of you and giving your a face-full of busy ausar tail. You laugh and bat her fluff out of the way, just enough to reach forward and pull Syri back against your chest. She moans and kisses you over her shoulder, grinding her slick ass against your [pc.cock " + x + "]. As she moves, Syri slowly slips her panties further down, getting them out of the way... and spilling more than a little of her still-hot spunk onto your own [pc.cock " + x + "], which her fingers are quick to rub in, spreading her spunk over your shaft like an extra layer of lube.");
 	output("\n\nYou grab Syri’s hips to steady her, and your cock does the brunt of the work for you, stiff enough that a slight shift of your [pc.hips] brings it in line with Syri’s inviting tail-hole. She moans and bites her lip, fingers finding yours and holding on as you get positioned. <i>“Don’t hold back, Steele. I wanna feel you blowing your load deep inside!”</i>");
-	output("\n\nYou start to ease Syri down, guiding her descent past the [pc.cockHead] of your [pc.cock]. She sucks in a sharp breath as soon as you’re starting to slide into her, but it’s nice and easy going after that, and you glide into your lover’s ample rump. Before long, Syri’s sitting flush in your lap, your [pc.cock] buried nice and deep inside her; her own cock throbs and spurts between her legs as you rub up against her prostate just like the anal beads before you. Your lover moans and rubs back against you, trying to get every inch of your tumescent cockflesh into her ass as she can.");
+	output("\n\nYou start to ease Syri down, guiding her descent past the [pc.cockHead " + x + "] of your [pc.cock " + x + "]. She sucks in a sharp breath as soon as you’re starting to slide into her, but it’s nice and easy going after that, and you glide into your lover’s ample rump. Before long, Syri’s sitting flush in your lap, your [pc.cock " + x + "] buried nice and deep inside her; her own cock throbs and spurts between her legs as you rub up against her prostate just like the anal beads before you. Your lover moans and rubs back against you, trying to get every inch of your tumescent cockflesh into her ass as she can.");
 	pc.cockChange();
 
-	output("\n\nOnce you and your ausar cocksleeve are nice and comfortable, you encourage her to start moving with an affectionate slap on the ass; you feel the impact resound through her body, ending in a delightful squeeze on your [pc.cock]. Syri just giggles and starts to move, rising on her knees before gliding back down your slick rod to settle back in your lap. Again and again she rises and falls, keeping a steady pace that soon has you both panting and moaning, holding on to each other for support as the ausar girl milks your dick with her wonderfully talented ass.");
+	output("\n\nOnce you and your ausar cocksleeve are nice and comfortable, you encourage her to start moving with an affectionate slap on the ass; you feel the impact resound through her body, ending in a delightful squeeze on your [pc.cock " + x + "]. Syri just giggles and starts to move, rising on her knees before gliding back down your slick rod to settle back in your lap. Again and again she rises and falls, keeping a steady pace that soon has you both panting and moaning, holding on to each other for support as the ausar girl milks your dick with her wonderfully talented ass.");
 
-	output("\n\nYou have to admit, Syri’s a consummate butt-slut, working anal magic on your [pc.cock] until you’re barely holding on. She squeezes and wiggles and bounces, and for your part you just try and give as good as you get, making her moan with rekindled lust. Even so quickly after cumming, Syri’s red prick grows stiff again, and you reach around to give it a much-needed caress. She’s still nice and cum-slathered, and your hand is able to slide easily along her shaft to the same beat of her rises and falls. The two of you reek of sex by now: the heavy, musky smell of ausar-cum is thick in the air, and there’s about to be a lot more of it if the way Syri’s breathing is any indication.");
+	output("\n\nYou have to admit, Syri’s a consummate butt-slut, working anal magic on your [pc.cock " + x + "] until you’re barely holding on. She squeezes and wiggles and bounces, and for your part you just try and give as good as you get, making her moan with rekindled lust. Even so quickly after cumming, Syri’s red prick grows stiff again, and you reach around to give it a much-needed caress. She’s still nice and cum-slathered, and your hand is able to slide easily along her shaft to the same beat of her rises and falls. The two of you reek of sex by now: the heavy, musky smell of ausar-cum is thick in the air, and there’s about to be a lot more of it if the way Syri’s breathing is any indication.");
 	output("\n\n<i>“Ah, come on,”</i> she growls, flashing you a vicious grin over her shoulder. <i>“Don’t make me cum again before you do. Blow that fuckin’ load in me already!”</i>");
 	output("\n\nWell, if she insists. You roll your head back and let your willpower slide away, surrendering to Syri’s anal ministrations. It doesn’t take a moment more before you feel a rush of tension and pleasure rising through your loins; you buck your hips into Syri’s behind and let loose ");
 	if(pc.cumQ() < 15) output("a spurt of [pc.cum]");

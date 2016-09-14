@@ -71,6 +71,15 @@ public function initUvetoRooms():void
 	rooms["UVS D9"].westExit = "UVS B9";
 	rooms["UVS D9"].moveMinutes = 1;
 	rooms["UVS D9"].addFlag(GLOBAL.INDOOR);
+	
+	/* Space Elevator */
+	rooms["UVS LIFT"] = new RoomClass(this);
+	rooms["UVS LIFT"].roomName = "SPACE\nELEVATOR";
+	rooms["UVS LIFT"].description = "You find yourself inside the huge Uveto Station space elevator.";
+	rooms["UVS LIFT"].planet = "UVETO STATION";
+	rooms["UVS LIFT"].system = "SYSTEM: SIRETTA";
+	rooms["UVS LIFT"].runOnEnter = uvetoSpaceElevatorInBonus;
+	rooms["UVS LIFT"].addFlag(GLOBAL.INDOOR);
 
 	/* Store? */
 	rooms["UVS B11"] = new RoomClass(this);
@@ -117,6 +126,7 @@ public function initUvetoRooms():void
 	rooms["UVS B7"].southExit = "UVS B9";
 	rooms["UVS B7"].moveMinutes = 1;
 	rooms["UVS B7"].addFlag(GLOBAL.INDOOR);
+	rooms["UVS B7"].runOnEnter = uvetoStationLoungeFunc;
 	
 	/* Docking 1 */
 	/*
@@ -169,7 +179,7 @@ public function initUvetoRooms():void
 
 	rooms["UVS F9"] = new RoomClass(this);
 	rooms["UVS F9"].roomName = "PROMENADE\nSOUTH-EAST";
-	rooms["UVS F9"].description = "You're standing on the south-eastern edge of a circular promenade that surrounds Uveto Station's huge space elevator. You're just a hop and a skip from the elevator doors, either west or north of you.\n\nA sign to the north indicates a corridor eastward as leading to the station chief and other executives' offices.";
+	rooms["UVS F9"].description = "You're standing on the south-eastern edge of a circular promenade that surrounds Uveto Station's huge space elevator. You're just a hop and a skip from the elevator doors, either west or north of you.\n\nA sign on the wall indicates a corridor eastward as leading to the station chief and other executives' offices.";
 	rooms["UVS F9"].planet = "UVETO STATION";
 	rooms["UVS F9"].system = "SYSTEM: SIRETTA";
 	rooms["UVS F9"].northExit = "UVS F7";
@@ -179,28 +189,30 @@ public function initUvetoRooms():void
 
 	rooms["UVS H7"] = new RoomClass(this);
 	rooms["UVS H7"].roomName = "EXECUTIVE\nLOBBY";
-	rooms["UVS H7"].description = "A very plush, posh lobby is seated at the end of the eastern wing, behind several security doors and a very threatening pair of gun pods bolted to the ceiling. The door east is labeled “Station Manager”; the one to the south indicates its the office of one Anyxine Rhenesunne, a Vice President of RhenWorld Stellar Excavations.\n\nSeveral tove are seated against the far walls, dug in behind computer banks and flickering holo-screens. Their beaked, fuzzy faces barely acknowledge you.";
+	rooms["UVS H7"].description = "A very plush, posh lobby is seated at the end of the eastern wing, behind several security doors and a very threatening pair of gun pods bolted to the ceiling. The door east is labeled “Station Manager”; the one to the south indicates it’s the office of one Anyxine Rhenesunne, a Vice President of RhenWorld Stellar Excavations.\n\nSeveral tove are seated against the far walls, dug in behind computer banks and flickering holo-screens. Their beaked, fuzzy faces barely acknowledge you.";
 	rooms["UVS H7"].planet = "UVETO STATION";
 	rooms["UVS H7"].system = "SYSTEM: SIRETTA";
 	rooms["UVS H7"].eastExit = "UVS J7";
 	rooms["UVS H7"].southExit = "UVS H9";
 	rooms["UVS H7"].westExit = "UVS F7";
 	rooms["UVS H7"].moveMinutes = 1;
-	rooms["UVS H7"].runOnEnter = function():Boolean {
+	/*rooms["UVS H7"].runOnEnter = function():Boolean {
 		setNavDisabled(NAV_EAST_DISABLE);
 		return false;
-	};
+	};*/
 	rooms["UVS H7"].addFlag(GLOBAL.INDOOR);
 
 	/* Station C&C */
 	rooms["UVS J7"] = new RoomClass(this);
-	rooms["UVS J7"].roomName = "";
+	rooms["UVS J7"].roomName = "\nCAMARILLA";
 	rooms["UVS J7"].description = "";
 	rooms["UVS J7"].planet = "UVETO STATION";
 	rooms["UVS J7"].system = "SYSTEM: SIRETTA";
 	rooms["UVS J7"].westExit = "UVS H7";
 	rooms["UVS J7"].moveMinutes = 1;
+	rooms["UVS J7"].runOnEnter = officeOfTheCamarillaButtsBonus;
 	rooms["UVS J7"].addFlag(GLOBAL.INDOOR);
+	rooms["UVS J7"].addFlag(GLOBAL.NPC);
 
 	rooms["UVS H9"] = new RoomClass(this);
 	rooms["UVS H9"].roomName = "RHENWORLD\nOFFICES";
@@ -212,30 +224,7 @@ public function initUvetoRooms():void
 	rooms["UVS H9"].moveMinutes = 1;
 	rooms["UVS H9"].addFlag(GLOBAL.INDOOR);
 	rooms["UVS H9"].addFlag(GLOBAL.NPC);
-	rooms["UVS H9"].runOnEnter = function():Boolean {
-		output("The RhenWorld Stellar Excavations offices are warmer than the rest of the ship, and brightly colored with sandy wallpapers and potted plants surrounded an interior fountain -- very expensive decorations on a space station. A half dozen female");
-		if (CodexManager.hasUnlockedEntry("Leithans")) output(" leithans");
-		else output(" plated, six-legged centaurs with ashen skin");
-		output(" are sitting on their legs behind ‘U’-shaped desks, busily working on holoscreens.");
-		if (!CodexManager.hasUnlockedEntry("Leithans"))
-		{
-			output(" <b>Your codex identifies them as leithans.</b>");
-			CodexManager.unlockEntry("Leithans");
-		}
-
-		if (flags["RHENWORLD_OFFICE_VISITED"] == undefined)
-		{
-			output("\n\nOne of the leithan girls smiles as you wander into the offices. <i>“Hello! Welcome to RhenWorld, " + pc.mf("Mr.", "Ms.") + "... Steele!”</i> she says, eyeing a dataslate to identify you. <i>“Miss Rhenesunne is currently in her office. Please, go ahead.”</i>");
-
-			output("\n\nShe sweeps one of her black, plated arms towards the southern door.");
-		}
-		else
-		{
-			output("\n\n<i>“Welcome back, " + pc.mf("Mr.", "Ms.") + " Steele!”</i> the leithan secretary nearest the south door says, flashing you an adorable smile.");
-		}
-		
-		return false;
-	};
+	rooms["UVS H9"].runOnEnter = rhenWorldEntranceBonus;
 	
 
 	/* Anyx's Office */
@@ -248,20 +237,8 @@ public function initUvetoRooms():void
 	rooms["UVS H11"].moveMinutes = 1;
 	rooms["UVS H11"].addFlag(GLOBAL.INDOOR);
 	rooms["UVS H11"].addFlag(GLOBAL.NPC);
-	rooms["UVS H11"].runOnEnter = function():Boolean {
-		if (flags["MET_RHENESUNNE"] == undefined)
-		{
-			output("\n\nYou might have expected a leithan woman after the group of them out in the lobby, but instead you're treated to the sight of a tall, slender bipedal woman with lustrous black hair pulled back into a ponytail. A pair of blue, glittering eyes glance up at you from the screens and the woman leans back in her chair, revealing a svelte, athletic body with curves that strain against a very expensive looking bodysuit.");
+	rooms["UVS H11"].runOnEnter = rhenesunneOfficeBonus;
 
-			output("\n\n<i>“I wasn’t aware I had an appointment,”</i> she says coolly, eyeing you. <i>“Please, have a seat.”</i>");
-		}
-		else
-		{
-			output("<i>“Ah, Steele,”</i> Anyxine says, leaning back in her chair and steepling her fingers as you approach.");
-		}
-
-		return false;
-	};
 
 	/** IRESTEAD -------------------------------------------------------------------- */
 	/** ----------------------------------------------------------------------------- */
@@ -307,7 +284,7 @@ public function initUvetoRooms():void
 	/* Geo Survey */
 	rooms["UVI J32"] = new RoomClass(this);
 	rooms["UVI J32"].roomName = "GEO. SURVEY\nINTERIOR";
-	rooms["UVI J32"].description = "Entering the survey station, you look around the inside of the tower. The main room is filled with a vast array of readouts, sensor screens, and monitors, all being constantly checked by a small group of technicians from a variety of races, though they predominantly appear to be huskar.\n\nIn the centre of the room is a holographic map table outlining everything around Irestead, from the weather to the constant ice flows. A pair of techs move constantly to and from terminals to the map table, making sure that the weather reports and map information they’re receiving is checked and up to date.";
+	rooms["UVI J32"].description = "Entering the survey station, you look around the inside of the tower. The main room is filled with a vast array of readouts, sensor screens, and monitors, all being constantly checked by a small group of technicians from a variety of races, though they predominantly appear to be huskar.\n\nIn the center of the room is a holographic map table outlining everything around Irestead, from the weather to the constant ice flows. A pair of techs move constantly to and from terminals to the map table, making sure that the weather reports and map information they’re receiving is checked and up to date.";
 	rooms["UVI J32"].planet = "PLANET: UVETO VII";
 	rooms["UVI J32"].system = "SYSTEM: SIRETTA";
 	rooms["UVI J32"].southExit = "UVI J34";
@@ -346,7 +323,7 @@ public function initUvetoRooms():void
 
 	rooms["UVI J34"] = new RoomClass(this);
 	rooms["UVI J34"].roomName = "GEO. SURVEY\nEXTERIOR";
-	rooms["UVI J34"].description = "To the north, through a small tunnel, there is a building marked as the Geological Survey Station. It is a three story building with a glass hexagonal observation deck on top, similar to some landing control towers you’ve seen. Each glass pane appears to have armoured shutters mounted to it, presumably to keep out Uveto's extreme storms.\n\nAround the side of the building you can see a set of antennas and a sealed sensor dome.\n\nTo the south, you can see a large elevator shaft that seems to go <i>down</i>. To the east, you see a pair of heavy doors.";
+	rooms["UVI J34"].description = "To the north, through a small tunnel, there is a building marked as the Geological Survey Station. It is a three story building with a glass hexagonal observation deck on top, similar to some landing control towers you’ve seen. Each glass pane appears to have armored shutters mounted to it, presumably to keep out Uveto's extreme storms.\n\nAround the side of the building you can see a set of antennas and a sealed sensor dome.\n\nTo the south, you can see a large elevator shaft that seems to go <i>down</i>. To the east, you see a pair of heavy doors.";
 	rooms["UVI J34"].planet = "PLANET: UVETO VII";
 	rooms["UVI J34"].system = "SYSTEM: SIRETTA";
 	rooms["UVI J34"].northExit = "UVI J32";
@@ -364,12 +341,13 @@ public function initUvetoRooms():void
 	rooms["UVI J36"].system = "SYSTEM: SIRETTA";
 	rooms["UVI J36"].northExit = "UVI J34";
 	rooms["UVI J36"].moveMinutes = 1;
+	rooms["UVI J36"].runOnEnter = healingConsentacleTankBonus;
 	rooms["UVI J36"].addFlag(GLOBAL.INDOOR);
 
 	/* Entrance */
 	rooms["UVI L34"] = new RoomClass(this);
 	rooms["UVI L34"].roomName = "CENTRAL HUB\nENTRANCE";
-	rooms["UVI L34"].description = "A huge steel door leads out from the central hub of Irestead, Uveto's hub city, out onto the snowy main street. You're buffeted by strong, icy winds that bite at your [pc.skinFurScales], forcing you to wrap your arms around yourself... and this is underneath the protective walls that surrounds the city. ";
+	rooms["UVI L34"].description = "A huge steel door leads out from the central hub of Irestead, Uveto's hub city, out onto the snowy main street. You're buffeted by strong, icy winds that bite at your [pc.skinFurScales], forcing you to wrap your arms around yourself... and this is within the boundaries the protective walls that surround the city. ";
 	rooms["UVI L34"].planet = "PLANET: UVETO VII";
 	rooms["UVI L34"].system = "SYSTEM: SIRETTA";
 	rooms["UVI L34"].eastExit = "UVI N34";
@@ -432,13 +410,25 @@ public function initUvetoRooms():void
 
 	rooms["UVI N42"] = new RoomClass(this);
 	rooms["UVI N42"].roomName = "SOUTHERN\nCOMMERCE";
-	rooms["UVI N42"].description = "Several shops are set up around the southern end of the main street, advertising their wares. Most are simple things like grocery stores, a computer shop, and the like. To the west, though, you spot a shop that catches your eye: the Hunter's Dream. ";
+	rooms["UVI N42"].description = "Several shops are set up around the southern end of the main street, advertising their wares. Most are simple things like grocery stores, a computer shop, and the like. To the west, though, you spot a shop that catches your eye: the Hunter's Dream. Opposite is a holograpic sign above featuring a decal of a multi-legged, tauric alien and the words, <i>“Spinarran Silk&Steel”</i>. The display windows to the east show off samples: polished weapons, exotic body armor, and even mundane clothing.";
 	rooms["UVI N42"].planet = "PLANET: UVETO VII";
 	rooms["UVI N42"].system = "SYSTEM: SIRETTA";
 	rooms["UVI N42"].northExit = "UVI N40";
 	rooms["UVI N42"].westExit = "UVI L42";
+	rooms["UVI N42"].eastExit = "S&S_KIRILA";
 	rooms["UVI N42"].moveMinutes = 3;
 	rooms["UVI N42"].addFlag(GLOBAL.OUTDOOR);
+
+	rooms["S&S_KIRILA"] = new RoomClass(this);
+	rooms["S&S_KIRILA"].roomName = "SPINARRAN\nSILK & STEEL";
+	rooms["S&S_KIRILA"].description = "";
+	rooms["S&S_KIRILA"].planet = "PLANET: UVETO VII";
+	rooms["S&S_KIRILA"].system = "SYSTEM: SIRETTA";
+	rooms["S&S_KIRILA"].westExit = "UVI N42";
+	rooms["S&S_KIRILA"].moveMinutes = 3;
+	rooms["S&S_KIRILA"].runOnEnter = spinarranSilkAndSteelBonusFunc;
+	rooms["S&S_KIRILA"].addFlag(GLOBAL.INDOOR);
+	rooms["S&S_KIRILA"].addFlag(GLOBAL.COMMERCE);
 
 	/* Another Store */
 	rooms["UVI L42"] = new RoomClass(this);
@@ -462,10 +452,9 @@ public function initUvetoRooms():void
 		return false;
 	}
 	
-
 	rooms["UVI P38"] = new RoomClass(this);
 	rooms["UVI P38"].roomName = "GUARD\nPOST";
-	rooms["UVI P38"].description = "Several ausars are standing inside a small, sealed building beside the gates, all dressed in military uniforms and carrying rifles slung over their shoulders. The gate to the town is just a few yards east of you, underneath a pair of intimidating gun turrets on the walls. To the south, you see a large set of sliding glass doors under an awning with the words ‘MAGLEV STATION’ written in bright, cheerful letters.";
+	rooms["UVI P38"].description = "Several ausar are standing inside a small, sealed building beside the gates, all dressed in military uniforms and carrying rifles slung over their shoulders. The gate to the town is just a few yards east of you, underneath a pair of intimidating gun turrets on the walls. To the south, you see a large set of sliding glass doors under an awning with the words ‘MAGLEV STATION’ written in bright, cheerful letters.";
 	rooms["UVI P38"].planet = "PLANET: UVETO VII";
 	rooms["UVI P38"].system = "SYSTEM: SIRETTA";
 	rooms["UVI P38"].eastExit = "UVIP D38"; /* To Ice Plains */
@@ -494,31 +483,35 @@ public function initUvetoRooms():void
 	rooms["UVI N32"].southExit = "UVI N34";
 	rooms["UVI N32"].eastExit = "UVI P32";
 	rooms["UVI N32"].moveMinutes = 3;
+	rooms["UVI N32"].runOnEnter = meadStreetBonus;
 	rooms["UVI N32"].addFlag(GLOBAL.OUTDOOR);
 
 	rooms["UVI N30"] = new RoomClass(this);
 	rooms["UVI N30"].roomName = "TEMPLE\nSTREET";
-	rooms["UVI N30"].description = "The main street comes to a head here, leading up to a huge wooden building with a pair of blazing fires flickering in metal braziers outside. Wide marble steps lead up to a pair of metal-reinforced doors. A pair of armored human are standing outside, clad in snow-white ceramic plates with dark scarves, capes, and kilts over them. Each has a longspear grasped in his hands, and an energy pistol on his hip.\n\nTo the east, you can see a the nearest house to the temple. It's a small, dark gray building that you imagine must be largely built underground. A small plate beside it gives the street address, and says in flowing letters ‘Shade and Astra Irons’.";
+	rooms["UVI N30"].description = "The main street comes to a head here, leading up to a huge wooden building with a pair of blazing fires flickering in metal braziers outside. Wide marble steps lead up to a pair of metal-reinforced doors. A pair of armored humans are standing outside, clad in snow-white ceramic plates with dark scarves, capes, and kilts over them. Each has a longspear grasped in his hands, and an energy pistol on his hip.\n\nTo the east, you can see the nearest house to the temple. It's a small, dark gray building that you imagine must be largely built underground. A small plate beside it gives the street address, and says in flowing letters ‘Shade and Astra Irons’.";
 	rooms["UVI N30"].planet = "PLANET: UVETO VII";
 	rooms["UVI N30"].system = "SYSTEM: SIRETTA";
 	//rooms["UVI N30"].northExit = "UVI N28"; // 9999 CUT UNTIL READY
-	//rooms["UVI N30"].eastExit = "UVI P30"; // 9999 CUT UNTIL READY
+	rooms["UVI N30"].eastExit = "UVI P30";
 	rooms["UVI N30"].southExit = "UVI N32";
 	rooms["UVI N30"].moveMinutes = 3;
+	rooms["UVI N30"].runOnEnter = templeStreetBonus;
 	rooms["UVI N30"].addFlag(GLOBAL.OUTDOOR);
 
 	/* Shades Residence */
 	rooms["UVI P30"] = new RoomClass(this);
-	rooms["UVI P30"].roomName = "";
+	rooms["UVI P30"].roomName = "IRONS\nRESIDENCE";
 	rooms["UVI P30"].description = "";
 	rooms["UVI P30"].planet = "PLANET: UVETO VII";
 	rooms["UVI P30"].system = "SYSTEM: SIRETTA";
 	rooms["UVI P30"].westExit = "UVI N30";
 	rooms["UVI P30"].moveMinutes = 1;
+	rooms["UVI P30"].runOnEnter = ironsHouseBonus;
+	rooms["UVI P30"].addFlag(GLOBAL.INDOOR);
 
 	rooms["UVI P32"] = new RoomClass(this);
 	rooms["UVI P32"].roomName = "THE\nFREEZER";
-	rooms["UVI P32"].description = "There is only a brief landing to kick the snow off your feet before the floor immediately plunges downwards in the form of a staircase, though the steps are mercifully wide and drunkard friendly. Each step downwards brings you further away from the biting chill and, instead, to the warm, cozy atmosphere of what is a tavern. Emphasis on warm, thankfully.\n\nDespite it's name, the Freezer is actually a decidedly homely establishment. Heaters in nearly every corner of the room keep the air from dipping into Uveto's usually frigid temperatures, and a scattering of cracked peanut shells on the floor lend the place a homey, if rustic, feel.\n\nThere's plenty of space between the various tables, varying from long bench seats to more intimate two seat square tables and everything in between - it feels a bit like a collection of various ways to <i>do</i> tables.\n\nThere's a subfloor to the west; slightly lower than the main tavern floor, but only by a few steps.";
+	rooms["UVI P32"].description = "There is only a brief landing to kick the snow off your feet before the floor immediately plunges downwards in the form of a staircase, though the steps are mercifully wide and drunkard friendly. Each step downwards brings you further away from the biting chill and, instead, to the warm, cozy atmosphere of what is a tavern. Emphasis on warm, thankfully.\n\nDespite its name, the Freezer is actually a decidedly homely establishment. Heaters in nearly every corner of the room keep the air from dipping into Uveto's usually frigid temperatures, and a scattering of cracked peanut shells on the floor lend the place a homey, if rustic, feel.\n\nThere's plenty of space between the various tables, varying from long bench seats to more intimate two seat square tables and everything in between - it feels a bit like a collection of various ways to <i>do</i> tables.\n\nThere's a subfloor to the east; slightly lower than the main tavern floor, but only by a few steps.";
 	rooms["UVI P32"].planet = "PLANET: UVETO VII";
 	rooms["UVI P32"].system = "SYSTEM: SIRETTA";
 	rooms["UVI P32"].eastExit = "UVI R32"; // 9999 TEMP CHECK THIS
@@ -625,7 +618,6 @@ public function initUvetoRooms():void
 
 	/** UVETO ICE PLAINS ------------------------------------------------------------ */
 	/** ----------------------------------------------------------------------------- */
-
 	rooms["UVIP D38"] = new RoomClass(this);
 	rooms["UVIP D38"].roomName = "CLEARED\nICE PATH";
 	rooms["UVIP D38"].description = "A wide path has been cleared in the accumulated snow and ice outside the Irestead gates, packed down by the constant traffic of heavy treaded vehicles and bundled up huskar. It opens up rapidly to the east, letting out into the wide and seemingly endless fields of feathery snow. The plains stretch off into the eastern horizon, any end lost to the vast distance.";
@@ -634,7 +626,9 @@ public function initUvetoRooms():void
 	rooms["UVIP D38"].eastExit = "UVIP F38";
 	rooms["UVIP D38"].westExit = "UVI P38";
 	rooms["UVIP D38"].moveMinutes = 6;
+	rooms["UVIP D38"].runOnEnter = TundraEncounterBonus;
 	rooms["UVIP D38"].addFlag(GLOBAL.OUTDOOR);
+	rooms["UVIP D38"].addFlag(GLOBAL.HAZARD);
 
 	rooms["UVIP F38"] = new RoomClass(this);
 	rooms["UVIP F38"].roomName = "SLOPING\nPATH";
@@ -645,7 +639,9 @@ public function initUvetoRooms():void
 	rooms["UVIP F38"].southExit = "UVIP F40";
 	rooms["UVIP F38"].westExit = "UVIP D38";
 	rooms["UVIP F38"].moveMinutes = 6;
+	rooms["UVIP F38"].runOnEnter = TundraEncounterBonus;
 	rooms["UVIP F38"].addFlag(GLOBAL.OUTDOOR);
+	rooms["UVIP F38"].addFlag(GLOBAL.HAZARD);
 
 	/* South End */
 	rooms["UVIP F40"] = new RoomClass(this);
@@ -656,7 +652,9 @@ public function initUvetoRooms():void
 	rooms["UVIP F40"].northExit = "UVIP F38";
 	rooms["UVIP F40"].eastExit = "UVIP H40";
 	rooms["UVIP F40"].moveMinutes = 6;
+	rooms["UVIP F40"].runOnEnter = TundraEncounterBonus;
 	rooms["UVIP F40"].addFlag(GLOBAL.OUTDOOR);
+	rooms["UVIP F40"].addFlag(GLOBAL.HAZARD);
 
 	rooms["UVIP H40"] = new RoomClass(this);
 	rooms["UVIP H40"].roomName = "DEEP\nPATHWAY";
@@ -666,17 +664,21 @@ public function initUvetoRooms():void
 	rooms["UVIP H40"].eastExit = "UVIP J40";
 	rooms["UVIP H40"].westExit = "UVIP F40";
 	rooms["UVIP H40"].moveMinutes = 6;
+	rooms["UVIP H40"].runOnEnter = TundraEncounterBonus;
 	rooms["UVIP H40"].addFlag(GLOBAL.ICYTUNDRA);	
+	rooms["UVIP H40"].addFlag(GLOBAL.HAZARD);	
 
 	rooms["UVIP J40"] = new RoomClass(this);
 	rooms["UVIP J40"].roomName = "TWISTING\nRISE";
-	rooms["UVIP J40"].description = "The snow-packed valley to the west gives way to a slight incline, bringing you up to nearly the surface of the plains. In the distance to the north, you can see a glistening lake of ice, surrounding by sloping snowbanks and distant pillars of black mineral.";
+	rooms["UVIP J40"].description = "The snow-packed valley to the west gives way to a slight incline, bringing you up to nearly the surface of the plains. In the distance to the north, you can see a glistening lake of ice, surrounded by sloping snowbanks and distant pillars of black mineral.";
 	rooms["UVIP J40"].planet = "PLANET: UVETO VII";
 	rooms["UVIP J40"].system = "SYSTEM: SIRETTA";
 	rooms["UVIP J40"].northExit = "UVIP J38";
 	rooms["UVIP J40"].westExit = "UVIP H40";
 	rooms["UVIP J40"].moveMinutes = 6;
 	rooms["UVIP J40"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP J40"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP J40"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP J38"] = new RoomClass(this);
 	rooms["UVIP J38"].roomName = "SHATTERED\nSPIRE";
@@ -687,6 +689,8 @@ public function initUvetoRooms():void
 	rooms["UVIP J38"].southExit = "UVIP J40";
 	rooms["UVIP J38"].moveMinutes = 6;
 	rooms["UVIP J38"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP J38"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP J38"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP L38"] = new RoomClass(this);
 	rooms["UVIP L38"].roomName = "SOUTHERN\nLAKE SHORE";
@@ -697,6 +701,8 @@ public function initUvetoRooms():void
 	rooms["UVIP L38"].westExit = "UVIP J38";
 	rooms["UVIP L38"].moveMinutes = 6;
 	rooms["UVIP L38"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP L38"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP L38"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP N38"] = new RoomClass(this);
 	rooms["UVIP N38"].roomName = "SOUTHERN\nLAKE SHORE";
@@ -707,6 +713,8 @@ public function initUvetoRooms():void
 	rooms["UVIP N38"].westExit = "UVIP L38";
 	rooms["UVIP N38"].moveMinutes = 6;
 	rooms["UVIP N38"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP N38"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP N38"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP N40"] = new RoomClass(this);
 	rooms["UVIP N40"].roomName = "WINDING\nPATHS";
@@ -717,6 +725,8 @@ public function initUvetoRooms():void
 	rooms["UVIP N40"].southExit = "UVIP N42";
 	rooms["UVIP N40"].moveMinutes = 6;
 	rooms["UVIP N40"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP N40"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP N40"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP N42"] = new RoomClass(this);
 	rooms["UVIP N42"].roomName = "WINDING\nPATHS";
@@ -727,6 +737,8 @@ public function initUvetoRooms():void
 	rooms["UVIP N42"].southExit = "UVIP N44";
 	rooms["UVIP N42"].moveMinutes = 6;
 	rooms["UVIP N42"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP N42"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP N42"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP N44"] = new RoomClass(this);
 	rooms["UVIP N44"].roomName = "WINDING\nCROSSROADS";
@@ -738,16 +750,20 @@ public function initUvetoRooms():void
 	rooms["UVIP N44"].southExit = "UVIP N46";
 	rooms["UVIP N44"].moveMinutes = 6;
 	rooms["UVIP N44"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP N44"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP N44"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP N46"] = new RoomClass(this);
 	rooms["UVIP N46"].roomName = "WINDING\nPATHS";
-	rooms["UVIP N46"].description = "You're making your way through shallow paths winding through the snow, faint trails to follow towards what you hope is some worthy destination -- or at least somewhere warm. The path here twists northwards and back east, though not quite towards Irestead.";
+	rooms["UVIP N46"].description = "You're making your way through shallow paths winding through the snow, faint trails to follow towards what you hope is some worthy destination -- or at least somewhere warm. The path here twists northwards and back west, though not quite towards Irestead.";
 	rooms["UVIP N46"].planet = "PLANET: UVETO VII";
 	rooms["UVIP N46"].system = "SYSTEM: SIRETTA";
 	rooms["UVIP N46"].northExit = "UVIP N44";
 	rooms["UVIP N46"].westExit = "UVIP L46";
 	rooms["UVIP N46"].moveMinutes = 6;
 	rooms["UVIP N46"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP N46"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP N46"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP L46"] = new RoomClass(this);
 	rooms["UVIP L46"].roomName = "WINDING\nPATHS";
@@ -758,6 +774,8 @@ public function initUvetoRooms():void
 	rooms["UVIP L46"].westExit = "UVIP J46";
 	rooms["UVIP L46"].moveMinutes = 6;
 	rooms["UVIP L46"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP L46"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP L46"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP J46"] = new RoomClass(this);
 	rooms["UVIP J46"].roomName = "ABANDONED\nCAMP";
@@ -784,6 +802,8 @@ public function initUvetoRooms():void
 	rooms["UVIP P44"].westExit = "UVIP N44";
 	rooms["UVIP P44"].moveMinutes = 6;
 	rooms["UVIP P44"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP P44"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP P44"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP R44"] = new RoomClass(this);
 	rooms["UVIP R44"].roomName = "WINDING\nPATHS";
@@ -801,6 +821,8 @@ public function initUvetoRooms():void
 		return false;
 	};
 	rooms["UVIP R44"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP R44"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP R44"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP T44"] = new RoomClass(this);
 	rooms["UVIP T44"].roomName = "WINDING\nPATHS";
@@ -811,6 +833,8 @@ public function initUvetoRooms():void
 	rooms["UVIP T44"].westExit = "UVIP R44";
 	rooms["UVIP T44"].moveMinutes = 6;
 	rooms["UVIP T44"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP T44"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP T44"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP T42"] = new RoomClass(this);
 	rooms["UVIP T42"].roomName = "WINDING\nPATHS";
@@ -821,6 +845,8 @@ public function initUvetoRooms():void
 	rooms["UVIP T42"].southExit = "UVIP T44";
 	rooms["UVIP T42"].moveMinutes = 6;
 	rooms["UVIP T42"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP T42"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP T42"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP T40"] = new RoomClass(this);
 	rooms["UVIP T40"].roomName = "WINDING\nPATHS";
@@ -831,6 +857,8 @@ public function initUvetoRooms():void
 	rooms["UVIP T40"].southExit = "UVIP T42";
 	rooms["UVIP T40"].moveMinutes = 6;
 	rooms["UVIP T40"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP T40"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP T40"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP T38"] = new RoomClass(this);
 	rooms["UVIP T38"].roomName = "WINDING\nPATHS";
@@ -841,6 +869,8 @@ public function initUvetoRooms():void
 	rooms["UVIP T38"].southExit = "UVIP T40";
 	rooms["UVIP T38"].moveMinutes = 6;
 	rooms["UVIP T38"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP T38"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP T38"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP V38"] = new RoomClass(this);
 	rooms["UVIP V38"].roomName = "WINDING\nPATHS";
@@ -851,6 +881,8 @@ public function initUvetoRooms():void
 	rooms["UVIP V38"].westExit = "UVIP T38";
 	rooms["UVIP V38"].moveMinutes = 6;
 	rooms["UVIP V38"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP V38"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP V38"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP X38"] = new RoomClass(this);
 	rooms["UVIP X38"].roomName = "WINDING\nPATHS";
@@ -861,6 +893,8 @@ public function initUvetoRooms():void
 	rooms["UVIP X38"].westExit = "UVIP V38";
 	rooms["UVIP X38"].moveMinutes = 6;
 	rooms["UVIP X38"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP X38"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP X38"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP X36"] = new RoomClass(this);
 	rooms["UVIP X36"].roomName = "WINDING\nPATHS";
@@ -872,6 +906,8 @@ public function initUvetoRooms():void
 	rooms["UVIP X36"].westExit = "UVIP V36";
 	rooms["UVIP X36"].moveMinutes = 6;
 	rooms["UVIP X36"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP X36"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP X36"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP V36"] = new RoomClass(this);
 	rooms["UVIP V36"].roomName = "HIDDEN\nPATH";
@@ -882,6 +918,8 @@ public function initUvetoRooms():void
 	rooms["UVIP V36"].westExit = "UVIP T36";
 	rooms["UVIP V36"].moveMinutes = 6;
 	rooms["UVIP V36"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP V36"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP V36"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP T36"] = new RoomClass(this);
 	rooms["UVIP T36"].roomName = "HIDDEN\nPATH";
@@ -892,6 +930,8 @@ public function initUvetoRooms():void
 	rooms["UVIP T36"].westExit = "UVIP R36";
 	rooms["UVIP T36"].moveMinutes = 6;
 	rooms["UVIP T36"].addFlag(GLOBAL.ICYTUNDRA);
+	//rooms["UVIP T36"].addFlag(GLOBAL.HAZARD);
+	//rooms["UVIP T36"].runOnEnter = TundraEncounterBonus;
 
 	/* BLU ROOM */
 	rooms["UVIP R36"] = new RoomClass(this);
@@ -912,16 +952,20 @@ public function initUvetoRooms():void
 	rooms["UVIP X34"].southExit = "UVIP X36";
 	rooms["UVIP X34"].moveMinutes = 12;
 	rooms["UVIP X34"].addFlag(GLOBAL.FROZENTUNDRA);
+	rooms["UVIP X34"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP X34"].runOnEnter = naynaDroneBonus;
 
 	/* SOUTH EXIT TO RIFT */
 	rooms["UVIP Z34"] = new RoomClass(this); // 9999
-	rooms["UVIP Z34"].roomName = "[PH]\nGLACIAL RIFT";
-	rooms["UVIP Z34"].description = "[PH] GLACIAL RIFT MAP";
+	rooms["UVIP Z34"].roomName = "[PH] GLACIAL\nRIFT";
+	rooms["UVIP Z34"].description = "(Placeholder) GLACIAL RIFT MAP";
 	rooms["UVIP Z34"].planet = "PLANET: UVETO VII";
 	rooms["UVIP Z34"].system = "SYSTEM: SIRETTA";
 	rooms["UVIP Z34"].westExit = "UVIP X34";
 	rooms["UVIP Z34"].moveMinutes = 12;
 	rooms["UVIP Z34"].addFlag(GLOBAL.FROZENTUNDRA);
+	rooms["UVIP Z34"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP Z34"].runOnEnter = TundraEncounterBonus;
 
 	/* NORTH END */
 	rooms["UVIP F36"] = new RoomClass(this);
@@ -933,6 +977,8 @@ public function initUvetoRooms():void
 	rooms["UVIP F36"].southExit = "UVIP F38";
 	rooms["UVIP F36"].moveMinutes = 6;
 	rooms["UVIP F36"].addFlag(GLOBAL.OUTDOOR);
+	rooms["UVIP F36"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP F36"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP F34"] = new RoomClass(this);
 	rooms["UVIP F34"].roomName = "NORTHERN\nRISE";
@@ -943,6 +989,8 @@ public function initUvetoRooms():void
 	rooms["UVIP F34"].southExit = "UVIP F36";
 	rooms["UVIP F34"].moveMinutes = 6;
 	rooms["UVIP F34"].addFlag(GLOBAL.OUTDOOR);
+	rooms["UVIP F34"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP F34"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP F32"] = new RoomClass(this);
 	rooms["UVIP F32"].roomName = "BLACK PILLAR\nCIRCLE";
@@ -954,6 +1002,8 @@ public function initUvetoRooms():void
 	rooms["UVIP F32"].southExit = "UVIP F34";
 	rooms["UVIP F32"].moveMinutes = 6;
 	rooms["UVIP F32"].addFlag(GLOBAL.OUTDOOR);
+	rooms["UVIP F32"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP F32"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP F30"] = new RoomClass(this);
 	rooms["UVIP F30"].roomName = "BLACK PILLAR\nCIRCLE";
@@ -964,6 +1014,8 @@ public function initUvetoRooms():void
 	rooms["UVIP F30"].southExit = "UVIP F32";
 	rooms["UVIP F30"].moveMinutes = 6;
 	rooms["UVIP F30"].addFlag(GLOBAL.OUTDOOR);
+	rooms["UVIP F30"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP F30"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP F28"] = new RoomClass(this);
 	rooms["UVIP F28"].roomName = "BLACK PILLAR\nCIRCLE";
@@ -975,6 +1027,8 @@ public function initUvetoRooms():void
 	rooms["UVIP F28"].southExit = "UVIP F30";
 	rooms["UVIP F28"].moveMinutes = 6;
 	rooms["UVIP F28"].addFlag(GLOBAL.OUTDOOR);
+	rooms["UVIP F28"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP F28"].runOnEnter = TundraEncounterBonus;
 
 	/* Toward Fishing Hole */
 	rooms["UVIP H28"] = new RoomClass(this);
@@ -987,6 +1041,8 @@ public function initUvetoRooms():void
 	rooms["UVIP H28"].westExit = "UVIP F28";
 	rooms["UVIP H28"].moveMinutes = 6;
 	rooms["UVIP H28"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP H28"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP H28"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP H30"] = new RoomClass(this);
 	rooms["UVIP H30"].roomName = "BLACK PILLAR\nCIRCLE";
@@ -997,6 +1053,8 @@ public function initUvetoRooms():void
 	rooms["UVIP H30"].southExit = "UVIP H32";
 	rooms["UVIP H30"].moveMinutes = 6;
 	rooms["UVIP H30"].addFlag(GLOBAL.OUTDOOR);
+	rooms["UVIP H30"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP H30"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP H32"] = new RoomClass(this);
 	rooms["UVIP H32"].roomName = "BLACK PILLAR\nCIRCLE";
@@ -1007,6 +1065,8 @@ public function initUvetoRooms():void
 	rooms["UVIP H32"].westExit = "UVIP F32";
 	rooms["UVIP H32"].moveMinutes = 6;
 	rooms["UVIP H32"].addFlag(GLOBAL.OUTDOOR);
+	rooms["UVIP H32"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP H32"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP J28"] = new RoomClass(this);
 	rooms["UVIP J28"].roomName = "LAKESIDE\nAPPROACH";
@@ -1017,6 +1077,8 @@ public function initUvetoRooms():void
 	rooms["UVIP J28"].westExit = "UVIP H28";
 	rooms["UVIP J28"].moveMinutes = 6;
 	rooms["UVIP J28"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP J28"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP J28"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP L28"] = new RoomClass(this);
 	rooms["UVIP L28"].roomName = "LAKESIDE\nAPPROACH";
@@ -1027,6 +1089,8 @@ public function initUvetoRooms():void
 	rooms["UVIP L28"].westExit = "UVIP J28";
 	rooms["UVIP L28"].moveMinutes = 6;
 	rooms["UVIP L28"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP L28"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP L28"].runOnEnter = naynaDroneBonus;
 
 	rooms["UVIP L30"] = new RoomClass(this);
 	rooms["UVIP L30"].roomName = "LAKESIDE\nAPPROACH";
@@ -1037,6 +1101,8 @@ public function initUvetoRooms():void
 	rooms["UVIP L30"].southExit = "UVIP L32";
 	rooms["UVIP L30"].moveMinutes = 6;
 	rooms["UVIP L30"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP L30"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP L30"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP L32"] = new RoomClass(this);
 	rooms["UVIP L32"].roomName = "LAKESIDE\nAPPROACH";
@@ -1047,6 +1113,8 @@ public function initUvetoRooms():void
 	rooms["UVIP L32"].eastExit = "UVIP N32";
 	rooms["UVIP L32"].moveMinutes = 6;
 	rooms["UVIP L32"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP L32"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP L32"].runOnEnter = TundraEncounterBonus;
 
 	/* FISHING HOLE */
 	rooms["UVIP N32"] = new RoomClass(this);
@@ -1057,6 +1125,8 @@ public function initUvetoRooms():void
 	rooms["UVIP N32"].westExit = "UVIP L32";
 	rooms["UVIP N32"].moveMinutes = 6;
 	rooms["UVIP N32"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP N32"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP N32"].runOnEnter = TundraEncounterBonus;
 
 	/* NORTH END */
 	rooms["UVIP F26"] = new RoomClass(this);
@@ -1068,6 +1138,8 @@ public function initUvetoRooms():void
 	rooms["UVIP F26"].southExit = "UVIP F28";
 	rooms["UVIP F26"].moveMinutes = 6;
 	rooms["UVIP F26"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP F26"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP F26"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP F24"] = new RoomClass(this);
 	rooms["UVIP F24"].roomName = "SNOWBANK\nWEST";
@@ -1079,6 +1151,8 @@ public function initUvetoRooms():void
 	rooms["UVIP F24"].southExit = "UVIP F26";
 	rooms["UVIP F24"].moveMinutes = 6;
 	rooms["UVIP F24"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP F24"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP F24"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP F22"] = new RoomClass(this);
 	rooms["UVIP F22"].roomName = "SNOWBANK\nWEST";
@@ -1090,11 +1164,13 @@ public function initUvetoRooms():void
 	rooms["UVIP F22"].westExit = "UVIP D22"; // ????? BLUE AF
 	rooms["UVIP F22"].moveMinutes = 6;
 	rooms["UVIP F22"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP F22"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP F22"].runOnEnter = TundraEncounterBonus;
 
 	/* BLU ROOM */
 	rooms["UVIP D22"] = new RoomClass(this);
 	rooms["UVIP D22"].roomName = "SNOWBANK\nCAVE";
-	rooms["UVIP D22"].description = "You stand in a snowy cave, clearly dug out by hand from the titanic snowbank around you. An animal belt is spread out on the ground, providing some relief from the constant cold should you desire it. Perhaps whoever made this cave intended it to be a waystation between Irestead and the Rift? Or are you treading in someone's home...?\n\n<b>It's safe to sleep in here, even without a heat belt.</b>";
+	rooms["UVIP D22"].description = "You stand in a snowy cave, clearly dug out by hand from the titanic snowbank around you. An animal pelt is spread out on the ground, providing some relief from the constant cold should you desire it. Perhaps whoever made this cave intended it to be a waystation between Irestead and the Rift? Or are you treading in someone's home...?\n\n<b>It's safe to sleep in here, even without a heat belt.</b>";
 	rooms["UVIP D22"].planet = "PLANET: UVETO VII";
 	rooms["UVIP D22"].system = "SYSTEM: SIRETTA";
 	rooms["UVIP D22"].eastExit = "UVIP F22";
@@ -1110,6 +1186,8 @@ public function initUvetoRooms():void
 	rooms["UVIP F20"].southExit = "UVIP F22";
 	rooms["UVIP F20"].moveMinutes = 6;
 	rooms["UVIP F20"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP F20"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP F20"].runOnEnter = naynaDroneBonus;
 
 	rooms["UVIP H20"] = new RoomClass(this);
 	rooms["UVIP H20"].roomName = "SNOWBANK\nNORTH";
@@ -1120,17 +1198,21 @@ public function initUvetoRooms():void
 	rooms["UVIP H20"].westExit = "UVIP F20";
 	rooms["UVIP H20"].moveMinutes = 6;
 	rooms["UVIP H20"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP H20"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP H20"].runOnEnter = TundraEncounterBonus;
 
 	/* BLU ROOM */
 	rooms["UVIP J20"] = new RoomClass(this);
 	rooms["UVIP J20"].roomName = "ICE-HEWN\nCAVERN";
-	rooms["UVIP J20"].description = "You're standing in the mouth of a gaping cavern, a natural formation in the ice by the looks like things. Shards of a half-sunken black pillar can be seen through the northern wall, creating a kind of archway around a tunnel leading deeper. The way out is back east, up a slight incline.\n\n<b>It's safe to sleep in here, even without a heat belt.</b>";
+	rooms["UVIP J20"].description = "You're standing in the mouth of a gaping cavern, a natural formation in the ice by the looks like things. Shards of a half-sunken black pillar can be seen through the northern wall, creating a kind of archway around a tunnel leading deeper. The way out is back west, up a slight incline.\n\n<b>It's safe to sleep in here, even without a heat belt.</b>";
 	rooms["UVIP J20"].planet = "PLANET: UVETO VII";
 	rooms["UVIP J20"].system = "SYSTEM: SIRETTA";
 	rooms["UVIP J20"].northExit = "UVIP J18";
 	rooms["UVIP J20"].westExit = "UVIP H20";
 	rooms["UVIP J20"].moveMinutes = 1;
 	rooms["UVIP J20"].addFlag(GLOBAL.CAVE);
+	//rooms["UVIP J20"].addFlag(GLOBAL.HAZARD);
+	//rooms["UVIP J20"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP J18"] = new RoomClass(this);
 	rooms["UVIP J18"].roomName = "ICE-HEWN\nCAVERN";
@@ -1140,6 +1222,8 @@ public function initUvetoRooms():void
 	rooms["UVIP J18"].southExit = "UVIP J20";
 	rooms["UVIP J18"].moveMinutes = 1;
 	rooms["UVIP J18"].addFlag(GLOBAL.CAVE);
+	//rooms["UVIP J18"].addFlag(GLOBAL.HAZARD);
+	//rooms["UVIP J18"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP H24"] = new RoomClass(this);
 	rooms["UVIP H24"].roomName = "SNOWBANK\nSOUTH";
@@ -1150,6 +1234,8 @@ public function initUvetoRooms():void
 	rooms["UVIP H24"].westExit = "UVIP F24";
 	rooms["UVIP H24"].moveMinutes = 6;
 	rooms["UVIP H24"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP H24"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP H24"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP J24"] = new RoomClass(this);
 	rooms["UVIP J24"].roomName = "SNOWBANK\nSOUTH";
@@ -1160,6 +1246,8 @@ public function initUvetoRooms():void
 	rooms["UVIP J24"].westExit = "UVIP H24";
 	rooms["UVIP J24"].moveMinutes = 6;
 	rooms["UVIP J24"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP J24"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP J24"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP J22"] = new RoomClass(this);
 	rooms["UVIP J22"].roomName = "SNOWBANK\nEAST";
@@ -1170,6 +1258,8 @@ public function initUvetoRooms():void
 	rooms["UVIP J22"].southExit = "UVIP J24";
 	rooms["UVIP J22"].moveMinutes = 6;
 	rooms["UVIP J22"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP J22"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP J22"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP L22"] = new RoomClass(this);
 	rooms["UVIP L22"].roomName = "LAKESHORE\nINCLINE";
@@ -1180,6 +1270,8 @@ public function initUvetoRooms():void
 	rooms["UVIP L22"].westExit = "UVIP J22";
 	rooms["UVIP L22"].moveMinutes = 6;
 	rooms["UVIP L22"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP L22"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP L22"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP L20"] = new RoomClass(this);
 	rooms["UVIP L20"].roomName = "LAKESHORE\nINCLINE";
@@ -1190,6 +1282,8 @@ public function initUvetoRooms():void
 	rooms["UVIP L20"].southExit = "UVIP L22";
 	rooms["UVIP L20"].moveMinutes = 6;
 	rooms["UVIP L20"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP L20"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP L20"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP L18"] = new RoomClass(this);
 	rooms["UVIP L18"].roomName = "LAKESHORE\nINCLINE";
@@ -1200,6 +1294,8 @@ public function initUvetoRooms():void
 	rooms["UVIP L18"].southExit = "UVIP L20";
 	rooms["UVIP L18"].moveMinutes = 6;
 	rooms["UVIP L18"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP L18"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP L18"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP L16"] = new RoomClass(this);
 	rooms["UVIP L16"].roomName = "LAKESHORE\nINCLINE";
@@ -1210,6 +1306,8 @@ public function initUvetoRooms():void
 	rooms["UVIP L16"].southExit = "UVIP L18";
 	rooms["UVIP L16"].moveMinutes = 6;
 	rooms["UVIP L16"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP L16"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP L16"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP N16"] = new RoomClass(this);
 	rooms["UVIP N16"].roomName = "LAKESHORE\nINCLINE";
@@ -1220,6 +1318,8 @@ public function initUvetoRooms():void
 	rooms["UVIP N16"].westExit = "UVIP L16";
 	rooms["UVIP N16"].moveMinutes = 6;
 	rooms["UVIP N16"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP N16"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP N16"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP P16"] = new RoomClass(this);
 	rooms["UVIP P16"].roomName = "LAKESHORE\nINCLINE";
@@ -1230,6 +1330,8 @@ public function initUvetoRooms():void
 	rooms["UVIP P16"].westExit = "UVIP N16";
 	rooms["UVIP P16"].moveMinutes = 6;
 	rooms["UVIP P16"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP P16"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP P16"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP P14"] = new RoomClass(this);
 	rooms["UVIP P14"].roomName = "LAKESHORE\nINCLINE";
@@ -1240,6 +1342,8 @@ public function initUvetoRooms():void
 	rooms["UVIP P14"].southExit = "UVIP P16";
 	rooms["UVIP P14"].moveMinutes = 6;
 	rooms["UVIP P14"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP P14"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP P14"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP P12"] = new RoomClass(this);
 	rooms["UVIP P12"].roomName = "ICE RIDGE\nWEST";
@@ -1251,6 +1355,8 @@ public function initUvetoRooms():void
 	rooms["UVIP P12"].southExit = "UVIP P14";
 	rooms["UVIP P12"].moveMinutes = 6;
 	rooms["UVIP P12"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP P12"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP P12"].runOnEnter = TundraEncounterBonus;
 
 	/* Taxi Branch */
 	rooms["UVIP P10"] = new RoomClass(this);
@@ -1264,6 +1370,8 @@ public function initUvetoRooms():void
 	rooms["UVIP P10"].westExit = "UVIP N10";
 	rooms["UVIP P10"].moveMinutes = 6;
 	rooms["UVIP P10"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP P10"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP P10"].runOnEnter = TundraEncounterBonus;
 
 	/* TAXI */
 	rooms["UVIP R10"] = new RoomClass(this);
@@ -1276,8 +1384,8 @@ public function initUvetoRooms():void
 	rooms["UVIP R10"].runOnEnter = function():Boolean {
 		if (flags["UVIP_R10_PROBE_ACTIVE"] == undefined)
 		{
-			output("\n\nIt looks like the probe was damage in the crash. It's silent and dark.");
-			addButton(0, "Reactivate", uvetoReactivateProbe, undefined, "Reactivate Probe", "You could probably give this probe a repair job and use it to broadcast a signal back to Irestead. If you do, you might be able to quick transportation...");
+			output("\n\nIt looks like the probe was damaged in the crash. It's silent and dark.");
+			addButton(0, "Reactivate", uvetoReactivateProbe, undefined, "Reactivate Probe", "You could probably give this probe a repair job and use it to broadcast a signal back to Irestead. If you do, you might be able to call for quick transportation...");
 		}
 		else
 		{
@@ -1299,6 +1407,8 @@ public function initUvetoRooms():void
 	rooms["UVIP N10"].westExit = "UVIP L10";
 	rooms["UVIP N10"].moveMinutes = 6;
 	rooms["UVIP N10"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP N10"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP N10"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP N12"] = new RoomClass(this);
 	rooms["UVIP N12"].roomName = "";
@@ -1317,6 +1427,8 @@ public function initUvetoRooms():void
 	rooms["UVIP L10"].westExit = "UVIP J10";
 	rooms["UVIP L10"].moveMinutes = 6;
 	rooms["UVIP L10"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP L10"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP L10"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP J10"] = new RoomClass(this);
 	rooms["UVIP J10"].roomName = "VILLAGE\nENTRANCE";
@@ -1326,6 +1438,8 @@ public function initUvetoRooms():void
 	rooms["UVIP J10"].eastExit = "UVIP L10";
 	rooms["UVIP J10"].moveMinutes = 6;
 	rooms["UVIP J10"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP J10"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP J10"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP P8"] = new RoomClass(this);
 	rooms["UVIP P8"].roomName = "RIFT\nAPPROACH";
@@ -1336,6 +1450,8 @@ public function initUvetoRooms():void
 	rooms["UVIP P8"].southExit = "UVIP P10";
 	rooms["UVIP P8"].moveMinutes = 12;
 	rooms["UVIP P8"].addFlag(GLOBAL.FROZENTUNDRA);
+	rooms["UVIP P8"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP P8"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP R8"] = new RoomClass(this);
 	rooms["UVIP R8"].roomName = "RIFT\nAPPROACH";
@@ -1346,6 +1462,8 @@ public function initUvetoRooms():void
 	rooms["UVIP R8"].westExit = "UVIP P8";
 	rooms["UVIP R8"].moveMinutes = 12;
 	rooms["UVIP R8"].addFlag(GLOBAL.FROZENTUNDRA);
+	rooms["UVIP R8"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP R8"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP T8"] = new RoomClass(this);
 	rooms["UVIP T8"].roomName = "RIFT\nAPPROACH";
@@ -1360,6 +1478,8 @@ public function initUvetoRooms():void
 		return false;
 	};
 	rooms["UVIP T8"].addFlag(GLOBAL.FROZENTUNDRA);
+	rooms["UVIP T8"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP T8"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP T6"] = new RoomClass(this);
 	rooms["UVIP T6"].roomName = "RIFT\nAPPROACH";
@@ -1370,6 +1490,8 @@ public function initUvetoRooms():void
 	rooms["UVIP T6"].southExit = "UVIP T8";
 	rooms["UVIP T6"].moveMinutes = 12;
 	rooms["UVIP T6"].addFlag(GLOBAL.FROZENTUNDRA);
+	rooms["UVIP T6"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP T6"].runOnEnter = naynaDroneBonus;
 
 	rooms["UVIP V6"] = new RoomClass(this);
 	rooms["UVIP V6"].roomName = "RIFT\nAPPROACH";
@@ -1380,6 +1502,8 @@ public function initUvetoRooms():void
 	rooms["UVIP V6"].westExit = "UVIP T6";
 	rooms["UVIP V6"].moveMinutes = 12;
 	rooms["UVIP V6"].addFlag(GLOBAL.FROZENTUNDRA);
+	rooms["UVIP V6"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP V6"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP X6"] = new RoomClass(this);
 	rooms["UVIP X6"].roomName = "RIFT\nAPPROACH";
@@ -1390,16 +1514,20 @@ public function initUvetoRooms():void
 	rooms["UVIP X6"].westExit = "UVIP V6";
 	rooms["UVIP X6"].moveMinutes = 12;
 	rooms["UVIP X6"].addFlag(GLOBAL.FROZENTUNDRA);
+	rooms["UVIP X6"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP X6"].runOnEnter = TundraEncounterBonus;
 
 	/* NORTH RIFT EXIT */
 	rooms["UVIP Z6"] = new RoomClass(this);
-	rooms["UVIP Z6"].roomName = "[PH] GLACIAL\nRIFT";
-	rooms["UVIP Z6"].description = "[PH] GLACIAL RIFT MAP";
+	rooms["UVIP Z6"].roomName = "[PH] GLACIAL\nRIFT"; // 9999
+	rooms["UVIP Z6"].description = "(Placeholder) GLACIAL RIFT MAP";
 	rooms["UVIP Z6"].planet = "PLANET: UVETO VII";
 	rooms["UVIP Z6"].system = "SYSTEM: SIRETTA";
 	rooms["UVIP Z6"].westExit = "UVIP X6";
 	rooms["UVIP Z6"].moveMinutes = 6;
 	rooms["UVIP Z6"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP Z6"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP Z6"].runOnEnter = TundraEncounterBonus;
 
 	/* CENTER BRANCH */
 	rooms["UVIP R12"] = new RoomClass(this);
@@ -1411,6 +1539,8 @@ public function initUvetoRooms():void
 	rooms["UVIP R12"].westExit = "UVIP P12";
 	rooms["UVIP R12"].moveMinutes = 6;
 	rooms["UVIP R12"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP R12"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP R12"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP T12"] = new RoomClass(this);
 	rooms["UVIP T12"].roomName = "MIDDLE\nPATH";
@@ -1421,6 +1551,8 @@ public function initUvetoRooms():void
 	rooms["UVIP T12"].westExit = "UVIP R12";
 	rooms["UVIP T12"].moveMinutes = 6;
 	rooms["UVIP T12"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP T12"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP T12"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP V12"] = new RoomClass(this);
 	rooms["UVIP V12"].roomName = "MIDDLE\nPATH";
@@ -1431,6 +1563,8 @@ public function initUvetoRooms():void
 	rooms["UVIP V12"].westExit = "UVIP T12";
 	rooms["UVIP V12"].moveMinutes = 6;
 	rooms["UVIP V12"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP V12"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP V12"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP V14"] = new RoomClass(this);
 	rooms["UVIP V14"].roomName = "TOWER\nROAD";
@@ -1441,6 +1575,8 @@ public function initUvetoRooms():void
 	rooms["UVIP V14"].southExit = "UVIP V16";
 	rooms["UVIP V14"].moveMinutes = 6;
 	rooms["UVIP V14"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP V14"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP V14"].runOnEnter = naynaDroneBonus;
 
 	rooms["UVIP V16"] = new RoomClass(this);
 	rooms["UVIP V16"].roomName = "TOWER\nROAD";
@@ -1451,6 +1587,8 @@ public function initUvetoRooms():void
 	rooms["UVIP V16"].southExit = "UVIP V18";
 	rooms["UVIP V16"].moveMinutes = 6;
 	rooms["UVIP V16"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP V16"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP V16"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP V18"] = new RoomClass(this);
 	rooms["UVIP V18"].roomName = "TOWER\nROAD";
@@ -1462,16 +1600,20 @@ public function initUvetoRooms():void
 	rooms["UVIP V18"].southExit = "UVIP V20";
 	rooms["UVIP V18"].moveMinutes = 6;
 	rooms["UVIP V18"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP V18"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP V18"].runOnEnter = TundraEncounterBonus;
 
 	/* RELAY TOWER */
 	rooms["UVIP X18"] = new RoomClass(this);
-	rooms["UVIP X18"].roomName = "[PH] RELAY\nTOWER";
-	rooms["UVIP X18"].description = "[PH] RELAY TOWER";
+	rooms["UVIP X18"].roomName = "[PH] RELAY\nTOWER"; // 9999
+	rooms["UVIP X18"].description = "(Placeholder) RELAY TOWER";
 	rooms["UVIP X18"].planet = "PLANET: UVETO VII";
 	rooms["UVIP X18"].system = "SYSTEM: SIRETTA";
 	rooms["UVIP X18"].westExit = "UVIP V18";
 	rooms["UVIP X18"].moveMinutes = 1;
 	rooms["UVIP X18"].addFlag(GLOBAL.INDOOR);
+	rooms["UVIP X18"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP X18"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP V20"] = new RoomClass(this);
 	rooms["UVIP V20"].roomName = "TOWER\nROAD";
@@ -1482,6 +1624,8 @@ public function initUvetoRooms():void
 	rooms["UVIP V20"].southExit = "UVIP V22";
 	rooms["UVIP V20"].moveMinutes = 6;
 	rooms["UVIP V20"].addFlag(GLOBAL.ICYTUNDRA);
+	rooms["UVIP V20"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP V20"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP V22"] = new RoomClass(this);
 	rooms["UVIP V22"].roomName = "RIFT\nAPPROACH";
@@ -1492,6 +1636,8 @@ public function initUvetoRooms():void
 	rooms["UVIP V22"].eastExit = "UVIP X22";
 	rooms["UVIP V22"].moveMinutes = 12;
 	rooms["UVIP V22"].addFlag(GLOBAL.FROZENTUNDRA);
+	rooms["UVIP V22"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP V22"].runOnEnter = TundraEncounterBonus;
 
 	rooms["UVIP X22"] = new RoomClass(this);
 	rooms["UVIP X22"].roomName = "RIFT\nAPPROACH";
@@ -1502,14 +1648,18 @@ public function initUvetoRooms():void
 	rooms["UVIP X22"].westExit = "UVIP V22";
 	rooms["UVIP X22"].moveMinutes = 12;
 	rooms["UVIP X22"].addFlag(GLOBAL.FROZENTUNDRA);
+	rooms["UVIP X22"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP X22"].runOnEnter = TundraEncounterBonus;
 
 	/* CENTER EXIT TO RIFT */
 	rooms["UVIP Z22"] = new RoomClass(this);
-	rooms["UVIP Z22"].roomName = "[PH] GLACIAL\nRIFT";
-	rooms["UVIP Z22"].description = "[PH] GLACIAL RIFT";
+	rooms["UVIP Z22"].roomName = "[PH] GLACIAL\nRIFT"; // 9999
+	rooms["UVIP Z22"].description = "(Placeholder) GLACIAL RIFT";
 	rooms["UVIP Z22"].planet = "PLANET: UVETO VII";
 	rooms["UVIP Z22"].system = "SYSTEM: SIRETTA";
 	rooms["UVIP Z22"].westExit = "UVIP X22";
 	rooms["UVIP Z22"].moveMinutes = 12;
 	rooms["UVIP Z22"].addFlag(GLOBAL.FROZENTUNDRA);
+	rooms["UVIP Z22"].addFlag(GLOBAL.HAZARD);
+	rooms["UVIP Z22"].runOnEnter = TundraEncounterBonus;
 }

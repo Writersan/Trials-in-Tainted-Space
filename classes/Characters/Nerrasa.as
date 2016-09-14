@@ -14,6 +14,7 @@
 	import classes.Items.Apparel.ThermalJacket;
 	import classes.Items.Accessories.LightJetpack;
 	import classes.Items.Accessories.FlashGoggles;
+	import classes.Items.Transformatives.Frostfire;
 	import classes.Items.Transformatives.HuskarTreats;
 	import classes.kGAMECLASS;
 	
@@ -42,6 +43,7 @@
 			inventory.push(new HeatBelt());
 			inventory.push(new ArcticWarfareBelt());
 			inventory.push(new HuskarTreats());
+			inventory.push(new Frostfire());
 			//inventory.push(new AusarTreats());
 			inventory.push(new ClimbingKit());
 			inventory.push(new FishingRod());
@@ -52,7 +54,7 @@
 			inventory.push(new FlashGoggles());
 
 			
-			keeperBuy = "Nerrasa just keeps up with her reps whilst you browse the stores wares, paying you no mind what so ever.\n";
+			keeperBuy = "Nerrasa just keeps up with her reps whilst you browse the store's wares, paying you no mind what so ever.\n";
 			
 			this.typesBought = [];
 			this.sellMarkup = 1.2;
@@ -197,7 +199,7 @@
 			this.ass.loosenessRaw = 4;
 			this.ass.bonusCapacity = 250;
 		}
-		
+				
 		override public function get bustDisplay():String
 		{
 			// LERRIS_<COW_>_0

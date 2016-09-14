@@ -16,25 +16,31 @@ public function honeyNozzleClub():Boolean
 	
 	if (flags["FAZIAN_QUEST_STATE"] == FAZIAN_QUEST_OFFERING && flags["FAZIAN_QUEST_TIMER"] + (48 * 60) < GetGameTimestamp())
 	{
-		output("\n\nHepane the myr musician is stood where she normally is, by the entrance to the cabaret. She doesn't have her clipboard though, and she looks rather worried.");
+		output("\n\nHepane, the myr musician, is stood where she normally is, by the entrance to the cabaret. She doesn’t have her clipboard though, and she looks rather worried.");
 		addButton(1, "Hepane", fazianQuestOpening);
 	}
 	else if (flags["FAZIAN_QUEST_STATE"] == FAZIAN_QUEST_STARTED)
 	{
-		output("\n\nHepane, the myr musician you're trying to help find Fazian, is sat at a table near the back. She looks rather worried.");
-		if (flags["FAZIAN_QUEST_SUCCESSES"] + flags["FAZIAN_QUEST_FAILURES"] < 3) addDisabledButton(1, "Hepane", "Hepane", "Collect clues on Fazian's whereabouts before returning to Hepane.");
-		else addButton(1, "Hepane", fazianQuestInvestigationDun, undefined, "Hepane", "Return to Hepane and share the clues you've collected on Fazian's whereabouts.");
+		output("\n\nHepane, the myr musician you’re trying to help find Fazian, is sat at a table near the back. She looks rather worried.");
+		if (flags["FAZIAN_QUEST_SUCCESSES"] + flags["FAZIAN_QUEST_FAILURES"] < 3) addDisabledButton(1, "Hepane", "Hepane", "Collect clues on Fazian’s whereabouts before returning to Hepane.");
+		else addButton(1, "Hepane", fazianQuestInvestigationDun, undefined, "Hepane", "Return to Hepane and share the clues you’ve collected on Fazian’s whereabouts.");
 	}
 	else if (flags["FAZIAN_QUEST_STATE"] == FAZIAN_QUEST_INVESTIGATED)
 	{
-		if(flags["FAZIAN_QUEST_TIMER"] + (24 * 60) < GetGameTimestamp())
+		if (flags["FAZIAN_QUEST_TIMER"] + (24 * 60) < GetGameTimestamp())
 		{
-			output("\n\nHepane, the myr musician you're trying to help find Fazian, is sat at a table near the back. She waves at you urgently the moment she catches sight of you.");
+			output("\n\nHepane, the myr musician you’re trying to help find Fazian, is sat at a table near the back. She waves at you urgently the moment she catches sight of you.");
 			addButton(1, "Hepane", fazianQuestInvestigationFollowup, undefined, "Hepane", "Go over and see what she has to say.");
 		}
 		else if ((hours > 15 && hours < 20) || (hours == 15 && minutes >= 30) || (hours == 20 && minutes <= 30))
 		{
-			output("\n\nThe entrance to the cabaret displays a sign that mentions a temporary delay in the evening's showings.");
+			output("\n\nThe entrance to the cabaret displays a sign that mentions a temporary delay in the evening’s showings.");
+			addDisabledButton(1, "Cabaret", "Cabaret", "It looks like the entrance is closed at the moment.");
+		}
+		else
+		{
+			output("\n\nThe entrance to the cabaret is currently closed. The signage in front says that it is open from 15:30 to 20:30.");
+			addDisabledButton(1, "Cabaret", "Cabaret", "It looks like the entrance is closed at the moment.");
 		}
 	}
 	else if (!InCollection(flags["FAZIAN_QUEST_STATE"], [FAZIAN_QUEST_REJECTED, FAZIAN_QUEST_FAILED, FAZIAN_QUEST_RESCUE, FAZIAN_QUEST_BRIBED]))
@@ -42,25 +48,42 @@ public function honeyNozzleClub():Boolean
 		if (flags["FAZIAN_QUEST_RESCUE_TIMER"] != undefined && flags["FAZIAN_QUEST_RESCUE_TIMER"] + (24 * 60) > GetGameTimestamp())
 		{
 			/* Give Fazian a 24-hour break before performing a new show after rescue. */
+			output("\n\nThe entrance to the cabaret is currently closed. Perhaps to give Fazian some time to recover");
+			addDisabledButton(1, "Cabaret", "Cabaret", "It looks like the entrance is closed at the moment.");
 		}
 		else
 		{
 			if ((hours > 15 && hours < 20) || (hours == 15 && minutes >= 30) || (hours == 20 && minutes <= 30))
 			{
-				if(flags["FAZIAN_QUEST_STATE"] == FAZIAN_QUEST_OFFERING)
+				if (flags["FAZIAN_QUEST_STATE"] == FAZIAN_QUEST_OFFERING)
 				{
-					output("\n\nThe entrance to the cabaret has a hastily-made sign posted that mentions a temporary delay in the afternoon's showings. Technical difficulties perhaps?");
+					output("\n\nThe entrance to the cabaret has a hastily-made sign posted that mentions a temporary delay in the afternoon’s showings. Technical difficulties perhaps?");
+					addDisabledButton(1, "Cabaret", "Cabaret", "It looks like the entrance is closed at the moment.");
 				}
 				else if (flags["FAZIAN_SHOW"] == undefined)
 				{
 					output("\n\nOn the far side of the dusky room, a gold myr in a black dress is taking money from knots of other ant-women and ushering them through a curtain. A private show of some sort?");
-					addButton(1, "Curtain", nozzleShowFirstTime);
+					addButton(1, "Curtain", nozzleShowFirstTime, undefined, "Curtain", "See what it’s all about.");
 				}
 				else
 				{
-					output("\n\nOn the far side of the dusky room, you can see Fazian's accompanist Hepane taking admissions for this afternoon's show. You could go find out what the two of them are putting on this time.");
-					addButton(1, "Cabaret", nozzleShowRepeat);
+					output("\n\nOn the far side of the dusky room, you can see Fazian’s accompanist, Hepane, taking admissions for this afternoon’s show. You could go find out what the two of them are putting on this time.");
+					addButton(1, "Cabaret", nozzleShowRepeat, undefined, "Cabaret", "Come in and watch a show.");
 				}
+			}
+			else
+			{
+				if (flags["FAZIAN_SHOW"] == undefined)
+				{
+					output("\n\nThere is a curtain covering one of the far rooms, marking it as an entrance of some theater or showroom, perhaps.");
+					addDisabledButton(1, "Curtain", "Curtain", "It looks like the entrance is closed at the moment.");
+				}
+				else
+				{
+					output("\n\nThe entrance to the cabaret is currently closed.");
+					addDisabledButton(1, "Cabaret", "Cabaret", "It looks like the entrance is closed at the moment.");
+				}
+				output(" The signage in front says that it is open from 15:30 to 20:30.");
 			}
 
 			var bShow:Boolean = hasSeenNozzleShow();
@@ -68,13 +91,27 @@ public function honeyNozzleClub():Boolean
 			var bT2:Boolean = hours == 20 && minutes >= 35;
 			if (bShow && (bT1 || bT2))
 			{
-				if(flags["FAZIAN_QUEST_STATE"] != FAZIAN_QUEST_OFFERING || flags["FAZIAN_QUEST_TIMER"] + (12 * 60) >= GetGameTimestamp())
+				if (flags["FAZIAN_QUEST_STATE"] != FAZIAN_QUEST_OFFERING || flags["FAZIAN_QUEST_TIMER"] + (12 * 60) >= GetGameTimestamp())
 				{
 					output("\n\nFazian, the anat cabaret performer, is sat at the quieter end of one of the bars, craned over a glass of honey wine. You could go and talk to him if you wished.");
 					addButton(1, "Fazian", fazianApproach);
 				}
+				else
+				{
+					output("\n\nThe entrance to the cabaret is currently closed. The signage in front says that it is open from 15:30 to 20:30.");
+					addDisabledButton(1, "Cabaret", "Cabaret", "It looks like the entrance is closed at the moment.");
+				}
 			}
 		}
+	}
+	else if (flags["FAZIAN_QUEST_STATE"] == FAZIAN_QUEST_RESCUE)
+	{
+		output("\n\nThe entrance to the cabaret is currently closed. You should find Fazian soon!");
+		addDisabledButton(1, "Cabaret", "Cabaret", "It looks like the entrance is closed at the moment.");
+	}
+	else if (flags["FAZIAN_QUEST_STATE"] == FAZIAN_QUEST_BRIBED)
+	{
+		CodexManager.unlockEntry("Tarratch");
 	}
 
 	if (flags["FAZIAN_QUEST_STATE"] == FAZIAN_QUEST_STARTED)
@@ -86,7 +123,7 @@ public function honeyNozzleClub():Boolean
 
 		if (flags["FAZIAN_QUEST_BARKEEP"] == undefined)
 		{
-			addButton(7, "Barkeep", fazianQuestBarkeep, undefined, "Barkeep", "Ask the barkeep if she's seen Fazian.");
+			addButton(7, "Barkeep", fazianQuestBarkeep, undefined, "Barkeep", "Ask the barkeep if she’s seen Fazian.");
 		}
 	}
 	
@@ -352,15 +389,15 @@ public function danceNoTouchDally():void
 	{
 		if(pc.wettestVaginalWetness() < 3) output("wetness pooling beneath you");
 		else if(pc.wettestVaginalWetness() < 4) output("wetness threatening to cascade down your thighs");
-		else output("sensuous slickness building down south.");
+		else output("sensuous slickness building down south");
 	}
 	else if(pc.hasCock())
 	{
 		if(pc.isCrotchGarbed()) output("way [pc.eachCock] strains against your [pc.lowerGarment]");
-		else output("way [pc.eachCock] is quivering excitedly.");
+		else output("way [pc.eachCock] is quivering excitedly");
 	}
-	else output("the way your [pc.asshole] tingles with excitement.");
-	output(" It’s almost too much, being this close to him and allowing him to so relentlessly excite you with his body.");
+	else output("the way your [pc.asshole] tingles with excitement");
+	output(". It’s almost too much, being this close to him and allowing him to so relentlessly excite you with his body.");
 	output("\n\nGrinning over his shoulder, he bounces a few times, then presses his palm against the top of his dick, forcing it to hang down like a third leg. A stream of nectar drools out of the tip, threatening to connect him to the stage’s floor. He breaks it with a quick spin around. The sweet droplet smacks into your cheek and hangs there while he dances with his ass swaying, his cock bobbing, and his honey-stuffed abdomen lewdly carried along behind him to the tempo of the music’s gritty beat.");
 	output("\n\nYou’re panting before long, a little dizzy on lust and whatever cologne he wears. He reaches out to brush a bead of sweat from your brow, concern on his face. <i>“Are you sure you’ll be okay? I’ve got to dance for some of the other girls, but don’t do anything stupid just because you’re all worked up, okay?”</i>");
 	output("\n\nYou lick your lips and nod agreeably. The whole reason you kept your hands to yourself was because you wanted to stay in control, not get <i>fucked</i> like some <i>" + pc.mf("cock-addled twink","cock-sucking harlot") + "</i>.");
@@ -393,7 +430,7 @@ public function dallyDanceWithTheBadTouchYouAndMeBabyArentNothinButMammalsNoWait
 	if(pc.isBimbo()) output("to hide you licking the traces of his pre from your lips");
 	else output("in mock offense");
 	output(". <i>“That easily?”</i> you ask. Of course, your other hand maintains its grip on his shaft. His excited trembling has brought an impromptu end to his dance, and you’re forced to keep up the rhythm by sliding your palm back and forth along his slippery, golden skin.");
-	output("\n\nGrinning eagerly, Dally tries to continue with the rhythm. His thighs rub sensuously against one another, his hips wiggling back and forth, twisting his length, alien cock in your hands. He groans excitedly, head swelling as he does, warning, <i>“I hope you’re ready, " + pc.mf("mister","miss") + "!”</i>");
+	output("\n\nGrinning eagerly, Dally tries to continue with the rhythm. His thighs rub sensuously against one another, his hips wiggling back and forth, twisting his lengthy, alien cock in your hands. He groans excitedly, head swelling as he does, warning, <i>“I hope you’re ready, " + pc.mf("mister","miss") + "!”</i>");
 	output("\n\nYou ");
 	if(pc.hasCock() && pc.hasVagina())
 	{
@@ -455,7 +492,7 @@ public function makeDallyBlowALoadOnYerFaceYeSloot():void
 	output("”</i> you instruct.");
 	output("\n\nDally’s antennae raise in surprise, but his dick is practically thrumming in your hands, somehow harder than the rock the stage was hewn from and yet still jerking wildly with every twitch of the ant-boy’s abdominals. His hips quiver briefly, then slam forward, thrusting all fifteen inches of rigid antmeat through your fingers before you have a chance to react. His crown visibly expands a few inches from your face, filling your vision for the split-second it takes his spermy issue to reach the end of his urethra.");
 	output("\n\nYou blink your eyes closed by reflex. There was no time for thinking or any sort of prepared plan - your body just slammed your eyelids closed like the windows on a starship before a plasma barrage, only this barrage feels... nice as it splatters against your skin. Thick, goopy warmth cascades down your forehead and cheeks. A droplet runs down the bridge of your nose before rolling off to collect at the corner of your mouth.");
-	output("\n\nHe’s smothering you with his hot, sticky release. The smell is so thick to you that it’s almost cloying, musky and sweet at the same time. You can’t help but let your tongue slide out of mouth to try a little. It’s ");
+	output("\n\nHe’s smothering you with his hot, sticky release. The smell is so thick to you that it’s almost cloying, musky and sweet at the same time. You can’t help but let your tongue slide out of your mouth to try a little. It’s ");
 	if(pc.isBimbo()) output("divine");
 	else output("better than it smells, honestly");
 	output(". There must be some of his nectar mixing in with it. Some splashes down in your hair, and you shudder, listening to the myr girls collect around you, cooing in excitement.");
@@ -490,7 +527,7 @@ public function takeSomeDallySploogeInYerMouthYaSloooooot():void
 	output("\n\nThe stripper, for all his supposed experience, moans with overwhelming excitement. Coos and titters run through the assembled audience; most sound equal parts excited and jealous. They can’t feel him pulsing on their tongue or throbbing against their palate. Their hands can’t admire his girth or the virile weight of his shuddering balls. And there’s no chance in all of space’s vast expanse that they can taste the first sugar-tinged blobs as they squirt from his orgasmically-jerking dick.");
 	output("\n\nDally tastes a little salty but more sweet, and in the span of two seconds it becomes the only thing you can taste. He floods your mouth with it. Trickles of his whitish goo leak from the corners of your mouth. You swallow as best you can, but more escapes to drip from your chin, fed from a seemingly unending stream of virile jism. Dally bathes your mouth in his syrupy load, painting your lips with the excess, forcing you to gulp again and again.");
 	output("\n\nWhen you can handle no more, you pull back and gasp for breath, offering his still-spurting rod to an ant-girl who has appeared beside you, mouth open in anticipation. She feeds the spurting shaft into her gullet and sucks with the kind of earnest eagerness that speaks of a sort of wanton hunger for cock. You watch and dab the dripping spooge from your face, offering it to another myr. She sucks the proffered digits clean one after another, relishing it.");
-	output("\n\nDally finishes not longer after - you clearly got the lion’s share of his load. Even now, you can feel it sloshing in your tummy. The dancer extricates himself from his fan’s sucking maw with a bit of difficulty and gives you a grateful nod. His balls actually look a little lighter thanks to your intervention. <i>“Thank you ladies, but I’ve got to walk the rest of stage before the boss gripes at me. I’ll try and return the favor if I ever get the chance.”</i> He winks at you and turns away, launching into a dance as well as his tired legs will allow.");
+	output("\n\nDally finishes not long after - you clearly got the lion’s share of his load. Even now, you can feel it sloshing in your tummy. The dancer extricates himself from his fan’s sucking maw with a bit of difficulty and gives you a grateful nod. His balls actually look a little lighter thanks to your intervention. <i>“Thank you ladies, but I’ve got to walk the rest of stage before the boss gripes at me. I’ll try and return the favor if I ever get the chance.”</i> He winks at you and turns away, launching into a dance as well as his tired legs will allow.");
 	var pp:PregnancyPlaceholder = new PregnancyPlaceholder();
 	pp.cumType = GLOBAL.FLUID_TYPE_HONEY;
 	pp.balls = 2;
@@ -596,7 +633,7 @@ public function nectarSuckFromDallyProper():void
 	output("\n\nThe myr girl next to you is cheering while her friends slump down against the side of the stage, vigorously frigging each other, filling the air with wet squelches and their own fragrant pussy-musk. You’d love to keep drinking, but you’re starting to get full. You swear that if you drink any more, you’re going to wind up looking positively pregnant");
 	if(pc.isPregnant()) output(", or more pregnant than normal, anyway");
 	output(". You give Dally one long hard suck by way of thanks and let him slip free.");
-	output("\n\nA river of golden honey trails from your chin to to the stage below him, and he’s still drizzling more. His eyes are closed and fluttering while his hips feebly pump. The ant-girl beside you brazenly reaches out to catch his slippery issue in a hand, switching to another when the first fills, determined not to waste a single droplet.");
+	output("\n\nA river of golden honey trails from your chin to the stage below him, and he’s still drizzling more. His eyes are closed and fluttering while his hips feebly pump. The ant-girl beside you brazenly reaches out to catch his slippery issue in a hand, switching to another when the first fills, determined not to waste a single droplet.");
 	output("\n\nA burp escapes your mouth before you can stifle it. It tastes like Dally’s dick. You’ve got ant-cock breath. The girls around you giggle excitedly at the shocked look on your face. One of them offers to make out with you, but you pass for now, licking the last of the residue from your lips.");
 	output("\n\nBy the time you rouse from your daze, Dally has gotten to his feet and moved down the stage. You’re about to stand up when a flashing hologram displaying the word ‘Tip’ appears alongside you. Small print appears below with the credit address for anything you’d like to give Dally. For backwater creatures, the myr seemed to have figured out payment terminals well enough.");
 	if(flags["DALLY_NECTAR_DRANK"] == undefined) flags["DALLY_NECTAR_DRANK"] = 0;
@@ -925,7 +962,7 @@ public function getDallyLicked():void
 	output(". <i>“I think I can handle a little stage time.”</i>");
 	if(pc.exhibitionism() < 33) output(" You try your best not to show just how nervous you’re feeling.");
 
-	output("\n\n<i>“Is that so?”</i> Dally makes a show of dropping to his knees, grabbing the stripper pole and slowing his slide to the stage floor into a sensuous display. <i>“");
+	output("\n\n<i>“Is that so?”</i> Dally makes a show of dropping to his knees, grabbing the stripper pole and slowly sliding to the stage floor into a sensuous display. <i>“");
 	if(pc.legCount == 1) output("Stones, it’s strange to see one smack in the middle instead of you instead of on an abdomen like a normal girl’s.");
 	else if(pc.isTaur())
 	{
@@ -942,7 +979,7 @@ public function getDallyLicked():void
 	output(" to ");
 	if(!pc.isTaur() && pc.legCount != 2) output("better present your [pc.vaginas] to the ant-boy.");
 	else output("to better allow the ant-boy to crawl between them");
-	output(". You’re uncomfortably aware of your own wetness, exposed as you are in the center of the stage. Dally’s so close to you too, and getting close by the second. He licks his golden licks and openly ogles [pc.oneVagina]. You can almost feel his stare. It sends shivers of delight and anxiety up your spine");
+	output(". You’re uncomfortably aware of your own wetness, exposed as you are in the center of the stage. Dally’s so close to you too, and getting closer by the second. He licks his golden lips and openly ogles [pc.oneVagina]. You can almost feel his stare. It sends shivers of delight and anxiety up your spine");
 	if(pc.hasClit())
 	{
 		output(", and makes you entirely too aware of how your [pc.clits] feel");
@@ -957,7 +994,7 @@ public function getDallyLicked():void
 
 	output("\n\n<i>“Ready for this?”</i> Dally waggles his tongue at you. It’s long and... thick, deliciously so.");
 	output("\n\nYou shudder and nod, biting your lip.");
-	output("\n\nThe well-endowed male flashes his teeth at you once more and wiggles closer to your [pc.vaginas], pausing once he’s an inch or two away to gently blow on it. His breath is hotter than you would’ve imagine. You swear you can feel yourself lubricating, easing hot droplets of [pc.girlCum] into your dewy slit");
+	output("\n\nThe well-endowed male flashes his teeth at you once more and wiggles closer to your [pc.vaginas], pausing once he’s an inch or two away to gently blow on it. His breath is hotter than you would’ve imagined. You swear you can feel yourself lubricating, easing hot droplets of [pc.girlCum] into your dewy slit");
 	if(pc.totalVaginas() > 1) output("s");
 	output(" one after another.");
 	if(pc.wettestVaginalWetness() >= 3) 
@@ -989,9 +1026,9 @@ public function getDallyLicked():void
 	output("but your oral accomplice never abandons his duty, keeping his lips sealed to yours, brushing his tongue back and forth");
 	if(pc.hasClit()) output(" against [pc.oneClit]");
 	output(" until your ");
-	if(pc.isSquirter()) output("spraying juices have thoroughly soaked his face and the stage both. Rivulets of the stuff drip from his shoulders.");
+	if(pc.isSquirter()) output("spraying juices have thoroughly soaked both his face and the stage. Rivulets of the stuff drip from his shoulders.");
 	else output("juices dribble down his cheeks and fill his mouth with your flavor.");
-	output(" He drinks from you like thirsty man at an oasis, unable to conceive of anything but the [pc.girlCumFlavor] taste on his tongue.");
+	output(" He drinks from you like a thirsty man at an oasis, unable to conceive of anything but the [pc.girlCumFlavor] taste on his tongue.");
 	
 	//You are a taur, god this gets boring!
 	if(pc.isTaur())
@@ -1045,11 +1082,11 @@ public function dallySucksYouOff():void
 	if(pc.cumType == GLOBAL.FLUID_TYPE_HONEY) output("aren’t the only one packing a dickful of honey.");
 	else output("aren’t the only one needing a good suck.");
 	output("”</i>");
-	output("\n\n<i>“Is that so?”</i> Dally makes a show of dropping to his knees, grabbing the stripper pole and slowing his slide to the stage floor into a sensuous display. <i>“Stones, it’s strange to look at someone else’s up close.”</i> He flashes a white-toothed smile your way. <i>“Not saying I mind, just that most of my practice has been... self-fulfilling.”</i>");
+	output("\n\n<i>“Is that so?”</i> Dally makes a show of dropping to his knees, grabbing the stripper pole and slowly sliding to the stage floor into a sensuous display. <i>“Stones, it’s strange to look at someone else’s up close.”</i> He flashes a white-toothed smile your way. <i>“Not saying I mind, just that most of my practice has been... self-fulfilling.”</i>");
 	output("\n\nYou grab hold");
 	if(pc.cockTotal() > 1) output(" of your biggest cock");
 	else output(" of your cock");
-	output(" and wagle it back and forth in front of him. <i>“");
+	output(" and waggle it back and forth in front of him. <i>“");
 	if(pc.isNice()) output("Go on, then. There’s no better way to get practice, right?");
 	else if(pc.isMischievous()) output("Go ahead, it’s more of a spitter than a biter.");
 	else 
@@ -1086,7 +1123,7 @@ public function dallySucksYouOff():void
 	//Dally can fit that wangasaurus rex in his mouth.
 	if(pc.cocks[pc.biggestCockIndex()].thickness() <= 5)
 	{
-		output("\n\nThe monumental difference between hanging free and being imprisoned in a warm, wet mouth rocks you to your core. An ecstatic whimper escapes your throat. The assembled myr ladies love it, catcalling for more. Ever-oblidging, Dally slides lower on your length, taking ");
+		output("\n\nThe monumental difference between hanging free and being imprisoned in a warm, wet mouth rocks you to your core. An ecstatic whimper escapes your throat. The assembled myr ladies love it, catcalling for more. Ever-obliging, Dally slides lower on your length, taking ");
 		if(pc.biggestCockLength() <= 8) output("the entire thing");
 		else output("the first seven inches into his mouth");
 		output(". Any further and you’d be sliding directly into his throat. Inky eyes flick up at you, but you’re numb to the world, entirely subsumed in a world of your own pleasure.");
@@ -1147,13 +1184,13 @@ public function dallySucksYouOff():void
 			output(", hosing geysers of [pc.cum] directly into Dally’s spunk-receptacle");
 			if(pc.cockTotal() > 1) output(" and across his face and hair, completely soaking in him in [pc.cumColor]");
 			output(". He valiantly tries to swallow it, but even with his cheeks bulging and his throat noisily swallowing, beads of your [pc.cumNoun] roll out of the corners of his mouth. Not even the audience’s cheers of <i>“Chug! Chug! Chug!”</i> can help him keep up with the flow.");
-			if(pc.cumQ() >= 1500) output(" He pulls back, dazed gasping for breath while you continue to vent across his near-nude form, splattering [pc.cum] of smooth skin and gleaming carapace alike. So much hangs from his antennae that they’re nearly plastered to his forehead, droopy and limp.");
+			if(pc.cumQ() >= 1500) output(" He pulls back, dazed, gasping for breath while you continue to vent across his near-nude form, splattering [pc.cum] on smooth skin and gleaming carapace alike. So much hangs from his antennae that they’re nearly plastered to his forehead, droopy and limp.");
 		}
 		output("\n\nYou thrust your hips, managing to squirt a few last droplets, and finally sag back, spent, your [pc.cocks] twitching and ever-so-slowly wilting");
 		if(pc.libido() >= 75) output(", though you doubt they’ll ever go completely soft");
 		output(". Dally licks his lips appreciatively");
 		if(pc.cumQ() > 250 || (pc.cumQ() >= 50 && pc.cockTotal() > 1)) output(" and does his best to clean up");
-		output(" while panties and bras rain down around you. More than one pair of fingers are lodged in a dripping myr-twat, and a quartette of girls have found a male in the back to polish with their tongues.");
+		output(" while panties and bras rain down around you. More than one pair of fingers are lodged in a dripping myr-twat, and a quartet of girls have found a male in the back to polish with their tongues.");
 		output("\n\n<i>“How’s that?”</i> Dally asks with a cocksure grin");
 		if(pc.cumQ() >= 1500 || (pc.cumQ() >= 50 && pc.cockTotal() > 1)) output(", steadfastly ignoring the caked-on [pc.cumNoun] that drips from his body");
 		output(".");

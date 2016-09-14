@@ -77,7 +77,7 @@ public function approachAuroraPostTarkusBoom():void
 public function auroraBonus():Boolean
 {
 	output("The cavernous room is dimly lit with swaying, hanging lamps similar to a gloomy and moonlit night on a much more <i>habitable</i> world, still bright enough to make out vague details. The room isn’t a comfortable one, claustrophobic with the stacks of shelves, boxes and half-ruined devices haphazardly placed about with little rhyme or reason, or the signs of damaged hull that seem especially prevalent here, making it hard to get around. If that wasn’t enough to make you on edge, the thick, heady scent of char permeates the room, making your senses reel and head dizzy as you try to keep it all together.");
-	if(!pc.isCrotchGarbed())
+	if(pc.isCrotchExposed())
 	{
 		auroraBust();
 		author("Fenoxo");
@@ -113,7 +113,7 @@ public function approachAurora():void
 	clearOutput();
 	author("Magic Ted");
 	auroraBust();
-	if(!pc.isCrotchGarbed())
+	if(pc.isCrotchExposed())
 	{
 		author("Fenoxo");
 		/*
@@ -657,7 +657,7 @@ public function rocketHammerDescription():void
 	output("\n\n<i>\"You hit stuff with it! Durr. It’s too big for anyone here to really use, and I have to admit, it doesn’t work all the time. The ignitor just doesn’t kick! Cuz it gets messed around when you hit stuff with it, probably. Design flaw! But sometimes it does!\"</i> Ready to prove it, Aurora slips her clawed feet around one of the nearby dangling lamps, gripping into the metallic shade as she starts to swing the hammer back and forth like a dangerous pendulum. Already, you feel <i>entirely</i> unsafe and you barely recognize that she starts talking again, too focused on potentially avoiding something.");
 	output("\n\n<i>\"Just press this button in the shaft to activate it! Doesn’t need any fuel or anything, it just takes off! Like... This! This! Hm. This? Thisthisthis-\"</i> You want to put a stop to it before she hurts herself or ");
 	if(pc.isAss()) output("more importantly, ");
-	output("you, but your voice of concern is cut off when it actually <i>does</i> work as intended, to mutual surprise. With a shrill shriek, the accelerant inside comes to life and some sort of flame comes roaring out, sending the poor bat spinning circles on a lamp-based rodeo and endangering anyone’s head at the wrong sort of height - like your’s.");
+	output("you, but your voice of concern is cut off when it actually <i>does</i> work as intended, to mutual surprise. With a shrill shriek, the accelerant inside comes to life and some sort of flame comes roaring out, sending the poor bat spinning circles on a lamp-based rodeo and endangering anyone’s head at the wrong sort of height - like yours.");
 	output("\n\nYou hit the deck before that can happen, and the little show comes to an end in short order, giving you a brief moment to gain your composure as Aurora fights to keep the room from spinning, for her, anyway. <i>\"Eh... That was fun. Ah! See! Works perfectly. Sometimes. Want it?\"</i>");
 	processTime(3);
 	// It should be weaker than a actual sledgehammer item, like the one in, say, Molar’s shop, but should have a higher crit chance and higher crit damage. Whether or not it also needs a strength score is up to you boss, but it’s supposed to be relatively lighter - hence the less damage.

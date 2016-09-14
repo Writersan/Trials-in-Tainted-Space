@@ -104,7 +104,7 @@ package classes.Items.Transformatives
 							var newEyeColor:String = RandomInCollection(frogIrisColors);
 							
 							output("\n\n");
-							if(isTopClothed && target.hasArmor() && target.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT))
+							if(isTopClothed && target.hasAirtightSuit())
 							{
 								output("Detecting a change, you quickly remove your [pc.armor]... ");
 								isTopClothed = false;
@@ -360,7 +360,7 @@ package classes.Items.Transformatives
 						if(target.hairLengthUnlocked(0))
 						{
 							output("\n\n");
-							if(isTopClothed && target.hasArmor() && target.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT))
+							if(isTopClothed && target.hasAirtightSuit())
 							{
 								output("Detecting a change, you quickly remove your [pc.armor]... ");
 								isTopClothed = false;
@@ -378,7 +378,7 @@ package classes.Items.Transformatives
 						if(target.earTypeUnlocked(GLOBAL.TYPE_FROG))
 						{
 							output("\n\n");
-							if(isTopClothed && target.hasArmor() && target.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT))
+							if(isTopClothed && target.hasAirtightSuit())
 							{
 								output("Detecting a change, you quickly remove your [pc.armor]... ");
 								isTopClothed = false;
@@ -412,7 +412,7 @@ package classes.Items.Transformatives
 						if(target.hornsUnlocked(0))
 						{
 							output("\n\n");
-							if(isTopClothed && target.hasArmor() && target.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT))
+							if(isTopClothed && target.hasAirtightSuit())
 							{
 								output("Detecting a change, you quickly remove your [pc.armor]... ");
 								isTopClothed = false;
@@ -608,7 +608,7 @@ package classes.Items.Transformatives
 						// 9999 Not sure battles can/should support this...
 						//output(", but in the heat of battle you think it’ll have some effect. <b>You have lust venom sweat!</b>");
 						// Alternate
-						output(", though you doubt tha will be an issue. <b>You’re skin is now coated in lubricant!</b>");
+						output(", though you doubt that will be an issue. <b>Your skin is now coated in lubricant!</b>");
 						target.addSkinFlag(GLOBAL.FLAG_LUBRICATED);
 						target.addSkinFlag(GLOBAL.FLAG_APHRODISIAC_LACED);
 						changes++;
@@ -619,7 +619,7 @@ package classes.Items.Transformatives
 						if(target.faceTypeUnlocked(GLOBAL.TYPE_FROG))
 						{
 							output("\n\n");
-							if(isTopClothed && target.hasArmor() && target.armor.hasFlag(GLOBAL.ITEM_FLAG_AIRTIGHT))
+							if(isTopClothed && target.hasAirtightSuit())
 							{
 								output("Detecting a change, you quickly remove your [pc.armor]... ");
 								isTopClothed = false;

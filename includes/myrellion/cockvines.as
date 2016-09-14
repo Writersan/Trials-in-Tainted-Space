@@ -22,6 +22,10 @@ public function adultCockvineEncounter():void
 	// Basically, reflex check + randomisation!
 	if (rand(pc.RQ()/2) + (pc.RQ() / 2) > 60)
 	{
+		clearMenu();
+		
+		var isSlut:Boolean = (pc.isTreated() || pc.isBimbo() || pc.isDependant(Creature.DEPENDANT_CUM) || (pc.libido() >= 50 && pc.lust() >= 33) || pc.lust() > 66);
+		
 		output("In the gloom of the deep caverns you feel constantly on edge; the second you set your gaze anywhere your neck begins to crawl, expecting an attack to come from behind. The ground is the last place your instincts tell you to keep an eye on, but when you glance downwards momentarily you are glad you did. You jerk to an immediate halt, staring at the thick, tubular, organic object sprawled out from a crevice across your path.");
 
 		// First Encounter
@@ -39,37 +43,37 @@ public function adultCockvineEncounter():void
 			output("\n\nThe thick snake-like thing suddenly rears and grabs at your [pc.legOrLegs]; you jump back in the nick of time. Rippling and bobbing agitatedly in the dim light now, you can see it is some sort of lithe, green tentacle with a blunt, purple head, replete with a moist, horizontal slit across the top. It is inexpressibly obscene and your eye is drawn to the thickening end disappearing into the crevice, from which more of these penis-vines are sliding into view. You can only imagine what the main body of this thing looks like: undoubtedly if it had managed to grab you, you would have found out.");
 
 			// Female Treated/Bothrioc perked/whatever slut perks
-			if (pc.isTreated() || pc.isBimbo() || pc.isDependant(Creature.DEPENDANT_CUM))
+			if (isSlut)
 			{
 				output("\n\nGazing at the emerging tentacles now – those pliable, thick, strong frustrated tentacles which look like just so much juicy cock to you – you feel dim annoyance with yourself for <i>not</i> letting yourself get caught. It is only natural for a creature like this to react to the presence of someone like you, so well-suited to blissfully taking care of such tense, hot, veiny frustration. And how good would that feel... you realize vaguely you are moving towards the mass of writhing cockvines automatically.");
 
-				//{Weak willed/otherwise srsly far gone:
+				// Weak willed/otherwise srsly far gone:
 				if (pc.WQ() < 15 || pc.isDependant(Creature.DEPENDANT_CUM))
 				{
 					output("\n\nYou couldn’t stop your body’s instincts even if you wanted to. You smile beatifically as first one tentacle, then a second wrap their warm embrace around you, beading their herbal semen onto your skin, leading and welcoming you to their deep, wet boudoir.");
 
 					// Go to Consentacles
-					clearMenu();
 					addButton(0, "Next", adultCockvineConsentacles);
 					return;
 				}
+				
+				addButton(0, "Stop", adultCockvineEncounterStop, undefined, "Stop Moving", "Stop moving towards the cockvines.");
+				addButton(1, "Go on...", adultCockvineEncounterGoOn, undefined, "Go on", "Surrender yourself to the cockvines.");
 			}
 			// Not megaslut
 			else
 			{
 				output("\n\nThe thought makes you shudder. Feeling deeply grateful for and not a little smug about your quick eyes and wits, you carefully skirt the writhing mass of tentacles and continue on your way.");
+				
+				addButton(0, "Next", mainGameMenu);
 			}
-
-			clearMenu();
-			addButton(0, "Leave", adultCockvineEncounterStop, undefined, "Stop Moving", "Stop moving towards the cockvines.");
-			addButton(1, "Go on...", adultCockvineEncounterGoOn, undefined, "Go on", "Surrender yourself to the cockvines.");
 		}
 		else
 		{
 			output("\n\nThe thick snake-like thing suddenly rears and grabs at your [pc.legOrLegs], but you are ready for it and jump back easily. The lithe, green tentacle with its blunt, purple head ripples and bobs agitatedly in the dim light now; you hear the slithering, swampy sound of more of it emerging from its crevice nest, rustled into action.");
 			
 			// Female Treated/Bothrioc perked/whatever slut perks
-			if (pc.isTreated() || pc.isBimbo() || pc.isDependant(Creature.DEPENDANT_CUM))
+			if (isSlut)
 			{
 				output("\n\nGazing at the emerging tentacles now – those pliable, thick, strong frustrated tentacles which look like just so much juicy cock – you feel dim annoyance with yourself for <i>not</i> letting yourself get caught. It is only natural for a creature like this to react to the presence of someone like you, so well-suited to blissfully taking care of such tense, hot, veiny frustration. And how good would that feel... you realize vaguely you are moving towards the mass of writhing cockvines automatically.");
 
@@ -79,20 +83,20 @@ public function adultCockvineEncounter():void
 					output("\n\nYou couldn’t stop your body’s instincts even if you wanted to. You smile beatifically as first one tentacle, then a second wrap their warm embrace around you, beading their herbal semen onto your skin, leading and welcoming you to their deep, wet boudoir.");
 
 					// Go to Consentacles
-					clearMenu();
 					addButton(0, "Next", adultCockvineConsentacles);
 					return;
 				}
+				
+				addButton(0, "Stop", adultCockvineEncounterStop, undefined, "Stop Moving", "Stop moving towards the cockvines.");
+				addButton(1, "Go on...", adultCockvineEncounterGoOn, undefined, "Go on", "Surrender yourself to the cockvines.");
 			}
 			// Not megaslut
 			else
 			{
 				output("\n\nThe sight never fails to make you shudder. Feeling deeply grateful for and not a little smug about your quick eyes and wits, you carefully skirt the writhing mass of tentacles and continue on your way.");
+				
+				addButton(0, "Next", mainGameMenu);
 			}
-
-			clearMenu();
-			addButton(0, "Leave", adultCockvineEncounterStop, undefined, "Stop Moving", "Stop moving towards the cockvines.");
-			addButton(1, "Go on...", adultCockvineEncounterGoOn, undefined, "Go on", "Surrender yourself to the cockvines.");
 		}
 	}
 	else
@@ -332,7 +336,7 @@ public function adultCockvineConsentacles():void
 
 	if (pc.hasLipples() || pc.hasFuckableNipples())
 	{
-		output("\n\nPositioning your body downwards alerts the carpet of cockvines beneath you to " + pc.totalNipples() + " orifices that have hitherto gone unmolested. You tense up with fresh glee as two new tentacles stretch into the sensitive insides of your [pc.nipples], arching your back and presenting your [pc.chest] to drive them further inside.");
+		output("\n\nPositioning your body downwards alerts the carpet of cockvines beneath you to " + pc.totalNipples() + " orifices that have hitherto gone unmolested. You tense up with fresh glee as " + num2Text(pc.fuckableNippleCount()) + " new tentacles stretch into the sensitive insides of your [pc.nipples], arching your back and presenting your [pc.chest] to drive them further inside.");
 	}
 
 	output("\n\nYour [pc.butt] turned over, the");
@@ -374,8 +378,10 @@ public function adultCockvineConsentacles():void
 	for (var i:int = 0; i < pc.vaginas.length; i++)
 	{
 		pc.loadInCunt(chars["COCKVINE"], i);
+		pc.cuntChange(i, chars["COCKVINE"].cockVolume(0));
 	}
 	pc.loadInAss(chars["COCKVINE"]);
+	pc.buttChange(chars["COCKVINE"].cockVolume(0));
 	pc.loadInMouth(chars["COCKVINE"]);
 
 	pc.orgasm();
@@ -469,7 +475,7 @@ public function adultCockvinePCLoses():void
 	}
 
 	output("\n\nOther tentacles are");
-	if (pc.isGroinCovered()) output(" burrowing busily through your [pc.lowerGarment],");
+	if (pc.isCrotchGarbed()) output(" burrowing busily through your [pc.lowerGarment],");
 	else if (pc.isBiped()) output(" coiling themselves up around your [pc.thighs],");
 	output(" blindly seeking out the fresh, fertile holes they know are there.");
 	if (pc.hasVagina())
@@ -593,8 +599,10 @@ public function adultCockvinePCLoses():void
 	for (var i:int = 0; i < pc.vaginas.length; i++)
 	{
 		pc.loadInCunt(enemy, i);
+		pc.cuntChange(i, enemy.cockVolume(0));
 	}
 	pc.loadInAss(enemy);
+	pc.buttChange(enemy.cockVolume(0));
 	pc.loadInMouth(enemy);
 	pc.orgasm();
 

@@ -10,7 +10,6 @@ import classes.Engine.Combat.DamageTypes.TypeCollection;
 public function encounterALapinara():void
 {
 	author("WorldOfDrakan");
-	lapinaraBust();
 	//[First Encounter]
 	if(flags["ENCOUNTERED_PARASITIC_LAPINARA"] == undefined)
 	{
@@ -34,6 +33,8 @@ public function encounterALapinara():void
 	CombatManager.victoryScene(defeatDatLapinara);
 	CombatManager.lossScene(loseToFemaleLapinara);
 	CombatManager.displayLocation("LAPINARA (F)");
+	
+	lapinaraBust();
 	
 	clearMenu();
 	addButton(0, "Next", CombatManager.beginCombat);
@@ -204,7 +205,7 @@ public function defeatDatLapinara():void
 	output("\n\n<i>“Wait!”</i>");
 	output("\n\nYou turn to face her, wondering what she could possibly want.");
 	output("\n\n<i>“I’m... sorry for being so rough with you, okay? It’s just that my hormones go all crazy when I have eggs ready. I’d still like to fuck, if you feel up to it. I’ll even let you pick how we do it, I promise! Please?”</i>");
-	if(pc.lust() >= 33) output("\n\nThat does sound like a tempting offer. What will you do?");
+	if(pc.lust() >= 33) output("\n\nThat does sound like a tempting offer. What will you do?\n\n");
 	else {
 		output("\n\nYou aren't anywhere near horny enough to even consider the offer.\n\n");
 		clearMenu();
@@ -269,7 +270,7 @@ public function targetLapinaraSex(targetFunc:Function):void
 
 public function lapinaraButtfuckSelector(cockNum:int = 0):void
 {
-	if(pc.cocks[x].cLength() > 20) hotdoggingALapinara(cockNum);
+	if(pc.cocks[cockNum].cLength() > 20) hotdoggingALapinara(cockNum);
 	else buttFuckALapinara(cockNum);
 }
 
